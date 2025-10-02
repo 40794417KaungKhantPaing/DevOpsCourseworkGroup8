@@ -4,14 +4,12 @@ import java.sql.*;
 
 public class App {
 
-    /**
-     *  Connect object used to connect to the MySQL database.
+    /* Connect object used to connect to the MySQL database.
      * Initialized as null and set once a successful connection is made.
-     */
+            */
     private Connection conn = null;
 
-    /**
-     * Connect to the MySQL database.
+    /* Connect to the MySQL database.
      */
     public void connect()
     {
@@ -46,7 +44,7 @@ public class App {
             }
             catch (SQLException sqle)
             {
-                System.out.println("Failed to connect to database attempt " + i);
+                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
             }
             catch (InterruptedException ie)
@@ -77,8 +75,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        App app = new App();
-        app.connect();
-        app.disconnect();
+        App a = new App();
+        a.connect();
+        a.disconnect();
     }
 }
