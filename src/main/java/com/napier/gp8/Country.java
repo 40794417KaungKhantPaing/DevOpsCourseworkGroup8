@@ -1,82 +1,176 @@
 package com.napier.gp8;
 
 /**
- * Represents a country
+ * Represents a country in the world database
+ * Variables are declared as private for Encapsulation.
+ * Getter methods
  */
 public class Country
 {
-    /**
-     * Country code (primary key)
-     */
-    public String Code;
+
+     //Country code (primary key)
+    private String code;
+
+    //Country name
+    private String countryName;
+
+    //Continent
+    private String continent;
+
+    //Region
+    private String region;
+
+    //Surface area
+    private double surfaceArea;
+
+    //Year of independence
+    private Integer indepYear;
+
+    //Population of the country
+    private long population;
+
+    //Life expectancy
+    private Double lifeExpectancy;
+
+    //Gross National Product
+    private Double gnp;
+
+    //Old GNP
+    private Double gnpOld;
+
+    //local name
+    private String localName;
+
+    //government form
+    private String governmentForm;
+
+    //Head of state
+    private String headOfState;
+
+    //Capital city ID
+    private Integer capital;
+
+    //Secondary country code
+    private String code2;
 
     /**
-     * Country name
+     * Gets the country code.
+     * @return ISO country code
      */
-    public String Name;
+    public String getCode() {
+        return code;
+    }
 
     /**
-     * Continent
+     * Gets the country name.
+     * @return official country name
      */
-    public String Continent;
+    public String getCountryName() {
+        return countryName;
+    }
 
     /**
-     * Region
+     * Gets the continent.
+     * @return continent name
      */
-    public String Region;
+    public String getContinent() {
+        return continent;
+    }
 
     /**
-     * Surface area
+     * Gets the region of the country.
+     * @return region
      */
-    public double SurfaceArea;
+    public String getRegion() {
+        return region;
+    }
 
     /**
-     * Year of independence
+     * Gets the surface area.
+     * @return surface area in square kilometers
      */
-    public Integer IndepYear;
+    public double getSurfaceArea() {
+        return surfaceArea;
+    }
 
     /**
-     * Population of the country
+     * Gets the year of independence.
+     * @return year of independence
      */
-    public long Population;
+    public Integer getIndepYear() {
+        return indepYear;
+    }
 
     /**
-     * Life expectancy
+     * Gets the population of the country.
+     * @return population
      */
-    public Double LifeExpectancy;
+    public long getPopulation() {
+        return population;
+    }
 
     /**
-     * Gross National Product
+     * Gets the life expectancy.
+     * @return life expectancy
      */
-    public Double GNP;
+    public Double getLifeExpectancy() {
+        return lifeExpectancy;
+    }
 
     /**
-     * Old GNP
+     * Gets the Gross National Product (GNP).
+     * @return GNP
      */
-    public Double GNPOld;
+    public Double getGnp() {
+        return gnp;
+    }
 
     /**
-     * Local name
+     * Gets the old Gross National Product (GNP).
+     * @return previous GNP
      */
-    public String LocalName;
+    public Double getGnpOld() {
+        return gnpOld;
+    }
 
     /**
-     * Government form
+     * Gets the local/native name of the country.
+     * @return local name
      */
-    public String GovernmentForm;
+    public String getLocalName() {
+        return localName;
+    }
 
     /**
-     * Head of state
+     * Gets the form of government.
+     * @return government form
      */
-    public String HeadOfState;
+    public String getGovernmentForm() {
+        return governmentForm;
+    }
 
     /**
-     * Capital city ID
+     * Gets the head of state.
+     * @return head of state
      */
-    public Integer Capital;
+    public String getHeadOfState() {
+        return headOfState;
+    }
 
     /**
-     * Secondary country code
+     * Gets the capital city ID.
+     * @return capital city ID
      */
-    public String Code2;
+    public Integer getCapital() {
+        return capital;
+    }
+
+    /**
+     * Gets the secondary country code.
+     * @return secondary country code
+     */
+    public String getCode2() {
+        return code2;
+    }
+
 }

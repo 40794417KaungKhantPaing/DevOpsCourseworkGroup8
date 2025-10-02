@@ -1,32 +1,59 @@
 package com.napier.gp8;
 
-/**
- * Represents a language spoken in a country
- */
 public class CountryLanguage
 {
-    /**
-     * Country code (foreign key)
-     */
-    public String CountryCode;
+    // Country code (foreign key to Country)
+    private String countryCode;
+
+    // Language name spoken in the country
+    private String language;
+
+    // Indicates whether the language is official ("T" for true, "F" for false)
+    private String isOfficial;
+
+    // Percentage of the population that speaks the language
+    private double percentage;
+
+    // Associated Country object (optional, may be null if not loaded)
+    private Country country;
 
     /**
-     * Language name
+     * Gets the country code.
+     * @return country code
      */
-    public String Language;
+    public String getCountryCode() {
+        return countryCode;
+    }
 
     /**
-     * Is it an official language? ("T" or "F")
+     * Gets the language name.
+     * @return language name
      */
-    public String IsOfficial;
+    public String getLanguage() {
+        return language;
+    }
 
     /**
-     * Percentage of speakers
+     * Checks if the language is official.
+     * @return "T" if official, "F" otherwise
      */
-    public double Percentage;
+    public String getIsOfficial() {
+        return isOfficial;
+    }
 
     /**
-     * Country object (optional, can be null if not loaded)
+     * Gets the percentage of speakers.
+     * @return percentage of population that speaks the language
      */
-    public Country country;
+    public double getPercentage() {
+        return percentage;
+    }
+
+    /**
+     * Gets the associated Country object.
+     * @return Country object, or null if not loaded
+     */
+    public Country getCountry() {
+        return country;
+    }
 }

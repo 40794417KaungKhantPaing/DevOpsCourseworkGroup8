@@ -175,6 +175,6 @@ You can also refer to the detailed **Use Case Diagram** for visual clarity:
 
 ---
 
-This **Use_Cases.md** document outlines all the core user actions within the **Population Reporting System**. 
+This **USE_CASES.md** document outlines all the core user actions within the **Population Reporting System**. 
 Each use case provides a detailed overview of what happens during the process, including pre-conditions, main flow, 
 and post-conditions.

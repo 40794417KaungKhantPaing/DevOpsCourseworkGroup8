@@ -1,36 +1,79 @@
 package com.napier.gp8;
 /**
- * Represents a city
+ * Represents a city within database
+ * The class stores information about a city, its ID, name, country code,district, population,
+ * and the associated Country object.
+ * It includes private variables for encapsulation and getter methods.
  */
 public class City
 {
-    /**
-     * City ID
-     */
-    public int ID;
+    // Unique identifier for the city
+    private int id;
+
+    // Name of the city
+    private String cityName;
+
+    // Country code (foreign key reference)
+    private String countryCode;
+
+    // District of the city
+    private String district;
+
+    // Population of the city
+    private int population;
+
+    // Associated Country object (can be null if not loaded)
+    private Country country;
 
     /**
-     * City name
+     * Gets the unique ID of the city
+     * @return id
      */
-    public String Name;
+    public int getID() {
+        return id;
+    }
 
     /**
-     * Country code (foreign key)
+     * Gets the name of the city
+     * @return cityName
      */
-    public String CountryCode;
+    public String getCityName() {
+        return cityName;
+    }
 
     /**
-     * District of the city
+     * Gets the country code
+     * @return countryCode
      */
-    public String District;
+    public String getCountryCode() {
+        return countryCode;
+    }
+
 
     /**
-     * Population of the city
+     * Gets the district of the city
+     * @return district
      */
-    public int Population;
+    public String getDistrict() {
+        return district;
+    }
+
 
     /**
-     * Country object (optional, can be null if not loaded)
+     * Gets the population of the city.
+     * @return population
      */
-    public Country country;
+    public int getPopulation() {
+        return population;
+    }
+
+
+    /**
+     * Gets the associated country object.
+     * @return country object, or null if not loaded
+     */
+    public Country getCountry() {
+        return country;
+    }
+
 }
