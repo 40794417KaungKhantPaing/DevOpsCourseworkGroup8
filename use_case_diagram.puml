@@ -1,0 +1,77 @@
+@startuml
+left to right direction
+skinparam linetype ortho
+skinparam usecase {
+    FontSize 15
+    ArrowFontSize 8
+    ArrowThickness 0.7
+    }
+
+actor "Data Analyst" as DA
+
+database "Database" as DB
+
+package "Population Reporting System"{
+    usecase UC1 as "Get countries data"
+    usecase UC2 as "Print countries in the world/continent/region reports"
+
+    usecase UC3 as "Get Top N countries data"
+    usecase UC4 as "Print Top N countries in the world/continent/region reports"
+
+    usecase UC5 as "Get Cities data"
+    usecase UC6 as "Print cities in the world/continent/region/country/district reports"
+
+    usecase UC7 as "Get Top N cities data"
+    usecase UC8 as "Print Top N cities in the world/continent/region/country/district reports"
+
+    usecase UC9 as "Get Capital Cities data"
+    usecase UC10 as "Print capital cities in the world/continent/region reports"
+
+    usecase UC11 as "Get Top N Capital Cities data"
+    usecase UC12 as "Print Top N capital cities in the world/continent/region reports"
+
+    usecase UC13 as "Get Language Statistics data"
+    usecase UC14 as "Print Language Statistics Report"
+
+    usecase UC15 as "Get Population Data"
+    usecase UC16 as "Print population of living in cities or not in cities for continent/region/country reports"
+    usecase UC17 as "Print total population by a continent/world/region/country/district/city reports"
+
+}
+
+' Actor connections
+DA -- UC1
+DA -- UC3
+DA -- UC5
+DA -- UC7
+DA -- UC9
+DA -- UC11
+DA -- UC13
+DA -- UC15
+
+' Include relationships
+UC1 ..> UC2 : <<include>>
+UC3 ..> UC4 : <<include>>
+UC5 ..> UC6 : <<include>>
+
+UC7 ..> UC8 : <<include>>
+UC9 ..> UC10 : <<include>>
+UC11 ..> UC12 : <<include>>
+
+UC13 ..> UC14 : <<include>>
+
+UC15 ..> UC16 : <<include>>
+UC15 ..> UC17 : <<include>>
+
+
+' Database connections
+UC1 -- DB
+UC3 -- DB
+UC5 -- DB
+UC7 -- DB
+UC9 -- DB
+UC11 -- DB
+UC13 -- DB
+UC15 -- DB
+}
+@enduml
