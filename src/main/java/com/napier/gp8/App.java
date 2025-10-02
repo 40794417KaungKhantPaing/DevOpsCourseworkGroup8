@@ -77,6 +77,7 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
+        System.out.println("Connection testing");
         a.disconnect();
     }
 }
