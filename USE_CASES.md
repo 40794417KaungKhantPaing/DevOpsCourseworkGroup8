@@ -3,9 +3,8 @@
 This document outlines the key **use cases** of the **Population Reporting System**. Each use case describes a specific
 user action, including the required conditions for that action to be executed, the flow of events, and the expected results.
 
-You can also refer to the visual **Use Case Diagram** for a more intuitive understanding of how the system functions.
 
-![Use Case Diagram](https://www.plantuml.com/plantuml/png/hPNHRjem58Rl_HH7kTbLWHJIm5IXqg9DawQf6jq3k8a1Ys17ziagDl7kinFYM8QibTgx7__7_duV7PCxZLHXjIz8mTO8A47npHOXvufboAKWUiT5IHNTGy45mqF9G2hSIi-eDCkePl2N001yaG9N_0-3EAb_BvIIBsvnsgqzRNcs4qnh60tIUlb82CrGAeYM52ai12qE6YEW6fOBGdAp-6n0ZMrLOzqJKj9iHpV6UPHbLL2R77woqYJbOWChSmhRHtK-b_RNGsntHryPGYOhWOep3POH1NNNTTsZuiAlv09mo-15gY8VPb8O4XCuL6nZuQg6wuW4PuqTyqcMyECLyiIHNVqx-OdZFt3imzxu5-RuActOf3eCSwvDk0nxyMbu_VuGq_3k7nnbrdM2bXnfyR-En2E_9Ktzc_BqukCuQCLRKbo7FVcWBDrKVgTYKzcNj4AAN2FFUg9qetbvK_Fwpb7T07fFTNc9u4zXsTNADHJyjttMNBJNbWg4H6zXRLRwHiEr8GIc7X0bqiB7FX-0UaSs7UwPkQ59uM78aP1FiCYm2IMQVrPDbWkukh9WfyPE9KwbJisw7N4dnvrCBEURo8egPmRV9DTRNcfYN1WCvlM_sMUulULDrNnE3FNaJCwSvEJS18wnqfCrFTiqEpdnwCoAuzOBKrXpt9gJ2sRIcc4Mtqi3p_QZ_LRuhRURRC-Mz_RwJYLEfKxDd8hZJeuxsMuwaZicSlif_GS0)
+![Use Case Diagram](use_case_diagram.jpg)
 
 ---
 # Population Reporting System – Use Case Documentation
@@ -15,154 +14,245 @@ The user, a Data Analyst interacts with the Population Reporting System to view 
 information. The User can view data for all countries, top N countries or cities, capital cities, and language 
 statistics. The system generates reports at different levels (world, continent, region, country, district, or city).
 
----
-
-### UC1. Get Countries Data 
-Description: Allows the analyst to retrieve all countries from the database by population sorting
-**Main Flow:**
-1. The user gets country data.
-2. System queries data from the database.
-3. System returns the data.
-4. System calls "Print Countries Reports".
-
-### UC2. Print Countries in the world/continent/region reports
-Description: Allows the analyst to generate country reports for different levels 
-**Main Flow:**
-1. System gets country data.
-2. System makes reports for world, continent, or region.
-3. System shows the reports.
+# Population Reporting System Use Cases
 
 ---
 
-### UC3. Get Top N Countries Data
-Description: Allows the analyst to get the top N populated countries by sorted population
-**Main Flow:**
-1. The user asks for top N countries by population.
-2. System fetches top N countries from database.
-3. System returns the data.
-4. System calls "Print Top N Countries Reports".
+## 1. View All Countries by Population
 
+**Goal in Context:**  
+As a data analyst, I want to view all countries in a specified area (world, continent, or region) ordered by population from largest to smallest so that I can understand population distribution globally, continentally, and regionally.
 
-### UC4. Print Top N countries in the world/continent/region reports
-Description: Generate reports for the top N populated cities by scope
-**Main Flow:**
-1. System gets top N country data.
-2. System makes reports for world, continent, or region.
-3. System shows the reports.
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all countries.  
+**Success End Condition:** A report of countries ranked by population is available.  
+**Failed End Condition:** No report is produced if country data is missing.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for country population report is sent by the analyst.
 
----
+### Main Success Scenario
+1. Analyst requests countries reports.
+2. System automatically retrieves population data for countries at all predefined levels (world, continent, region).
+3. System prints the report of countries ordered by population.
+4. Analyst gets countries reports.
 
-### UC5. Get Cities Data
-Description: Retrieve city data sorted by population in descending order 
-**Main Flow:**
-1. The User asks for city data.
-2. System fetches city data from database.
-3. System returns the data.
-4. System calls "Print Cities Reports".
+### Extensions
+- If country data is missing: System prints an error message indicating data is not available.
 
-### UC6. Print Cities in the world/continent/region/country/district reports
-Description: Generate reports of cities for different levels
-**Main Flow:**
-1. System gets city data.
-2. System makes reports for world, continent, region, country, or district.
-3. System shows the reports.
+### Sub-Variations
+- Level selection is predefined by the system.
+
+**Schedule:** Due Date: Release 1.0
 
 ---
 
-### UC7. Get Top N Cities Data
-Description: Allows user to get the data of top N cities at different levels in population descending order
-**Main Flow:**
-1. User asks for the data top N cities by population.
-2. System fetches top N cities from database.
-3. System returns the data.
-4. System calls "Print Top N Cities Reports".
+## 2. View Top N Countries by Population
 
-### UC8. Print Top N Cities in the world/continent/region/country/district reports
-Description: Generate the top N cities reports for different levels
-**Main Flow:**
-1. System gets top N city data.
-2. System makes reports for world, continent, region, country, or district.
-3. System shows the reports.
+**Goal in Context:**  
+As a data analyst, I want to view the top N most populated countries in a specified area (world, continent, or region) so that I can quickly identify key countries by population.
 
----
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all countries.  
+**Success End Condition:** A report of Top N countries by population is available.  
+**Failed End Condition:** No report is produced if data is missing or N is invalid.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for Top N country population report is sent by the analyst.
 
-### UC9. Get Capital Cities Data
-Description: Provide user the capital city data by sorted population from largest to smallest
-**Main Flow:**
-1. User asks for capital city data.
-2. System fetches capital city data from database.
-3. System returns the data.
-4. System calls "Print Capital Cities Reports".
+### Main Success Scenario
+1. Analyst requests Top N countries reports.
+2. System automatically retrieves population data for countries at predefined levels.
+3. System prints the Top N countries report.
+4. Analyst gets Top N countries reports.
 
-### UC10. Print Capital Cities in the world/continent/region reports
-Description: Display capital cities in format reports 
-**Main Flow:**
-1. System gets capital city data.
-2. System makes reports for the levels - world, continent, or region.
-3. System shows the reports.
+### Extensions
+- If N exceeds available countries: System prints all available countries.
+- If country data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection and N are predefined by the system.
+
+**Schedule:** Due Date: Release 2.0
 
 ---
 
-### UC11. Get Top N Capital Cities Data
-Description: Allows the user access the top N capital cities data by population
-**Main Flow:**
-1. User asks for top N capital cities ordered by population.
-2. System fetches data from database.
-3. System returns the data.
-4. System calls "Print Top N Capital Cities Reports".
+## 3. View All Cities by Population
 
-### UC12. Print Top N Capital Cities in the world/continent/region reports
-Description: Generate the sorted top N capital cities reports 
-**Main Flow:**
-1. System gets top N capital city data.
-2. System makes reports for world, continent, or region.
-3. System shows the reports.
+**Goal in Context:**  
+As a data analyst, I want to view all cities in a specified area (world, continent, region, country, or district) ordered by population from largest to smallest so that I can understand urban population distribution at different levels.
 
----
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all cities.  
+**Success End Condition:** A report of cities ranked by population is available.  
+**Failed End Condition:** No report is produced if city data is missing.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for city population report is sent by the analyst.
 
-### UC13. Get Language Statistics Data
-Description: Allows the user get the data of population for languages - Chinese, English, Hindi, Spanish and Arabic.
-**Main Flow:**
-1. User asks for population data by language speaking data.
-2. System fetches language data from database.
-3. System returns the data.
-4. System calls "Print Language Statistics Report".
+### Main Success Scenario
+1. Analyst requests cities reports.
+2. System automatically retrieves population data for cities at predefined levels.
+3. System prints the cities report ordered by population.
+4. Analyst gets cities reports.
 
-### UC14. Print Language Statistics Report
-Description: Display the number of people by speaking languages 
-**Main Flow:**
-1. System gets language data.
-2. System makes the report.
-3. System shows the report.
+### Extensions
+- If city data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection is predefined by the system.
+
+**Schedule:** Due Date: Release 1.0
 
 ---
 
-### UC15. Get Population Data
-Description: Allows the user to get population data from database
-**Main Flow:**
-1. User asks for population data.
-2. System fetches population data from database.
-3. System returns the data.
-4. System calls "Print People Population Reports" and "Print Total Population".
+## 4. View Top N Cities by Population
 
-### UC16. Print population of living in cities or not in cities for continent/region/country reports
-Description: Display the population data of people live in cities and not in cities area for different levels
-**Main Flow:**
-1. System gets population data.
-2. System makes reports for continent, region, or country.
-3. System shows the reports.
+**Goal in Context:**  
+As a data analyst, I want to view the top N most populated cities in a specified area (world, continent, region, country, or district) so that I can quickly identify major urban centers.
 
-### UC17. Print Total Population by a continent/world/region/country/district/city reports
-Description: Display the total population of a specific defined continent or other levels
-**Main Flow:** 
-1. System gets population data.
-2. System calculates total population for world, continent, region, country, district, and city.
-3. System shows the reports.
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all cities.  
+**Success End Condition:** A report of Top N cities is available.  
+**Failed End Condition:** No report is produced if data is missing or N is invalid.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for Top N city report is sent by the analyst.
 
+### Main Success Scenario
+1. Analyst requests Top N cities reports.
+2. System automatically retrieves population data for cities at predefined levels.
+3. System prints the Top N cities report.
+4. Analyst gets Top N cities reports.
+
+### Extensions
+- If N exceeds available cities: System prints all available cities.
+- If city data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection and N are predefined by the system.
+
+**Schedule:** Due Date: Release 2.0
+
+---
+
+## 5. View All Capital Cities by Population
+
+**Goal in Context:**  
+As a data analyst, I want to view all capital cities in a specified area (world, continent, or region) ordered by population from largest to smallest so that I can compare capitals globally, continentally, or regionally.
+
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all capital cities.  
+**Success End Condition:** A report of capital cities ranked by population is available.  
+**Failed End Condition:** No report is produced if data is missing.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for capital cities report is sent by the analyst.
+
+### Main Success Scenario
+1. Analyst requests capital cities reports.
+2. System automatically retrieves population data for capital cities at predefined levels.
+3. System prints the capital cities report ordered by population.
+4. Analyst gets capital cities reports.
+
+### Extensions
+- If capital city data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection is predefined by the system.
+
+**Schedule:** Due Date: Release 1.0
+
+---
+
+## 6. View Top N Capital Cities by Population
+
+**Goal in Context:**  
+As a data analyst, I want to view the top N most populated capital cities in a specified area (world, continent, or region) so that I can quickly identify major capitals.
+
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all capital cities.  
+**Success End Condition:** A report of Top N capital cities is available.  
+**Failed End Condition:** No report is produced if data is missing or N is invalid.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for Top N capital cities report is sent by the analyst.
+
+### Main Success Scenario
+1. Analyst requests Top N capital cities reports.
+2. System automatically retrieves population data for capital cities at predefined levels.
+3. System prints the Top N capital cities report.
+4. Analyst gets Top N capital cities reports.
+
+### Extensions
+- If N exceeds available capitals: System prints all available capitals.
+- If capital city data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection and N are predefined by the system.
+
+**Schedule:** Due Date: Release 2.0
+
+---
+
+## 7. View Language Statistics
+
+**Goal in Context:**  
+As a data analyst, I want to view a report showing the number of people who speak Chinese, English, Hindi, Spanish, and Arabic, sorted from greatest to smallest, including world population percentage so that I can understand major languages.
+
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains language statistics and population data.  
+**Success End Condition:** A report of the selected languages with population counts and percentages is available.  
+**Failed End Condition:** No report is produced if language data is missing.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for language statistics report is sent by the analyst.
+
+### Main Success Scenario
+1. Analyst requests language statistics reports.
+2. System automatically retrieves language population data.
+3. System prints the language statistics report.
+4. Analyst gets language statistics reports.
+
+### Extensions
+- If language data is missing: System prints an error message.
+
+**Sub-Variations:** None
+
+**Schedule:** Due Date: Release 1.0
+
+---
+
+## 8. View Population Data (Living in Cities / Total)
+
+**Goal in Context:**  
+As a data analyst, I want to view the total population, population living in cities, and population not living in cities for a specified area (continent, region, or country) so that I can understand urban vs rural distribution, and also I want to view the total population for a specified area (world, continent, region, country, district, or city) so that I can understand population totals at different levels.
+
+**Scope:** Population Reporting System  
+**Level:** Primary task  
+**Preconditions:** Database contains population data for all levels.  
+**Success End Condition:** Reports for urban/rural and total population are available.  
+**Failed End Condition:** No report is produced if data is missing.  
+**Primary Actor:** Data Analyst  
+**Trigger:** A request for population reports is sent by the analyst.
+
+### Main Success Scenario
+1. Analyst requests population reports.
+2. System retrieves population data for all predefined levels.
+3. System prints population living in cities or not and total population report.
+4. Analyst gets population reports.
+
+### Extensions
+- If population data is missing: System prints an error message.
+
+### Sub-Variations
+- Level selection is predefined by the system.
+
+**Schedule:** Due Date: Release 2.0
 ---
 
 ## Notes
-- All `Get Data` use cases fetch data from the database.
+- All `Get Reports` use cases fetch data from the database.
 - `Print` use cases are automatically called after fetching data.
 - All actions follow a main flow from request to report generation.
 
@@ -171,7 +261,7 @@ Description: Display the total population of a specific defined continent or oth
 ### **Link to Use Case Diagram**
 You can also refer to the detailed **Use Case Diagram** for visual clarity:
 
-[Use Case Diagram](./use_case_diagram.puml)
+[Use Case Diagram](./use_case_diagram.drawio)
 
 ---
 
