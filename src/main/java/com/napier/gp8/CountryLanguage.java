@@ -56,4 +56,45 @@ public class CountryLanguage
     public Country getCountry() {
         return country;
     }
+
+
+    /**
+     * sets the country code.
+     * @param countryCode
+     */
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    /**
+     * sets the language name.
+     * @param language
+     */
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    /**
+     * sets if the language is official.
+     * @param isOfficial
+     */
+    public void setIsOfficial(String isOfficial) {
+        this.isOfficial = isOfficial;
+    }
+
+    /**
+     * sets the percentage of speakers.
+     * @param percentage
+     */
+    public void setPercentage(double percentage) {
+        this.percentage = percentage;
+    }
+
+    /**
+     * sets the associated Country object.
+     * @param country
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }

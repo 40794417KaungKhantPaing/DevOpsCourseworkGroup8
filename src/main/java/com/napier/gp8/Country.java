@@ -173,4 +173,123 @@ public class Country
         return code2;
     }
 
+    /**
+     * Sets the country code.
+     * @param code
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * Sets the country name.
+     * @param countryName
+     */
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    /**
+     * Sets the continent.
+     * @param continent
+     */
+    public void setContinent(String continent) {
+        this.continent = continent;
+    }
+
+    /**
+     * Sets the region.
+     * @param region
+     */
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    /**
+     * Sets the surface area.
+     * @param surfaceArea
+     */
+    public void setSurfaceArea(double surfaceArea) {
+        this.surfaceArea = surfaceArea;
+    }
+
+    /**
+     * Sets the year of independence.
+     * @param indepYear
+     */
+    public void setIndepYear(Integer indepYear) {
+        this.indepYear = indepYear;
+    }
+
+    /**
+     * Sets the population.
+     * @param population
+     */
+    public void setPopulation(long population) {
+        this.population = population;
+    }
+
+    /**
+     * Sets the life expectancy.
+     * @param lifeExpectancy
+     */
+    public void setLifeExpectancy(Double lifeExpectancy) {
+        this.lifeExpectancy = lifeExpectancy;
+    }
+
+    /**
+     * Sets the Gross National Product (GNP).
+     * @param gnp
+     */
+    public void setGnp(Double gnp) {
+        this.gnp = gnp;
+    }
+
+    /**
+     * Sets the old Gross National Product (GNP).
+     * @param gnpOld
+     */
+    public void setGnpOld(Double gnpOld) {
+        this.gnpOld = gnpOld;
+    }
+
+    /**
+     * Sets the local/native name of the country.
+     * @param localName
+     */
+    public void setLocalName(String localName) {
+        this.localName = localName;
+    }
+
+    /**
+     * Sets the form of government.
+     * @param governmentForm
+     */
+    public void setGovernmentForm(String governmentForm) {
+        this.governmentForm = governmentForm;
+    }
+
+    /**
+     * Sets the head of state.
+     * @param headOfState
+     */
+    public void setHeadOfState(String headOfState) {
+        this.headOfState = headOfState;
+    }
+
+    /**
+     * Sets the capital city ID.
+     * @param capital
+     */
+    public void setCapital(Integer capital) {
+        this.capital = capital;
+    }
+
+    /**
+     * Sets the secondary country code.
+     * @param code2
+     */
+    public void setCode2(String code2) {
+        this.code2 = code2;
+    }
 }

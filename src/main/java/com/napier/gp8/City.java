@@ -1,12 +1,12 @@
 package com.napier.gp8;
+
 /**
  * Represents a city within database
  * The class stores information about a city, its ID, name, country code,district, population,
  * and the associated Country object.
  * It includes private variables for encapsulation and getter methods.
  */
-public class City
-{
+public class City {
     // Unique identifier for the city
     private int id;
 
@@ -27,6 +27,7 @@ public class City
 
     /**
      * Gets the unique ID of the city
+     *
      * @return id
      */
     public int getID() {
@@ -35,6 +36,7 @@ public class City
 
     /**
      * Gets the name of the city
+     *
      * @return cityName
      */
     public String getCityName() {
@@ -43,6 +45,7 @@ public class City
 
     /**
      * Gets the country code
+     *
      * @return countryCode
      */
     public String getCountryCode() {
@@ -52,6 +55,7 @@ public class City
 
     /**
      * Gets the district of the city
+     *
      * @return district
      */
     public String getDistrict() {
@@ -61,6 +65,7 @@ public class City
 
     /**
      * Gets the population of the city.
+     *
      * @return population
      */
     public int getPopulation() {
@@ -70,10 +75,70 @@ public class City
 
     /**
      * Gets the associated country object.
+     *
      * @return country object, or null if not loaded
      */
     public Country getCountry() {
         return country;
     }
 
+
+    /**
+     * Sets the unique ID of the city
+     *
+     * @param id unique identifier
+     */
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the name of the city
+     *
+     * @param cityName name of the city
+     */
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    /**
+     * Sets the country code
+     *
+     * @param countryCode country code
+     */
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    /**
+     * Sets the district of the city
+     *
+     * @param district district name
+     */
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    /**
+     * Sets the population of the city
+     *
+     * @param population population count
+     */
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    /**
+     * Sets the associated country object
+     *
+     * @param country Country object
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }
