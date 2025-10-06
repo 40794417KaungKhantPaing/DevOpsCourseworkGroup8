@@ -6,7 +6,7 @@ public class App {
 
     /* Connect object used to connect to the MySQL database.
      * Initialized as null and set once a successful connection is made.
-            */
+     */
     private Connection conn = null;
 
     /* Connect to the MySQL database.
@@ -54,7 +54,6 @@ public class App {
         }
     }
 
-
     /**
      * Disconnect from the MySQL database.
      */
@@ -77,6 +76,13 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
+
+        // --- Call the population_continent display method here ---
+        if (a.conn != null) {
+            population_continent popContinent = new population_continent(a.conn);
+            popContinent.display();
+        }
+
         a.disconnect();
     }
 }
