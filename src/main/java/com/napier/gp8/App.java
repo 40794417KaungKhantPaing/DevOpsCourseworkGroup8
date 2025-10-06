@@ -1,6 +1,7 @@
 package com.napier.gp8;
 
 import java.sql.*;
+import java.util.List;
 
 public class App {
 
@@ -77,6 +78,11 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
+        // Retrieve city data using the CityReport class
+        Cities_World_Report citiesWorldReport = new Cities_World_Report();
+        List<City> cities = citiesWorldReport.getCities_World_Report(a.conn);
+        // Print the report
+        citiesWorldReport.printCities_World_Report(cities);
         a.disconnect();
     }
 }
