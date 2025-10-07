@@ -81,9 +81,14 @@ public class App {
         // Retrieve population data using the Population_Continent_Report class
         Population_Continent_Report populationContinentReport = new Population_Continent_Report();
         List<Country> countries = populationContinentReport.getPopulation_Continent_Report(a.conn);
-
         // Print the report
         populationContinentReport.printPopulation_Continent_Report(countries);
+
+        // Retrieve population data using the Population_Region_Report class
+        Population_Region_Report populationRegionReport = new Population_Region_Report();
+        List<Country> regionCountries = populationRegionReport.getPopulation_Region_Report(a.conn);
+        // Print the report
+        populationRegionReport.printPopulation_Region_Report(regionCountries);
 
         a.disconnect();
     }
