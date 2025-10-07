@@ -1,6 +1,7 @@
 package com.napier.gp8;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
 
@@ -77,6 +78,12 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
+
+        //Generate capitalCities in world Report
+        CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World(a.conn);
+        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation();
+        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld);
+
         a.disconnect();
     }
 }
