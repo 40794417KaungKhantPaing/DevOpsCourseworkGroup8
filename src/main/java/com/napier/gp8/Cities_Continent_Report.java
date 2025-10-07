@@ -1,46 +1,37 @@
 package com.napier.gp8;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Generates city population reports for all continents,
- * showing each continent’s cities ordered by population descending.
+ * Handles generating and retrieving City Report data by continent.
  */
 public class Cities_Continent_Report {
 
     /**
-     * Retrieves a map of all continents and their cities,
-     * each ordered by population descending.
+     * Retrieves a list of all cities in a given continent ordered by largest population to smallest.
+     * Columns: Name, Country, District, Population
      *
      * @param conn Active database connection
-     * @return Map where key = Continent name, value = List of City objects
+     * @param continent The continent to filter cities by
+     * @return List of City objects, or an empty list if an error occurs or no data is found.
      */
-    public Map<String, List<City>> getCitiesContinentsReport(Connection conn) {
-        Map<String, List<City>> continentCitiesMap = new LinkedHashMap<>();
+    public List<City> getCities_By_Continent_Report(Connection conn, String continent) {
 
-        // Validate connection
+        List<City> cities = new ArrayList<>();
+
+        // 1. Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot retrieve report.");
-            return continentCitiesMap;
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
+        if (continent == null || continent.isEmpty()) {
+            System.err.println("Invalid continent input. Please specify a valid continent.");
+            return cities;
         }
 
-        // Query to get all distinct continents
-        List<String> continents = new ArrayList<>();
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT DISTINCT Continent FROM country ORDER BY Continent ASC;")) {
-
-            while (rs.next()) {
-                continents.add(rs.getString("Continent"));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error retrieving continent list.");
-            e.printStackTrace();
-            return continentCitiesMap;
-        }
-
-        // Query for cities by continent
+        // 2. SQL query for cities in the given continent ordered by population descending
         String sql = """
                 SELECT city.Name AS CityName, country.Name AS CountryName,
                        city.District, city.Population
@@ -50,76 +41,63 @@ public class Cities_Continent_Report {
                 ORDER BY city.Population DESC;
                 """;
 
-        for (String continent : continents) {
-            List<City> cities = new ArrayList<>();
+        // 3. Execute query and populate list
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, continent);
+            stmt.setString(1, continent);
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        City city = new City();
-                        Country country = new Country();
-                        city.setCityName(rs.getString("CityName"));
-                        country.setCountryName(rs.getString("CountryName"));
-                        city.setCountry(country);
-                        city.setDistrict(rs.getString("District"));
-                        city.setPopulation(rs.getInt("Population"));
-                        cities.add(city);
-                    }
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    City city = new City();
+                    Country country = new Country();
+
+                    city.setCityName(rs.getString("CityName"));
+                    country.setCountryName(rs.getString("CountryName"));
+                    city.setCountry(country);
+                    city.setDistrict(rs.getString("District"));
+                    city.setPopulation(rs.getInt("Population"));
+
+                    cities.add(city);
                 }
-
-            } catch (SQLException e) {
-                System.err.println("Error retrieving data for continent: " + continent);
-                e.printStackTrace();
             }
 
-            continentCitiesMap.put(continent, cities);
+        } catch (SQLException e) {
+            System.err.println("Error retrieving city report for continent: " + continent);
+            e.printStackTrace();
         }
 
-        return continentCitiesMap;
+        if (cities.isEmpty()) {
+            System.out.println("Warning: No city data found for continent '" + continent + "'.");
+        }
+
+        return cities;
     }
 
     /**
-     * Prints the city report for all continents.
+     * Prints the City Report for a continent to the console.
      *
-     * @param continentCitiesMap Map where key = Continent name, value = List of City objects
+     * @param cities List of City objects
+     * @param continent The continent name
      */
-    public void printCitiesContinentsReport(Map<String, List<City>> continentCitiesMap) {
+    protected void printCities_By_Continent_Report(List<City> cities, String continent) {
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "----------------");
+        System.out.printf("Cities in %s (Ordered by Population Descending)%n", continent);
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "----------------");
+        System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "----------------");
 
-        if (continentCitiesMap == null || continentCitiesMap.isEmpty()) {
-            System.out.println("No data available to display.");
-            return;
+        for (City city : cities) {
+            System.out.printf("%-35s %-35s %-20s %-15d%n",
+                    city.getCityName(),
+                    city.getCountry().getCountryName(),
+                    city.getDistrict(),
+                    city.getPopulation());
         }
 
-        for (Map.Entry<String, List<City>> entry : continentCitiesMap.entrySet()) {
-            String continent = entry.getKey();
-            List<City> cities = entry.getValue();
-
-            System.out.println();
-            System.out.println("========================================================================================" +
-                    "====================");
-            System.out.printf("Cities in %-20s %n", continent);
-            System.out.println("========================================================================================" +
-                    "====================");
-            System.out.printf("%-35s %-35s %-20s %-15s%n", "City", "Country", "District", "Population");
-            System.out.println("----------------------------------------------------------------------------------------" +
-                    "--------------------");
-
-            if (cities.isEmpty()) {
-                System.out.println("No city data found for this continent.");
-            } else {
-                for (City city : cities) {
-                    System.out.printf("%-35s %-35s %-20s %-15d%n",
-                            city.getCityName(),
-                            city.getCountry().getCountryName(),
-                            city.getDistrict(),
-                            city.getPopulation());
-                }
-            }
-
-            System.out.println("----------------------------------------------------------------------------------------" +
-                    "--------------------");
-        }
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "----------------");
     }
 }

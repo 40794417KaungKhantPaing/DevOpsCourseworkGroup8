@@ -66,16 +66,17 @@ public class App {
         a.connect();
         // Retrieve city data using the CityReport class
         Cities_World_Report citiesWorldReport = new Cities_World_Report();
-        List<City> cities = citiesWorldReport.getCitiesWorldReport(a.conn);
+        List<City> citiesWorld = citiesWorldReport.getCitiesWorldReport(a.conn);
         // Print the report
-        citiesWorldReport.printCitiesWorldReport(cities);
-        Cities_Continent_Report report = new Cities_Continent_Report();
+        citiesWorldReport.printCitiesWorldReport(citiesWorld);
+        String[] continents = {"Asia"};
 
-        // Step 1: Retrieve data (SQL part)
-        Map<String, List<City>> continentCitiesMap = report.getCitiesContinentsReport(a.conn);
+        Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
 
-        // Step 2: Print report (display part)
-        report.printCitiesContinentsReport(continentCitiesMap);
+        for (String continent : continents) {
+            List<City> citiesContinent = citiesContinentReport.getCities_By_Continent_Report(a.conn, continent);
+            citiesContinentReport.printCities_By_Continent_Report(citiesContinent, continent);
+        }
 
         a.disconnect();
     }

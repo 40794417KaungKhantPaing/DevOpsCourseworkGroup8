@@ -75,7 +75,9 @@ public class Cities_World_Report {
      * @param cities List of City objects
      */
     public void printCitiesWorldReport(List<City> cities) {
-
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "------------------");
+        System.out.println("Cities in World (Ordered by Population Descending)");
         System.out.println("--------------------------------------------------------------------------------------------" +
                 "------------------");
         System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
