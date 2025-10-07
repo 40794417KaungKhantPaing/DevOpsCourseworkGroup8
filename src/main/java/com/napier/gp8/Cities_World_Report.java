@@ -8,23 +8,26 @@ import java.util.List;
  * Handles generating and retrieving City Report data.
  */
 public class Cities_World_Report {
-
     /**
      * Retrieves a list of all cities in the world ordered by largest population to smallest.
      * Columns: Name, Country, District, Population
      *
      * @param conn Active database connection
-     * @return List of City objects
+     * @return List of City objects, or an empty list if an error occurs or no data is found.
      */
     public List<City> getCities_World_Report(Connection conn) {
+
         List<City> cities = new ArrayList<>();
 
+        // 1. Check for null connection and return an empty list upon failure.
         if (conn == null) {
-            System.out.println("Database not connected.");
+            System.err.println("Database not connected. Cannot generate city report.");
             return cities;
         }
 
-        try {
+        // 2. Use try-with-resources for automatic Statement closing
+        try (Statement stmt = conn.createStatement()) {
+
             String sql = """
                     SELECT city.Name AS CityName, country.Name AS CountryName,
                            city.District, city.Population
@@ -33,26 +36,34 @@ public class Cities_World_Report {
                     ORDER BY city.Population DESC;
                     """;
 
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            // 3. Use try-with-resources for automatic ResultSet closing
+            try (ResultSet rs = stmt.executeQuery(sql)) {
 
-            while (rs.next()) {
-                City city = new City();
-                Country country = new Country();
-                city.setCityName(rs.getString("CityName"));
-                // Build Country object and link it
-                country.setCountryName(rs.getString("CountryName"));
-                city.setCountry(country);
-                city.setDistrict(rs.getString("District"));
-                city.setPopulation(rs.getInt("Population"));
-                cities.add(city);
-
+                while (rs.next()) {
+                    City city = new City();
+                    Country country = new Country();
+                    city.setCityName(rs.getString("CityName"));
+                    // Build Country object and link it
+                    country.setCountryName(rs.getString("CountryName"));
+                    city.setCountry(country);
+                    city.setDistrict(rs.getString("District"));
+                    city.setPopulation(rs.getInt("Population"));
+                    cities.add(city);
+                }
             }
 
-            rs.close();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println("Error retrieving city report: " + e.getMessage());
+            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
+            System.err.println("Error retrieving city report due to a database issue:");
+            System.err.println("SQL State: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
+            e.printStackTrace();
+            return cities; // Return empty list upon failure
+        }
+
+        // 5. Check for Missing Data
+        if (cities.isEmpty()) {
+            System.out.println("Warning: No city data was found in the database. Report will be empty.");
         }
 
         return cities;
@@ -71,7 +82,7 @@ public class Cities_World_Report {
         for (City city : cities) {
             System.out.printf("%-35s %-35s %-20s %-15d%n",
                     city.getCityName(),
-                    city.getCountry().getCountryName(),  // <-- get the name
+                    city.getCountry().getCountryName(),
                     city.getDistrict(),
                     city.getPopulation());
 
