@@ -1,6 +1,7 @@
 package com.napier.gp8;
 
 import java.sql.*;
+import java.util.List;
 
 public class App {
 
@@ -77,12 +78,14 @@ public class App {
         App a = new App();
         a.connect();
 
-        // --- Call the population_continent display method here ---
-        if (a.conn != null) {
-            population_continent popContinent = new population_continent(a.conn);
-            popContinent.display();
-        }
+        // Retrieve population data using the Population_Continent_Report class
+        Population_Continent_Report populationContinentReport = new Population_Continent_Report();
+        List<Country> countries = populationContinentReport.getPopulation_Continent_Report(a.conn);
+
+        // Print the report
+        populationContinentReport.printPopulation_Continent_Report(countries);
 
         a.disconnect();
     }
+
 }
