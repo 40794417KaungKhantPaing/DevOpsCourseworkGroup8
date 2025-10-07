@@ -15,7 +15,7 @@ public class Cities_World_Report {
      * @param conn Active database connection
      * @return List of City objects, or an empty list if an error occurs or no data is found.
      */
-    public List<City> getCities_World_Report(Connection conn) {
+    public List<City> getCitiesWorldReport(Connection conn) {
 
         List<City> cities = new ArrayList<>();
 
@@ -74,10 +74,15 @@ public class Cities_World_Report {
      *
      * @param cities List of City objects
      */
-    protected void printCities_World_Report(List<City> cities) {
-        System.out.println("--------------------------------------------------------------------------------------------");
+    public void printCitiesWorldReport(List<City> cities) {
+
+        System.out.println("::group::🌍 City Report");
+
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "------------------");
         System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
-        System.out.println("--------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "------------------");
 
         for (City city : cities) {
             System.out.printf("%-35s %-35s %-20s %-15d%n",
@@ -85,9 +90,14 @@ public class Cities_World_Report {
                     city.getCountry().getCountryName(),
                     city.getDistrict(),
                     city.getPopulation());
-
         }
 
-        System.out.println("------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------" +
+                "------------------");
+
+
+        System.out.println("::endgroup::");
     }
+
+
 }

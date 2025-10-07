@@ -2,25 +2,22 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
     /* Connect object used to connect to the MySQL database.
      * Initialized as null and set once a successful connection is made.
-            */
+     */
     private Connection conn = null;
 
     /* Connect to the MySQL database.
      */
-    public void connect()
-    {
-        try
-        {
+    public void connect() {
+        try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
             System.exit(-1);
         }
@@ -31,25 +28,19 @@ public class App {
         String password = "root";
 
         int retries = 100;
-        for (int i = 0; i < retries; ++i)
-        {
+        for (int i = 0; i < retries; ++i) {
             System.out.println("Connecting to database...");
-            try
-            {
+            try {
                 // Wait a bit for db to start
                 Thread.sleep(30000);
                 // Connect to database
                 conn = DriverManager.getConnection(url, user, password);
                 System.out.println("Successfully connected");
                 break;
-            }
-            catch (SQLException sqle)
-            {
+            } catch (SQLException sqle) {
                 System.out.println("Failed to connect to database attempt " + i);
                 System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
+            } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
             }
         }
@@ -59,17 +50,12 @@ public class App {
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect()
-    {
-        if (conn != null)
-        {
-            try
-            {
+    public void disconnect() {
+        if (conn != null) {
+            try {
                 // Close connection
                 conn.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
         }
@@ -80,9 +66,17 @@ public class App {
         a.connect();
         // Retrieve city data using the CityReport class
         Cities_World_Report citiesWorldReport = new Cities_World_Report();
-        List<City> cities = citiesWorldReport.getCities_World_Report(a.conn);
+        List<City> cities = citiesWorldReport.getCitiesWorldReport(a.conn);
         // Print the report
-        citiesWorldReport.printCities_World_Report(cities);
+        citiesWorldReport.printCitiesWorldReport(cities);
+        Cities_Continent_Report report = new Cities_Continent_Report();
+
+        // Step 1: Retrieve data (SQL part)
+        Map<String, List<City>> continentCitiesMap = report.getCitiesContinentsReport(a.conn);
+
+        // Step 2: Print report (display part)
+        report.printCitiesContinentsReport(continentCitiesMap);
+
         a.disconnect();
     }
 }
