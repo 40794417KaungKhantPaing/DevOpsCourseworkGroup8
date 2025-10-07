@@ -80,9 +80,9 @@ public class App {
         a.connect();
 
         //Generate capitalCities in world Report
-        CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World(a.conn);
-        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation();
-        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld);
+        CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World();
+        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation(a.conn);
+        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld); //print the report
 
         a.disconnect();
     }

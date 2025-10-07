@@ -8,32 +8,24 @@ import java.util.ArrayList;
  */
 public class CapitalCities_World {
 
-    //database connection
-    private final Connection conn;
-
-    /**
-     * Constructor: accepts an active database connection.
-     * @param conn active SQL Connection object
-     */
-    public CapitalCities_World(Connection conn) {
-        this.conn = conn;
-    }
-
     /**
      * Retrieves all capital cities in the world, ordered by largest population to smallest.
-     *
+     * @param conn active SQL Connection object
      * @return ArrayList of City objects representing capital cities
      */
-    public ArrayList<City> getAllCapitalCitiesInWorldByPopulation() {
+    public ArrayList<City> getAllCapitalCitiesInWorldByPopulation(Connection conn) {
+
         ArrayList<City> capitals = new ArrayList<>();
 
-        // Validate database connection
+        // 1. Check for null connection and return an empty list upon failure.
         if (conn == null) {
-            System.out.println("Database connection is null.");
-            return capitals; // Return empty list
+            System.err.println("Database not connected. Cannot generate capital cities report.");
+            return capitals;
         }
 
-        try {
+        // 2. Use try-with-resources for automatic Statement closing
+        try (Statement stmt = conn.createStatement()) {
+
             // SQL query to get capital cities and their countries, ordered by population
             String strSelect =
                     "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
@@ -42,33 +34,36 @@ public class CapitalCities_World {
                             "JOIN city c ON co.Capital = c.ID " +
                             "ORDER BY c.Population DESC";
 
-            // Use PreparedStatement for prevent SQL injection
-            PreparedStatement stmt = conn.prepareStatement(strSelect);
+            // 3. Use try-with-resources for automatic ResultSet closing
+            try (ResultSet rs = stmt.executeQuery(strSelect)) {
 
-            // Execute SQL statement
-            ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    City city = new City();
+                    Country country = new Country();
 
-            // Extract capital city information
-            while (rs.next()) {
-                City city = new City();
-                city.setId(rs.getInt("ID"));
-                city.setCityName(rs.getString("CapitalName"));
-                city.setCountryCode(rs.getString("CountryCode"));
-                city.setPopulation(rs.getInt("Population"));
+                    city.setId(rs.getInt("ID"));
+                    city.setCityName(rs.getString("CapitalName"));
+                    city.setCountryCode(rs.getString("CountryCode"));
+                    city.setPopulation(rs.getInt("Population"));
 
-                //create and associate a country object for the city
-                Country country = new Country();
-                country.setCountryName(rs.getString("CountryName"));
-                // associate City → Country
-                city.setCountry(country);
+                    country.setCountryName(rs.getString("CountryName"));
+                    city.setCountry(country);
 
-                capitals.add(city);
+                    capitals.add(city);
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println("SQL Error: " + e.getMessage());
-            System.out.println("Failed to get capital cities by population.");
-            capitals.clear(); // Clear partial results if error occurs
+            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
+            System.err.println("Error retrieving capital cities report due to a database issue:");
+            System.err.println("SQL State: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
+            e.printStackTrace();
+        }
+
+        // 5. Check for Missing Data
+        if (capitals.isEmpty()) {
+            System.out.println("Warning: No capital city data found in the database. Report will be empty.");
         }
 
         return capitals;
@@ -76,10 +71,10 @@ public class CapitalCities_World {
 
     /**
      * Prints a list of capital cities with their country and population.
-     *
      * @param capitals ArrayList of City objects
      */
     public void printAllCapitalCitiesInWorldByPopulation(ArrayList<City> capitals) {
+
         // Validate list
         if (capitals == null || capitals.isEmpty()) {
             System.out.println("No capital cities found to display.");
@@ -88,17 +83,19 @@ public class CapitalCities_World {
 
         // Print header
         System.out.println("\nAll the Capital Cities in the World by Population:");
-        System.out.printf("%-30s %-50s %-15s%n", "Capital", "Country", "Population");
-        System.out.println("-----------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-35s %-50s %-15s%n", "Capital", "Country", "Population");
+        System.out.println("-----------------------------------------------------------------------------------------------");
 
-        // Print results, looping through each city object and print details in an aligned columns
+        // Print results
         for (City city : capitals) {
             if (city != null && city.getCountry() != null) {
-                System.out.printf("%-30s %-50s %,15d%n",
+                System.out.printf("%-35s %-50s %,15d%n",
                         city.getCityName(),
                         city.getCountry().getCountryName(),
                         city.getPopulation());
             }
         }
+
+        System.out.println("-----------------------------------------------------------------------------------------------");
     }
 }
