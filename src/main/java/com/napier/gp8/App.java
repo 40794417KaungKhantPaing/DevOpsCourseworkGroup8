@@ -79,10 +79,24 @@ public class App {
         App a = new App();
         a.connect();
 
+        //---------------------------------------
         //Generate capitalCities in world Report
         CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World();
-        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation(a.conn);
-        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld); //print the report
+        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation(a.conn); //get data
+        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld);  //print the capital cities in world report
+
+        //---------------------------------------
+        // Generate Capital Cities in Continent Report for all continents
+        String[] continents = {"Asia", "Europe", "North America", "Africa", "Oceania", "Antarctica", "South America"};
+        CapitalCities_Continent capitalCitiesContinentReport = new CapitalCities_Continent();
+
+        //looping to print capital cities reports of continents
+        for (String continent : continents) {
+            ArrayList<City> capitalsContinent = capitalCitiesContinentReport.getCapitalCitiesInContinentByPopulation(a.conn, continent);
+            capitalCitiesContinentReport.printCapitalCitiesInContinentByPopulation(capitalsContinent, continent);
+        }
+
+        //---------------------------------------
 
         a.disconnect();
     }

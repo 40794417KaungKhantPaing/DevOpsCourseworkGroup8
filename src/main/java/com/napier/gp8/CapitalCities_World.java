@@ -83,13 +83,13 @@ public class CapitalCities_World {
 
         // Print header
         System.out.println("\nAll the Capital Cities in the World by Population:");
-        System.out.printf("%-35s %-50s %-15s%n", "Capital", "Country", "Population");
+        System.out.printf("%-35s %-40s %-15s%n", "Capital", "Country", "Population");
         System.out.println("-----------------------------------------------------------------------------------------------");
 
         // Print results
         for (City city : capitals) {
             if (city != null && city.getCountry() != null) {
-                System.out.printf("%-35s %-50s %,15d%n",
+                System.out.printf("%-35s %-40s %,15d%n",
                         city.getCityName(),
                         city.getCountry().getCountryName(),
                         city.getPopulation());
