@@ -90,6 +90,12 @@ public class App {
         // Print the report
         populationRegionReport.printPopulation_Region_Report(regionCountries);
 
+        // Retrieve population data using the Population_Country_Report class
+        Population_Country_Report populationCountryReport = new Population_Country_Report();
+        List<Country> countryList = populationCountryReport.getPopulation_Country_Report(a.conn);
+        // Print the report
+        populationCountryReport.printPopulation_Country_Report(countryList);
+
         a.disconnect();
     }
 
