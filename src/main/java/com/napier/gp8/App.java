@@ -1,7 +1,7 @@
 package com.napier.gp8;
 
 import java.sql.*;
-import java.util.List;
+import java.util.ArrayList;
 
 public class App {
 
@@ -76,51 +76,64 @@ public class App {
     }
 
     public static void main(String[] args) {
+        //create an instance of the main application class to manage database connection
         App a = new App();
+
+        //Establish connection to the database
         a.connect();
 
-        // Retrieve country world report
-        Countries_World countriesWorld = new Countries_World();
-        List<Country> countries = countriesWorld.getCountries_World_Report(a.conn);
-        countriesWorld.printCountries_World_Report(countries);
 
-        // Retrieve country continent report
-        String[] continents = {"Asia"};
-        Countries_Continent countriesContinentReport = new Countries_Continent();
-        for (String continent : continents) {
-            List<Country> countriesContinent = countriesContinentReport.getCountries_Continent_Report(a.conn, continent);
-            countriesContinentReport.printCountries_Continent_Report(continent,countriesContinent);
-        }
-        // Retrieve country region report
-        String[] regions = {"Middle East"};
-        Countries_Region countriesRegionReport = new Countries_Region();
-        for (String region : regions) {
-            List<Country> countriesRegion = countriesRegionReport.getCountries_Region_Report(a.conn, region);
-            countriesRegionReport.printCountries_Region_Report(region,countriesRegion);
-        }
-        // Retrieve city world report
-        Cities_World_Report citiesWorldReport = new Cities_World_Report();
-        List<City> citiesWorld = citiesWorldReport.getCitiesWorldReport(a.conn);
-        citiesWorldReport.printCitiesWorldReport(citiesWorld);
-        // Retrieve city continent report
-        String[] continents1 = {"Asia"};
+        //============================================================
+        //REPORT: Capital Cities in the World
+        //============================================================
 
-        Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
-        for (String continent : continents1) {
-            List<City> citiesContinent = citiesContinentReport.getCities_By_Continent_Report(a.conn, continent);
-            citiesContinentReport.printCities_By_Continent_Report(citiesContinent, continent);
-        }
+        //Create instance of CapitalCities_World class
+        CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World();
 
-        // Retrieve city region report
-        String[] regions1 = {"Caribbean"};
-        Cities_Region_Report citiesRegionReport = new Cities_Region_Report();
-        for (String region : regions1) {
-            List<City> citiesRegion = citiesRegionReport.getCitiesRegionReport(a.conn, region);
-            citiesRegionReport.printCitiesRegionReport(citiesRegion, region);
-        }
+        //Get all capital cities in the world ordered by population (descending)
+        ArrayList<City> capitalsWorld = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation(a.conn);
+
+        //print the capital cities in world report
+        capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorld);
 
 
 
+        //============================================================
+        //REPORT: Capital Cities in a Continent
+        //============================================================
+
+        //Define the continent for which the report will be generated.
+        String continent = "Asia";
+
+        //Create instance to generate the continent level report
+        CapitalCities_Continent capitalCitiesContinentReport = new CapitalCities_Continent();
+
+        //Get all capital cities within the specified continent, ordered by population (Descending)
+        ArrayList<City> capitalsContinent = capitalCitiesContinentReport.getCapitalCitiesInContinentByPopulation(a.conn, continent);
+
+        //print the capital cities in the specified continent report.
+        capitalCitiesContinentReport.printCapitalCitiesInContinentByPopulation(capitalsContinent, continent);
+
+
+        //============================================================
+        //REPORT: Capital Cities in a Region
+        //============================================================
+
+        //Define the region for which the report will be generated.
+        String region ="Middle East";
+
+        //Create instance to generate the region-level report.
+        CapitalCities_Region capitalCitiesRegionReport = new CapitalCities_Region();
+
+        //Retrieve all capital cities with the specified region, ordered by population (Descending)
+        ArrayList<City> capitalsRegion = capitalCitiesRegionReport.getCapitalCitiesInRegionByPopulation(a.conn,region);
+
+        //print the capital cities in the specified region report
+        capitalCitiesRegionReport.printCapitalCitiesInRegionByPopulation(capitalsRegion, region);
+
+        //------------------------------------------
+
+        //disconnect from database after generating all reports.
         a.disconnect();
     }
 }
