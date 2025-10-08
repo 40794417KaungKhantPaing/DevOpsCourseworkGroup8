@@ -84,20 +84,41 @@ public class App {
         List<Country> countries = countriesWorld.getCountries_World_Report(a.conn);
         countriesWorld.printCountries_World_Report(countries);
 
-
+        // Retrieve country continent report
         String[] continents = {"Asia"};
         Countries_Continent countriesContinentReport = new Countries_Continent();
         for (String continent : continents) {
             List<Country> countriesContinent = countriesContinentReport.getCountries_Continent_Report(a.conn, continent);
             countriesContinentReport.printCountries_Continent_Report(continent,countriesContinent);
         }
-
+        // Retrieve country region report
         String[] regions = {"Middle East"};
         Countries_Region countriesRegionReport = new Countries_Region();
         for (String region : regions) {
             List<Country> countriesRegion = countriesRegionReport.getCountries_Region_Report(a.conn, region);
             countriesRegionReport.printCountries_Region_Report(region,countriesRegion);
         }
+        // Retrieve city world report
+        Cities_World_Report citiesWorldReport = new Cities_World_Report();
+        List<City> citiesWorld = citiesWorldReport.getCitiesWorldReport(a.conn);
+        citiesWorldReport.printCitiesWorldReport(citiesWorld);
+        // Retrieve city continent report
+        String[] continents1 = {"Asia"};
+
+        Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
+        for (String continent : continents1) {
+            List<City> citiesContinent = citiesContinentReport.getCities_By_Continent_Report(a.conn, continent);
+            citiesContinentReport.printCities_By_Continent_Report(citiesContinent, continent);
+        }
+
+        // Retrieve city region report
+        String[] regions1 = {"Caribbean"};
+        Cities_Region_Report citiesRegionReport = new Cities_Region_Report();
+        for (String region : regions1) {
+            List<City> citiesRegion = citiesRegionReport.getCitiesRegionReport(a.conn, region);
+            citiesRegionReport.printCitiesRegionReport(citiesRegion, region);
+        }
+
 
 
         a.disconnect();
