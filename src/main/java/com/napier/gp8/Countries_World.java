@@ -72,11 +72,11 @@ public class Countries_World {
      */
     protected void printCountries_World_Report(List<Country> countries) {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-45s %-25s %-30s %-15s%n", "Country Name", "Continent", "Region", "Population");
+        System.out.printf("%-35s %-35s %-20s %-15s%n", "Country Name", "Continent", "Region", "Population");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
 
         for (Country country : countries) {
-            System.out.printf("%-45s %-25s %-30s %-15d%n",
+            System.out.printf("%-35s %-35s %-20s %-15d%n",
                     country.getCountryName(),
                     country.getContinent(),
                     country.getRegion(),
