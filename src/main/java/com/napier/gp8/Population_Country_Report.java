@@ -66,9 +66,10 @@ public class Population_Country_Report {
      * @param countries List of Country objects
      */
     protected void printPopulation_Country_Report(List<Country> countries) {
-        System.out.println("------------------------------------------------------------");
+        System.out.println("\n==================== Population by Country Report ====================");
+        System.out.println("---------------------------------------------------------------------");
         System.out.printf("%-40s %-20s%n", "Country", "Population");
-        System.out.println("------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
 
         for (Country country : countries) {
             System.out.printf("%-40s %,20d%n",
@@ -76,6 +77,8 @@ public class Population_Country_Report {
                     country.getPopulation());
         }
 
-        System.out.println("------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
+        System.out.println("=====================================================================\n");
     }
+
 }

@@ -69,9 +69,10 @@ public class Population_Region_Report {
      * @param countries List of Country objects
      */
     protected void printPopulation_Region_Report(List<Country> countries) {
-        System.out.println("------------------------------------------------------------");
+        System.out.println("\n==================== Population by Region Report ====================");
+        System.out.println("--------------------------------------------------------------------");
         System.out.printf("%-30s %-20s%n", "Region", "Total Population");
-        System.out.println("------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------");
 
         for (Country country : countries) {
             System.out.printf("%-30s %,20d%n",
@@ -79,6 +80,8 @@ public class Population_Region_Report {
                     country.getPopulation());
         }
 
-        System.out.println("------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------");
+        System.out.println("====================================================================\n");
     }
+
 }

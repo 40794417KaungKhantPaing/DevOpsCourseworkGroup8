@@ -69,6 +69,7 @@ public class Population_Continent_Report {
      * @param countries List of Country objects
      */
     protected void printPopulation_Continent_Report(List<Country> countries) {
+        System.out.println("\n==================== Population by Continent Report ====================");
         System.out.println("------------------------------------------------------------");
         System.out.printf("%-20s %-20s%n", "Continent", "Total Population");
         System.out.println("------------------------------------------------------------");
@@ -80,5 +81,7 @@ public class Population_Continent_Report {
         }
 
         System.out.println("------------------------------------------------------------");
+        System.out.println("=======================================================================\n");
     }
+
 }
