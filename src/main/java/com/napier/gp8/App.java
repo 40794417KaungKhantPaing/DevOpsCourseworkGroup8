@@ -84,6 +84,15 @@ public class App {
         List<Country> countries = countriesWorld.getCountries_World_Report(a.conn);
         countriesWorld.printCountries_World_Report(countries);
 
+
+        String[] continents = {"Asia"};
+        Countries_Continent countriesContinentReport = new Countries_Continent();
+        for (String continent : continents) {
+            List<Country> countriesContinent = countriesContinentReport.getCountries_Continent_Report(a.conn, continent);
+            countriesContinentReport.printCountries_Continent_Report(continent,countriesContinent);
+        }
+
+
         a.disconnect();
     }
 }

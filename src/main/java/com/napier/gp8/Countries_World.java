@@ -71,6 +71,7 @@ public class Countries_World {
      * @param countries List of Country objects
      */
     protected void printCountries_World_Report(List<Country> countries) {
+        System.out.println("1. All countries in the world by population Report");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-35s %-35s %-20s %-15s%n", "Country Name", "Continent", "Region", "Population");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
