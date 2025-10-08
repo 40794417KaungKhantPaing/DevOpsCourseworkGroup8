@@ -2,7 +2,6 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Map;
 
 public class App {
 
@@ -64,20 +63,26 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
-        // Retrieve city data using the CityReport class
+        // Retrieve city world report
         Cities_World_Report citiesWorldReport = new Cities_World_Report();
         List<City> citiesWorld = citiesWorldReport.getCitiesWorldReport(a.conn);
-        // Print the report
         citiesWorldReport.printCitiesWorldReport(citiesWorld);
+        // Retrieve city continent report
         String[] continents = {"Asia"};
-
         Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
-
         for (String continent : continents) {
             List<City> citiesContinent = citiesContinentReport.getCities_By_Continent_Report(a.conn, continent);
             citiesContinentReport.printCities_By_Continent_Report(citiesContinent, continent);
         }
 
-        a.disconnect();
+        // Retrieve city region report
+        String[] regions = {"Caribbean"};
+        Cities_Region_Report citiesRegionReport = new Cities_Region_Report();
+        for (String region : regions) {
+            List<City> citiesRegion = citiesRegionReport.getCitiesRegionReport(a.conn, region);
+            citiesRegionReport.printCitiesRegionReport(citiesRegion, region);
+
+            a.disconnect();
+        }
     }
 }
