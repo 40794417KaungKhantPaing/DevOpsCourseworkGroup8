@@ -92,6 +92,13 @@ public class App {
             countriesContinentReport.printCountries_Continent_Report(continent,countriesContinent);
         }
 
+        String[] regions = {"Middle East"};
+        Countries_Region countriesRegionReport = new Countries_Region();
+        for (String region : regions) {
+            List<Country> countriesRegion = countriesRegionReport.getCountries_Region_Report(a.conn, region);
+            countriesRegionReport.printCountries_Region_Report(region,countriesRegion);
+        }
+
 
         a.disconnect();
     }
