@@ -1,6 +1,7 @@
 package com.napier.gp8;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
 
@@ -77,6 +78,25 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.connect();
+
+        //============================================================
+        //REPORT: Language Population
+        //============================================================
+
+        //create instance of language_population class
+        Language_Population languageReport = new Language_Population();
+
+        //declare arraylist to hold the data
+        ArrayList<String> languages = new ArrayList<>();
+        ArrayList<Long> speakers = new ArrayList<>();
+        ArrayList<Double> worldPercent = new ArrayList<>();
+
+        //get language. population data from database
+        languageReport.getLanguagePopulationReport(a.conn, languages, speakers, worldPercent);
+
+        //print the population language report
+        languageReport.printLanguagePopulationReport(languages, speakers, worldPercent);
+
         a.disconnect();
     }
 }
