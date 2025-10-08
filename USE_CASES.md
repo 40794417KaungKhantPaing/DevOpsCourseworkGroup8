@@ -10,8 +10,8 @@ user action, including the required conditions for that action to be executed, t
 # Population Reporting System – Use Case Documentation
 
 ## User Description
-The user, a Data Analyst interacts with the Population Reporting System to view population, country, city, and language 
-information. The User can view data for all countries, top N countries or cities, capital cities, and language 
+The user, a Data Analyst interacts with the Population Reporting System to view population, country, city, and language
+information. The User can view data for all countries, top N countries or cities, capital cities, and language
 statistics. The system generates reports at different levels (world, continent, region, country, district, or city).
 
 # Population Reporting System Use Cases
@@ -265,6 +265,6 @@ You can also refer to the detailed **Use Case Diagram** for visual clarity:
 
 ---
 
-This **USE_CASES.md** document outlines all the core user actions within the **Population Reporting System**. 
-Each use case provides a detailed overview of what happens during the process, including pre-conditions, main flow, 
+This **USE_CASES.md** document outlines all the core user actions within the **Population Reporting System**.
+Each use case provides a detailed overview of what happens during the process, including pre-conditions, main flow,
 and post-conditions.
