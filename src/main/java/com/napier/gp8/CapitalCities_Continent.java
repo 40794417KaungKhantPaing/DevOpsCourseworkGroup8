@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 /**
  * Class to generate reports of capital cities in a continent, ordered by population from largest to smallest.
+ * It includes get data method and print method
+ * Get data method extracts capital cities in a continent, ordered by desc from the database.
+ * Print method displays the report.
  */
 public class CapitalCities_Continent {
 
@@ -24,12 +27,13 @@ public class CapitalCities_Continent {
             return capitals;
         }
 
+        //check the continent is not null and not whitespace
         if (continent == null || continent.trim().isEmpty()) {
             System.err.println("Invalid continent input. Please provide a valid continent name.");
             return capitals;
         }
 
-        // Use try-with-resources for Statement
+        //using try with resources for automatic closing the statement after use.
         try (Statement stmt = conn.createStatement()) {
 
             // SQL query to get capital cities and their countries in a specific continent , ordered by population desc
@@ -58,6 +62,7 @@ public class CapitalCities_Continent {
                     country.setCountryName(rs.getString("CountryName"));
                     city.setCountry(country); //city associate to country
 
+                    //Add city to the list
                     capitals.add(city);
                 }
             }
@@ -73,11 +78,12 @@ public class CapitalCities_Continent {
             return capitals;
         }
 
-        //Check for Missing Data
+        //Notify if no data was found
         if (capitals.isEmpty()) {
             System.out.println("Warning: No capital city data found in the database for continent: " + continent);
         }
 
+        //return list of capital cities retrieved from database.
         return capitals;
     }
 
@@ -88,7 +94,7 @@ public class CapitalCities_Continent {
      */
     public void printCapitalCitiesInContinentByPopulation(ArrayList<City> capitals, String continent) {
 
-        // Validate array list
+        // Validate array list if null or empty
         if (capitals == null || capitals.isEmpty()) {
             System.out.println("No capital cities found to display for continent: " + continent);
             return;
@@ -99,7 +105,7 @@ public class CapitalCities_Continent {
         System.out.printf("%-35s %-60s %-15s%n", "Capital", "Country", "Population");
         System.out.println("-----------------------------------------------------------------------------------------------------------------");
 
-        // Print results
+        //Iterate cities and print results
         for (City city : capitals) {
             if (city != null && city.getCountry() != null) {
                 System.out.printf("%-35s %-60s %,15d%n",
@@ -109,6 +115,7 @@ public class CapitalCities_Continent {
             }
         }
 
+        //print footer line to mark end of report
         System.out.println("-----------------------------------------------------------------------------------------------------------------");
     }
 }
