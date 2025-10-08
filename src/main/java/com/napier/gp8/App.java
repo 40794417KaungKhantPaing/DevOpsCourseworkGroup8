@@ -174,6 +174,24 @@ public class App {
 
         //------------------------------------------
 
+        // Retrieve population data using the Population_Continent_Report class
+        Population_Continent_Report populationContinentReport = new Population_Continent_Report();
+        List<Country> Continentcountries = populationContinentReport.getPopulation_Continent_Report(a.conn);
+        // Print the report
+        populationContinentReport.printPopulation_Continent_Report(Continentcountries);
+
+        // Retrieve population data using the Population_Region_Report class
+        Population_Region_Report populationRegionReport = new Population_Region_Report();
+        List<Country> regionCountries = populationRegionReport.getPopulation_Region_Report(a.conn);
+        // Print the report
+        populationRegionReport.printPopulation_Region_Report(regionCountries);
+
+        // Retrieve population data using the Population_Country_Report class
+        Population_Country_Report populationCountryReport = new Population_Country_Report();
+        List<Country> countryList = populationCountryReport.getPopulation_Country_Report(a.conn);
+        // Print the report
+        populationCountryReport.printPopulation_Country_Report(countryList);
+
         a.disconnect();
     }
 }
