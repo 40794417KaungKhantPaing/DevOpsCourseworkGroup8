@@ -69,6 +69,7 @@ public class App {
         citiesWorldReport.printCitiesWorldReport(citiesWorld);
         // Retrieve city continent report
         String[] continents = {"Asia"};
+
         Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
         for (String continent : continents) {
             List<City> citiesContinent = citiesContinentReport.getCities_By_Continent_Report(a.conn, continent);
@@ -81,8 +82,7 @@ public class App {
         for (String region : regions) {
             List<City> citiesRegion = citiesRegionReport.getCitiesRegionReport(a.conn, region);
             citiesRegionReport.printCitiesRegionReport(citiesRegion, region);
-
-            a.disconnect();
         }
+        a.disconnect();
     }
 }
