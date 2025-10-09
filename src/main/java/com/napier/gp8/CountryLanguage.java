@@ -17,6 +17,11 @@ public class CountryLanguage
     // Associated Country object (optional, may be null if not loaded)
     private Country country;
 
+    //default constructor
+    public CountryLanguage() {
+    }
+
+
     /**
      * Gets the country code.
      * @return country code
@@ -60,7 +65,7 @@ public class CountryLanguage
 
     /**
      * sets the country code.
-     * @param countryCode
+     * @param countryCode the country code.
      */
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
@@ -68,7 +73,7 @@ public class CountryLanguage
 
     /**
      * sets the language name.
-     * @param language
+     * @param language the language name
      */
     public void setLanguage(String language) {
         this.language = language;
@@ -76,7 +81,7 @@ public class CountryLanguage
 
     /**
      * sets if the language is official.
-     * @param isOfficial
+     * @param isOfficial if it is official or otherwise
      */
     public void setIsOfficial(String isOfficial) {
         this.isOfficial = isOfficial;
@@ -84,7 +89,7 @@ public class CountryLanguage
 
     /**
      * sets the percentage of speakers.
-     * @param percentage
+     * @param percentage the percentage of people who speak this language
      */
     public void setPercentage(double percentage) {
         this.percentage = percentage;
@@ -92,9 +97,24 @@ public class CountryLanguage
 
     /**
      * sets the associated Country object.
-     * @param country
+     * @param country the associate country
      */
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    /**
+     * Returns a string representation of country language object.
+     * @return a formatted string containing language and country details
+     */
+    @Override
+    public String toString() {
+        return "CountryLanguage{" +
+                "countryCode='" + countryCode + '\'' +
+                ", language='" + language + '\'' +
+                ", isOfficial='" + isOfficial + '\'' +
+                ", percentage=" + percentage +
+                ", country=" + country +
+                '}';
     }
 }

@@ -25,6 +25,10 @@ public class City {
     // Associated Country object (can be null if not loaded)
     private Country country;
 
+    //default constructor
+    public City() {
+    }
+
     /**
      * Gets the unique ID of the city
      *
@@ -141,4 +145,22 @@ public class City {
     public void setCountry(Country country) {
         this.country = country;
     }
+
+    /**Returns a string representation of the City object.
+     *The string includes the city's ID, name, country code, district,
+     *population, and associated country.
+     * @return the formatted string
+     */
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", cityName='" + cityName + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", district='" + district + '\'' +
+                ", population=" + population +
+                ", country=" + country +
+                '}';
+    }
 }
+
