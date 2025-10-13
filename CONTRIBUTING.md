@@ -20,7 +20,7 @@ There are many ways you can contribute to the project, including but not limited
    Clone the repository to your local machine using the following command:
 
    ```bash
-   git clone https://github.com/40794417KaungKhantPaing/Group8DevOpsCoursework.git
+   git clone https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8.git
 
 2. **Create a New Branch**
 

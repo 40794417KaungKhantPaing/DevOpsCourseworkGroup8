@@ -156,3 +156,14 @@ Please ensure:
 | 30 | The population of a district.                                                                                                            | Not yet produced |                                      |
 | 31 | The population of a city.                                                                                                                | Not yet produced |                                      |
 | 32 | Number of people who speak (from greatest to smallest) and percentage of world population for: Chinese, English, Hindi, Spanish, Arabic. | Met              | ![Report Screenshot](./img/rp32.jpg) |
+
+---
+## Contribution SpreadSheet
+| Matriculation Number | Code Review 1 | Code Review 2 |
+|----------------------|---------------|---------------|
+| 40794417             | 20            | -             |
+| 40794419             | 20            | -             |
+| 40794538             | 20            | -             |
+| 40794505             | 20            | -             |
+| 40794416             | 20            |               |
+| **Total**            | **100**       | **100**       |
