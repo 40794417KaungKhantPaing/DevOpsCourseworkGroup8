@@ -1,10 +1,27 @@
 # Group8 DevOps Coursework
-
 This repository is developed and maintained by **Group 8 of Edinburgh Napier University** as part of the **DevOps coursework project**.
 It serves as a collaborative platform where all team members contribute to the **design, implementation, and delivery** of the project.
-
 ---
 
+## Contribution SpreadSheet
+| Matriculation Number | Code Review 1 | Code Review 2 |
+|----------------------|---------------|---------------|
+| 40794417             | 20            | -             |
+| 40794419             | 20            | -             |
+| 40794538             | 20            | -             |
+| 40794505             | 20            | -             |
+| 40794416             | 20            | -             |
+| **Total**            | **100**       | **-**         |
+
+---
+## Status Badges
+
+![Master Workflow](https://img.shields.io/github/actions/workflow/status/40794417KaungKhantPaing/DevOpsCourseworkGroup8/main.yml?branch=master&label=Master%20Build&style=flat-square)
+[![LICENSE](https://img.shields.io/github/license/40794417KaungKhantPaing/DevOpsCourseworkGroup8.svg?style=flat-square&label=License)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/blob/master/LICENSE)
+![Develop Workflow](https://img.shields.io/github/actions/workflow/status/40794417KaungKhantPaing/DevOpsCourseworkGroup8/main.yml?branch=develop&style=flat-square&label=Develop%20Build)
+[![Releases](https://img.shields.io/github/release/40794417KaungKhantPaing/DevOpsCourseworkGroup8/all.svg?style=flat-square&label=Release)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/releases)
+
+---
 ## Overview
 
 The project is a **Population Reporting System** that generates reports on global, continental, and regional populations using the `world.sql` dataset.
@@ -112,14 +129,6 @@ Please ensure:
 
 ---
 
-## Status Badges
-
-![Master Workflow](https://img.shields.io/github/actions/workflow/status/40794417KaungKhantPaing/DevOpsCourseworkGroup8/main.yml?branch=master&label=Master%20Build&style=flat-square)
-[![LICENSE](https://img.shields.io/github/license/40794417KaungKhantPaing/DevOpsCourseworkGroup8.svg?style=flat-square&label=License)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/blob/master/LICENSE)
-![Develop Workflow](https://img.shields.io/github/actions/workflow/status/40794417KaungKhantPaing/DevOpsCourseworkGroup8/main.yml?branch=develop&style=flat-square&label=Develop%20Build)
-[![Releases](https://img.shields.io/github/release/40794417KaungKhantPaing/DevOpsCourseworkGroup8/all.svg?style=flat-square&label=Release)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/releases)
-
----
 
 ##  Currently, 15 requirements of 32 have been implemented, which is 46.88% (approximately 47%) of the total requirements.
 | ID | Name                                                                                                                                     | Met              | Screenshot                           |
@@ -156,14 +165,3 @@ Please ensure:
 | 30 | The population of a district.                                                                                                            | Not yet produced |                                      |
 | 31 | The population of a city.                                                                                                                | Not yet produced |                                      |
 | 32 | Number of people who speak (from greatest to smallest) and percentage of world population for: Chinese, English, Hindi, Spanish, Arabic. | Met              | ![Report Screenshot](./img/rp32.jpg) |
-
----
-## Contribution SpreadSheet
-| Matriculation Number | Code Review 1 | Code Review 2 |
-|----------------------|---------------|---------------|
-| 40794417             | 20            | -             |
-| 40794419             | 20            | -             |
-| 40794538             | 20            | -             |
-| 40794505             | 20            | -             |
-| 40794416             | 20            | -             |
-| **Total**            | **100**       | **-**         |
