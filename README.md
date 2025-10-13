@@ -1,6 +1,8 @@
 # Group8 DevOps Coursework
+
 This repository is developed and maintained by **Group 8 of Edinburgh Napier University** as part of the **DevOps coursework project**.
 It serves as a collaborative platform where all team members contribute to the **design, implementation, and delivery** of the project.
+
 ---
 
 ## Contribution SpreadSheet
