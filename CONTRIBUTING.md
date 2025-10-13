@@ -1,10 +1,10 @@
 
 
-# 🤝 Contributing to Group 8 DevOps Coursework
+# Contributing to Group 8 DevOps Coursework
 
 We welcome contributions from all team members! By contributing, you help improve the **Population Reporting System** and the overall **DevOps coursework project**. We strive to create a collaborative and positive environment, and we ask that all contributors follow these guidelines to maintain consistency and ensure smooth collaboration.
 
-## 🌟 How to Contribute
+## How to Contribute
 
 There are many ways you can contribute to the project, including but not limited to:
 
@@ -13,7 +13,7 @@ There are many ways you can contribute to the project, including but not limited
 - **Documentation** – Improve and update documentation such as the README, setup guides, or other project-related documents.
 - **Code Reviews** – Provide feedback on pull requests from other team members.
 
-## 📋 Step-by-Step Contribution Process
+## Step-by-Step Contribution Process
 
 1. **Clone the Repository**
 
@@ -84,16 +84,16 @@ There are many ways you can contribute to the project, including but not limited
 
    Once the pull request has been approved, it will be merged into the `develop` branch by the team. Always make sure that your changes are fully tested and pass the CI/CD checks before merging.
 
-## 📝 Code of Conduct
+## Code of Conduct
 
 Please ensure that your contributions adhere to our [Code of Conduct](CODE_OF_CONDUCT.md). We aim to maintain a positive and respectful environment for all contributors.
 
-## 📄 Documentation
+## Documentation
 
 * Keep all relevant documentation up-to-date.
 * For larger changes, update the project documentation accordingly (e.g., updating the README for new setup instructions, new features, or major changes).
 
-## ⚙️ Best Practices
+## Best Practices
 
 * **Branch Naming**: Use descriptive names for branches that represent the task (e.g., `feature/new-report-type`).
 * **Commit Messages**: Follow a clear and concise format. An example format could be:
@@ -102,11 +102,11 @@ Please ensure that your contributions adhere to our [Code of Conduct](CODE_OF_CO
     * **Fix**: For fixing bugs or issues.
     * **Refactor**: For restructuring or improving code without changing its functionality.
 
-## ❓ Questions?
+## Questions?
 
 If you have any questions about the contribution process or need help, feel free to reach out to the **Project Owner** or **Scrum Master**:
 
-* **Project Owner**: Kaung Khant Paing (40794417)
+* **Product Owner**: Kaung Khant Paing (40794417)
     * Email: 40794417@live.napier.ac.uk
 * **Scrum Master**: Thant Lwin Maung (40794419)
     * Email: 40794419@live.napier.ac.uk

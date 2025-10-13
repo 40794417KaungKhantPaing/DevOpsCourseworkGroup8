@@ -104,7 +104,7 @@ Please ensure:
 
 ## Team Members
 
-- **40794417 – Kaung Khant Paing** – **Project Owner**
+- **40794417 – Kaung Khant Paing** – **Product Owner**
 - **40794419 – Thant Lwin Maung** – **Scrum Master**
 - **40794538 – Khin Chaw Shwe Yee**
 - **40794505 – Mon Htoo Aung**
@@ -118,3 +118,41 @@ Please ensure:
 [![LICENSE](https://img.shields.io/github/license/40794417KaungKhantPaing/DevOpsCourseworkGroup8.svg?style=flat-square&label=License)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/blob/master/LICENSE)
 ![Develop Workflow](https://img.shields.io/github/actions/workflow/status/40794417KaungKhantPaing/DevOpsCourseworkGroup8/main.yml?branch=develop&style=flat-square&label=Develop%20Build)
 [![Releases](https://img.shields.io/github/release/40794417KaungKhantPaing/DevOpsCourseworkGroup8/all.svg?style=flat-square&label=Release)](https://github.com/40794417KaungKhantPaing/DevOpsCourseworkGroup8/releases)
+
+---
+
+##  Currently, 15 requirements of 32 have been implemented, which is 46.88% (approximately 47%) of the total requirements.
+| ID | Name                                                                                                                                     | Met              | Screenshot                           |
+| -: | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------ |
+|  1 | All the countries in the world organised by largest population to smallest.                                                              | Met              | ![Report Screenshot](./img/rp1.jpg)  |
+|  2 | All the countries in a continent organised by largest population to smallest.                                                            | Met              | ![Report Screenshot](./img/rp2.jpg)  |
+|  3 | All the countries in a region organised by largest population to smallest.                                                               | Met              | ![Report Screenshot](./img/rp3.jpg)  |
+|  4 | The top N populated countries in the world where N is provided by the user.                                                              | Not yet produced |                                      |
+|  5 | The top N populated countries in a continent where N is provided by the user.                                                            | Not yet produced |                                      |
+|  6 | The top N populated countries in a region where N is provided by the user.                                                               | Not yet produced |                                      |
+|  7 | All the cities in the world organised by largest population to smallest.                                                                 | Met              | ![Report Screenshot](./img/rp7.jpg)  |
+|  8 | All the cities in a continent organised by largest population to smallest.                                                               | Met              | ![Report Screenshot](./img/rp8.jpg)  |
+|  9 | All the cities in a region organised by largest population to smallest.                                                                  | Met              | ![Report Screenshot](./img/rp9.jpg)  |
+| 10 | All the cities in a country organised by largest population to smallest.                                                                 | Not yet produced |                                      |
+| 11 | All the cities in a district organised by largest population to smallest.                                                                | Not yet produced |                                      |
+| 12 | The top N populated cities in the world where N is provided by the user.                                                                 | Not yet produced |                                      |
+| 13 | The top N populated cities in a continent where N is provided by the user.                                                               | Not yet produced |                                      |
+| 14 | The top N populated cities in a region where N is provided by the user.                                                                  | Not yet produced |                                      |
+| 15 | The top N populated cities in a country where N is provided by the user.                                                                 | Not yet produced |                                      |
+| 16 | The top N populated cities in a district where N is provided by the user.                                                                | Not yet produced |                                      |
+| 17 | All the capital cities in the world organised by largest population to smallest.                                                         | Met              | ![Report Screenshot](./img/rp17.jpg) |
+| 18 | All the capital cities in a continent organised by largest population to smallest.                                                       | Met              | ![Report Screenshot](./img/rp18.jpg) |
+| 19 | All the capital cities in a region organised by largest to smallest.                                                                     | Met              | ![Report Screenshot](./img/rp19.jpg) |
+| 20 | The top N populated capital cities in the world where N is provided by the user.                                                         | Not yet produced |                                      |
+| 21 | The top N populated capital cities in a continent where N is provided by the user.                                                       | Not yet produced |                                      |
+| 22 | The top N populated capital cities in a region where N is provided by the user.                                                          | Not yet produced |                                      |
+| 23 | The population of people, people living in cities, and people not living in cities in each continent.                                    | Not yet produced |                                      |
+| 24 | The population of people, people living in cities, and people not living in cities in each region.                                       | Not yet produced |                                      |
+| 25 | The population of people, people living in cities, and people not living in cities in each country.                                      | Not yet produced |                                      |
+| 26 | The population of the world.                                                                                                             | Not yet produced |                                      |
+| 27 | The population of a continent.                                                                                                           | Met              | ![Report Screenshot](./img/rp27.jpg) |
+| 28 | The population of a region.                                                                                                              | Met              | ![Report Screenshot](./img/rp28.jpg) |
+| 29 | The population of a country.                                                                                                             | Met              | ![Report Screenshot](./img/rp29.jpg) |
+| 30 | The population of a district.                                                                                                            | Not yet produced |                                      |
+| 31 | The population of a city.                                                                                                                | Not yet produced |                                      |
+| 32 | Number of people who speak (from greatest to smallest) and percentage of world population for: Chinese, English, Hindi, Spanish, Arabic. | Met              | ![Report Screenshot](./img/rp32.jpg) |

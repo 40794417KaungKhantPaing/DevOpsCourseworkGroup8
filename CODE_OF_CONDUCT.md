@@ -1,10 +1,10 @@
-# 📜 Code of Conduct
+# Code of Conduct
 
 This Code of Conduct outlines the rules and expectations for **Group 8 DevOps Coursework** members to ensure a respectful, collaborative, and productive environment.
 
 ---
 
-## ✅ Team Rules & Expected Behavior
+## Team Rules & Expected Behavior
 
 All team members are expected to:
 
@@ -16,7 +16,7 @@ All team members are expected to:
 
 ---
 
-## ⚖️ Decision-Making
+## Decision-Making
 
 - Decisions should be made transparently and inclusively.
 - Members should express opinions respectfully and consider alternatives.
@@ -24,7 +24,7 @@ All team members are expected to:
 
 ---
 
-## 🔧 Conflict Resolution
+## Conflict Resolution
 
 - Address conflicts early and directly with the involved parties.
 - Focus on the **issue, not the person**.
@@ -33,7 +33,7 @@ All team members are expected to:
 
 ---
 
-## 🚫 Unacceptable Behavior
+## Unacceptable Behavior
 
 Unacceptable behavior includes, but is not limited to:
 
@@ -43,7 +43,7 @@ Unacceptable behavior includes, but is not limited to:
 
 ---
 
-## 📩 Reporting Issues
+## Reporting Issues
 
 If a member experiences or witnesses inappropriate behavior:
 
@@ -53,6 +53,6 @@ If a member experiences or witnesses inappropriate behavior:
 
 ---
 
-## 🙌 Acknowledgment
+## Acknowledgment
 
 By participating in this project, all team members agree to follow this Code of Conduct and contribute to a **positive and productive team environment**.

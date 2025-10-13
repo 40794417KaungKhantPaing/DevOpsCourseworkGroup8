@@ -1,4 +1,4 @@
-# 🔒 Security Policy
+# Security Policy
 
 ## Supported Versions
 
@@ -13,7 +13,7 @@ This project is currently in development. Security updates will be provided for 
 If you discover a security vulnerability in this project, please follow these steps:
 
 1. **Contact the Team Privately**
-    - Email the **Project Owner**: 40794417@live.napier.ac.uk
+    - Email the **Product Owner**: 40794417@live.napier.ac.uk
     - Email the **Scrum Master**: 40794419@live.napier.ac.uk
     - Include:
         - Description of the vulnerability
