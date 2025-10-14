@@ -18,7 +18,7 @@ statistics. The system generates reports at different levels (world, continent, 
 
 ---
 
-## 1. View All Countries by Population
+## 1. Get Countries Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view all countries in a specified area (world, continent, or region) ordered by population from largest to smallest so that I can understand population distribution globally, continentally, and regionally.
@@ -47,7 +47,7 @@ As a data analyst, I want to view all countries in a specified area (world, cont
 
 ---
 
-## 2. View Top N Countries by Population
+## 2. Get Top N Countries Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view the top N most populated countries in a specified area (world, continent, or region) so that I can quickly identify key countries by population.
@@ -77,7 +77,7 @@ As a data analyst, I want to view the top N most populated countries in a specif
 
 ---
 
-## 3. View All Cities by Population
+## 3. Get Cities Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view all cities in a specified area (world, continent, region, country, or district) ordered by population from largest to smallest so that I can understand urban population distribution at different levels.
@@ -96,6 +96,8 @@ As a data analyst, I want to view all cities in a specified area (world, contine
 3. System prints the cities report ordered by population.
 4. Analyst gets cities reports.
 
+
+
 ### Extensions
 - If city data is missing: System prints an error message.
 
@@ -106,7 +108,7 @@ As a data analyst, I want to view all cities in a specified area (world, contine
 
 ---
 
-## 4. View Top N Cities by Population
+## 4. Get Top N Cities Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view the top N most populated cities in a specified area (world, continent, region, country, or district) so that I can quickly identify major urban centers.
@@ -136,7 +138,7 @@ As a data analyst, I want to view the top N most populated cities in a specified
 
 ---
 
-## 5. View All Capital Cities by Population
+## 5. Get Capital Cities Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view all capital cities in a specified area (world, continent, or region) ordered by population from largest to smallest so that I can compare capitals globally, continentally, or regionally.
@@ -165,7 +167,7 @@ As a data analyst, I want to view all capital cities in a specified area (world,
 
 ---
 
-## 6. View Top N Capital Cities by Population
+## 6. Get Top N Capital Cities Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view the top N most populated capital cities in a specified area (world, continent, or region) so that I can quickly identify major capitals.
@@ -195,10 +197,12 @@ As a data analyst, I want to view the top N most populated capital cities in a s
 
 ---
 
-## 7. View Language Statistics
+## 7. Get Language Population Reports
 
 **Goal in Context:**  
 As a data analyst, I want to view a report showing the number of people who speak Chinese, English, Hindi, Spanish, and Arabic, sorted from greatest to smallest, including world population percentage so that I can understand major languages.
+
+
 
 **Scope:** Population Reporting System  
 **Level:** Primary task  
@@ -209,10 +213,10 @@ As a data analyst, I want to view a report showing the number of people who spea
 **Trigger:** A request for language statistics report is sent by the analyst.
 
 ### Main Success Scenario
-1. Analyst requests language statistics reports.
+1. Analyst requests language population reports.
 2. System automatically retrieves language population data.
 3. System prints the language statistics report.
-4. Analyst gets language statistics reports.
+4. Analyst gets language population reports.
 
 ### Extensions
 - If language data is missing: System prints an error message.
@@ -223,7 +227,7 @@ As a data analyst, I want to view a report showing the number of people who spea
 
 ---
 
-## 8. View Population Data (Living in Cities / Total)
+## 8. Get Population Reports (Living in Cities / Total)
 
 **Goal in Context:**  
 As a data analyst, I want to view the total population, population living in cities, and population not living in cities for a specified area (continent, region, or country) so that I can understand urban vs rural distribution, and also I want to view the total population for a specified area (world, continent, region, country, district, or city) so that I can understand population totals at different levels.
