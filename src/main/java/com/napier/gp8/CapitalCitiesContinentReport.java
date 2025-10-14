@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Get data method extracts capital cities in a continent, ordered by desc from the database.
  * Print method displays the report.
  */
-public class CapitalCities_Continent {
+public class CapitalCitiesContinentReport {
 
     /**
      * Get capital cities data in a specific continent, sorted by population from largest to smallest.

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * It provides methods to get capital city data from the database and
  * print the results in format
  */
-public class CapitalCities_World {
+public class CapitalCitiesWorldReport {
 
     /**
      * Retrieves all capital cities in the world, ordered by largest population to smallest.

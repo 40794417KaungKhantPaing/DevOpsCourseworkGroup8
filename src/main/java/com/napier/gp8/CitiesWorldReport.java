@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Handles generating and retrieving City Report data.
  */
-public class Cities_World_Report {
+public class CitiesWorldReport {
     /**
      * Retrieves a list of all cities in the world ordered by largest population to smallest.
      * Columns: Name, Country, District, Population

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Handles generating and retrieving population reports by country.
  */
-public class Population_Country_Report {
+public class PopulationCountryReport {
 
     /**
      * Retrieves total population for all countries, ordered from largest to smallest.

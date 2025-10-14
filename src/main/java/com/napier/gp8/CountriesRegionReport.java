@@ -5,43 +5,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles generating and retrieving the Country Report for a specific continent.
+ * Handles generating and retrieving the Country Report for a specific region.
  */
-public class Countries_Continent {
+public class CountriesRegionReport {
 
     /**
-     * Retrieves a list of all countries within a specified continent,
+     * Retrieves a list of all countries within a specified region,
      * ordered by population (largest to smallest).
      * Columns: Name, Continent, Region, Population
      *
-     * @param conn      Active database connection
-     * @param continent Continent name (e.g., "Asia", "Europe")
+     * @param conn   Active database connection
+     * @param region Region name (e.g., "Southern and Central Asia", "Western Europe")
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public List<Country> getCountries_Continent_Report(Connection conn, String continent) {
+    public List<Country> getCountries_Region_Report(Connection conn, String region) {
 
         List<Country> countries = new ArrayList<>();
 
-        // 1. Check for null connection or invalid parameter
+        // 1. Validate connection and parameter
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate country report.");
+            System.err.println("Database not connected. Cannot generate region report.");
             return countries;
         }
-        if (continent == null || continent.trim().isEmpty()) {
-            System.err.println("Invalid continent name provided.");
+        if (region == null || region.trim().isEmpty()) {
+            System.err.println("Invalid region name provided.");
             return countries;
         }
 
-        // 2. Use PreparedStatement for safer parameter handling
+        // 2. Prepare SQL statement
         String sql = """
                 SELECT Name AS CountryName, Continent, Region, Population
                 FROM country
-                WHERE Continent = ?
+                WHERE Region = ?
                 ORDER BY Population DESC;
                 """;
 
+        // 3. Execute query using PreparedStatement
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, continent.trim());
+            pstmt.setString(1, region.trim());
 
             try (ResultSet rs = pstmt.executeQuery()) {
 
@@ -56,38 +57,35 @@ public class Countries_Continent {
             }
 
         } catch (SQLException e) {
-            // 3. Handle SQL exceptions and print error details
-            System.err.println("Error retrieving continent country report:");
+            // 4. Handle SQL exceptions
+            System.err.println("Error retrieving region country report:");
             System.err.println("SQL State: " + e.getSQLState());
             System.err.println("Error Code: " + e.getErrorCode());
             e.printStackTrace();
-            return countries; // Return empty list upon failure
+            return countries;
         }
 
-        // 4. Warn if no results found
+        // 5. Warn if empty result
         if (countries.isEmpty()) {
-            System.out.println("Warning: No country data found for continent '" + continent + "'.");
+            System.out.println("Warning: No country data found for region '" + region + "'.");
         }
 
         return countries;
     }
 
     /**
-     * Prints the Country Report for a specific continent to the console.
+     * Prints the Country Report for a specific region to the console.
      *
-     * @param continent Continent name
+     * @param region    Region name
      * @param countries List of Country objects
      */
-    public void printCountries_Continent_Report(String continent, List<Country> countries) {
-        System.out.println("2. All countries in a continent by population Report");
-        System.out.println("============================================================================================" +
-                "======================");
-        System.out.printf("Countries in %s (ordered by population):%n", continent);
-        System.out.println("============================================================================================" +
-                "======================");
+    public void printCountries_Region_Report(String region, List<Country> countries) {
+        System.out.println("3. All countries in a region by population Report");
+        System.out.println("==================================================================================================================");
+        System.out.printf("Countries in region: %s (ordered by population)%n", region);
+        System.out.println("==================================================================================================================");
         System.out.printf("%-35s %-35s %-20s %-15s%n", "Country Name", "Continent", "Region", "Population");
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "----------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
 
         for (Country country : countries) {
             System.out.printf("%-35s %-35s %-20s %-15d%n",

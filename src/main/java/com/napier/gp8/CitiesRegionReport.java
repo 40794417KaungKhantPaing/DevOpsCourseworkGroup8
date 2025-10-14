@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Handles generating and retrieving City Report data.
  */
-public class Cities_Region_Report {
+public class CitiesRegionReport {
     /**
      * Retrieves a list of all cities in a given region ordered by largest population to smallest.
      * Columns: Name, Country, District, Population

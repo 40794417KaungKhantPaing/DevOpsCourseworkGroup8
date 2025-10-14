@@ -66,36 +66,36 @@ public class App {
         app.connect();
 
         // Retrieve country world report
-        Countries_World countriesWorld = new Countries_World();
+        CountriesWorldReport countriesWorld = new CountriesWorldReport();
         List<Country> countriesWorldList = countriesWorld.getCountries_World_Report(app.conn);
         countriesWorld.printCountries_World_Report(countriesWorldList);
 
         // Retrieve country continent report
         String countries_Continent = "Asia";
-        Countries_Continent countriesContinentReport = new Countries_Continent();
+        CountriesContinentReport countriesContinentReport = new CountriesContinentReport();
         List<Country> countriesContinentList = countriesContinentReport.getCountries_Continent_Report(app.conn, countries_Continent);
         countriesContinentReport.printCountries_Continent_Report(countries_Continent, countriesContinentList);
 
         // Retrieve country region report
         String countries_Region = "Middle East";
-        Countries_Region countriesRegionReport = new Countries_Region();
+        CountriesRegionReport countriesRegionReport = new CountriesRegionReport();
         List<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
         countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
 
         // Retrieve city world report
-        Cities_World_Report citiesWorldReport = new Cities_World_Report();
+        CitiesWorldReport citiesWorldReport = new CitiesWorldReport();
         List<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
         citiesWorldReport.printCitiesWorldReport(citiesWorldList);
 
         // Retrieve city continent report
         String cities_Continent = "Asia";
-        Cities_Continent_Report citiesContinentReport = new Cities_Continent_Report();
+        CitiesContinentReport citiesContinentReport = new CitiesContinentReport();
         List<City> citiesContinentList = citiesContinentReport.getCities_By_Continent_Report(app.conn, cities_Continent);
         citiesContinentReport.printCities_By_Continent_Report(citiesContinentList, cities_Continent);
 
         // Retrieve city region report
         String cities_Region = "Caribbean";
-        Cities_Region_Report citiesRegionReport = new Cities_Region_Report();
+        CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
         List<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
         citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
 
@@ -104,7 +104,7 @@ public class App {
         //============================================================
 
         // Create instance of CapitalCities_World class
-        CapitalCities_World capitalCitiesWorldReport = new CapitalCities_World();
+        CapitalCitiesWorldReport capitalCitiesWorldReport = new CapitalCitiesWorldReport();
 
         // Get all capital cities in the world ordered by population (descending)
         ArrayList<City> capitalsWorldList = capitalCitiesWorldReport.getAllCapitalCitiesInWorldByPopulation(app.conn);
@@ -121,7 +121,7 @@ public class App {
         String capitalCities_Continent = "Asia";
 
         // Create instance to generate the continent level report
-        CapitalCities_Continent capitalCitiesContinentReport = new CapitalCities_Continent();
+        CapitalCitiesContinentReport capitalCitiesContinentReport = new CapitalCitiesContinentReport();
 
         // Get all capital cities within the specified continent, ordered by population (Descending)
         ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
@@ -138,7 +138,7 @@ public class App {
         String capitalCities_Region = "Middle East";
 
         // Create instance to generate the region-level report.
-        CapitalCities_Region capitalCitiesRegionReport = new CapitalCities_Region();
+        CapitalCitiesRegionReport capitalCitiesRegionReport = new CapitalCitiesRegionReport();
 
         // Retrieve all capital cities with the specified region, ordered by population (Descending)
         ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
@@ -150,19 +150,19 @@ public class App {
         //------------------------------------------
 
         // Retrieve population data using the Population_Continent_Report class
-        Population_Continent_Report populationContinentReport = new Population_Continent_Report();
+        PopulationContinentReport populationContinentReport = new PopulationContinentReport();
         List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
         // Print the report
         populationContinentReport.printPopulation_Continent_Report(populationContinentList);
 
         // Retrieve population data using the Population_Region_Report class
-        Population_Region_Report populationRegionReport = new Population_Region_Report();
+        PopulationRegionReport populationRegionReport = new PopulationRegionReport();
         List<Country> populationRegionList = populationRegionReport.getPopulation_Region_Report(app.conn);
         // Print the report
         populationRegionReport.printPopulation_Region_Report(populationRegionList);
 
         // Retrieve population data using the Population_Country_Report class
-        Population_Country_Report populationCountryReport = new Population_Country_Report();
+        PopulationCountryReport populationCountryReport = new PopulationCountryReport();
         List<Country> populationCountryList = populationCountryReport.getPopulation_Country_Report(app.conn);
         // Print the report
         populationCountryReport.printPopulation_Country_Report(populationCountryList);
@@ -173,7 +173,7 @@ public class App {
         //============================================================
 
         // Create instance of language_population class
-        Language_Population languageReport = new Language_Population();
+        LanguagePopulationReport languageReport = new LanguagePopulationReport();
 
         // Declare arraylist to hold the data
         ArrayList<String> languageNames = new ArrayList<>();

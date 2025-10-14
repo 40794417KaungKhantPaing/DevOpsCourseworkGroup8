@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * - Statement and ResultSet Use try-with-resources.
  * - Use ArrayList consistently
  */
-public class Language_Population {
+public class LanguagePopulationReport {
 
     /**
      * Retrieves the population and world percentage of speakers for major languages.

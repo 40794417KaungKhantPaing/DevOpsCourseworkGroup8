@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Handles generating and retrieving City Report data by continent.
  */
-public class Cities_Continent_Report {
+public class CitiesContinentReport {
 
     /**
      * Retrieves a list of all cities in a given continent ordered by largest population to smallest.

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Handles generating and retrieving the Country Report for the world.
  */
-public class Countries_World {
+public class CountriesWorldReport {
 
     /**
      * Retrieves a list of all countries in the world ordered by population (largest to smallest).

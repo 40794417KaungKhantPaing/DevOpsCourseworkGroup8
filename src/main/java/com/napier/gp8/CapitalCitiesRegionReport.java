@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Get data method extracts the capital cities data in a region, ordered by desc from database.
  * Print method displays the report.
  */
-public class CapitalCities_Region {
+public class CapitalCitiesRegionReport {
 
     /**
      * Retrieves all capital cities in a specific region, ordered by population descending.
