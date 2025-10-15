@@ -146,7 +146,6 @@ public class App {
         // Print the capital cities in the specified region report
         capitalCitiesRegionReport.printCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
 
-
         //------------------------------------------
 
         // Retrieve population data using the PopulationContinentReport class
