@@ -173,6 +173,11 @@ public class App {
         //Print the report
         populationDistrictReport.printPopulation_District_Report(populationDistrictList);
 
+        //Retrieve population data using the PopulationCityReport class
+        PopulationCityReport populationCityReport = new PopulationCityReport();
+        List<City> populationCityList = populationCityReport.getPopulation_City_Report(app.conn);
+        //Print the report
+        populationCityReport.printPopulation_City_Report(populationCityList);
 
         //============================================================
         // REPORT: Language Population
