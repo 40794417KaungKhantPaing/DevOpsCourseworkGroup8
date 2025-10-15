@@ -3,11 +3,16 @@ package com.napier.gp8;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generating and retrieving population reports by region.
  */
 public class PopulationRegionReport {
+
+    // Logger instance for this class
+    private static final Logger LOGGER = Logger.getLogger(PopulationRegionReport.class.getName());
 
     /**
      * Retrieves total population grouped by region, ordered from largest to smallest.
@@ -20,12 +25,13 @@ public class PopulationRegionReport {
 
         List<Country> countries = new ArrayList<>();
 
-        // 1. Check for null connection and return an empty list upon failure.
+        // 1. Check for null connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate population report by region.");
+            LOGGER.warning("Database not connected. Cannot generate population report by region.");
             return countries;
         }
 
+        // SQL query for total population by region
         String sql = """
                 SELECT Region, SUM(Population) AS TotalPopulation
                 FROM country
@@ -33,31 +39,26 @@ public class PopulationRegionReport {
                 ORDER BY TotalPopulation DESC;
                 """;
 
-        // 2. Use try-with-resources for automatic Statement closing
-        try (Statement stmt = conn.createStatement()) {
+        // 2. Use try-with-resources for automatic Statement and ResultSet closing
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            // 3. Use try-with-resources for automatic ResultSet closing
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                while (rs.next()) {
-                    Country country = new Country();
-                    country.setRegion(rs.getString("Region"));
-                    country.setPopulation(rs.getLong("TotalPopulation"));
-                    countries.add(country);
-                }
+            while (rs.next()) {
+                Country country = new Country();
+                country.setRegion(rs.getString("Region"));
+                country.setPopulation(rs.getLong("TotalPopulation"));
+                countries.add(country);
             }
 
         } catch (SQLException e) {
-            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving population report by region:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            // 3. Log SQL errors instead of printing stack traces
+            LOGGER.log(Level.SEVERE, "Error retrieving population report by region.", e);
             return countries;
         }
 
-        // 5. Check for Missing Data
+        // 4. Warn if no data found
         if (countries.isEmpty()) {
-            System.out.println("Warning: No population data found by region. Report will be empty.");
+            LOGGER.warning("No population data found by region. Report will be empty.");
         }
 
         return countries;
@@ -83,5 +84,4 @@ public class PopulationRegionReport {
         System.out.println("--------------------------------------------------------------------");
         System.out.println("====================================================================\n");
     }
-
 }

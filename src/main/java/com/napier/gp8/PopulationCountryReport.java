@@ -3,11 +3,16 @@ package com.napier.gp8;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generating and retrieving population reports by country.
  */
 public class PopulationCountryReport {
+
+    // Logger instance for this class
+    private static final Logger LOGGER = Logger.getLogger(PopulationCountryReport.class.getName());
 
     /**
      * Retrieves total population for all countries, ordered from largest to smallest.
@@ -22,10 +27,11 @@ public class PopulationCountryReport {
 
         // 1. Check for null connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate population report by country.");
+            LOGGER.warning("Database not connected. Cannot generate population report by country.");
             return countries;
         }
 
+        // SQL query to retrieve all countries sorted by population
         String sql = """
                 SELECT Name, Population
                 FROM country
@@ -44,17 +50,14 @@ public class PopulationCountryReport {
             }
 
         } catch (SQLException e) {
-            // 3. Handle SQL errors gracefully
-            System.err.println("Error retrieving population report by country:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            // 3. Log SQL errors instead of printing stack traces
+            LOGGER.log(Level.SEVERE, "Error retrieving population report by country.", e);
             return countries;
         }
 
-        // 4. Check if data was retrieved
+        // 4. Log a warning if no data was retrieved
         if (countries.isEmpty()) {
-            System.out.println("Warning: No country population data found. Report will be empty.");
+            LOGGER.warning("No country population data found. Report will be empty.");
         }
 
         return countries;
@@ -80,5 +83,4 @@ public class PopulationCountryReport {
         System.out.println("---------------------------------------------------------------------");
         System.out.println("=====================================================================\n");
     }
-
 }

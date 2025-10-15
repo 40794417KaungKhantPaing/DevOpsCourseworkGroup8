@@ -149,23 +149,29 @@ public class App {
 
         //------------------------------------------
 
-        // Retrieve population data using the Population_Continent_Report class
+        // Retrieve population data using the PopulationContinentReport class
         PopulationContinentReport populationContinentReport = new PopulationContinentReport();
         List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
         // Print the report
         populationContinentReport.printPopulation_Continent_Report(populationContinentList);
 
-        // Retrieve population data using the Population_Region_Report class
+        // Retrieve population data using the PopulationRegionReport class
         PopulationRegionReport populationRegionReport = new PopulationRegionReport();
         List<Country> populationRegionList = populationRegionReport.getPopulation_Region_Report(app.conn);
         // Print the report
         populationRegionReport.printPopulation_Region_Report(populationRegionList);
 
-        // Retrieve population data using the Population_Country_Report class
+        // Retrieve population data using the PopulationCountryReport class
         PopulationCountryReport populationCountryReport = new PopulationCountryReport();
         List<Country> populationCountryList = populationCountryReport.getPopulation_Country_Report(app.conn);
         // Print the report
         populationCountryReport.printPopulation_Country_Report(populationCountryList);
+
+        //Retrieve population data using the PopulationDistrictReport class
+        PopulationDistrictReport populationDistrictReport = new PopulationDistrictReport();
+        List<Country> populationDistrictList = populationDistrictReport.getPopulation_District_Report(app.conn);
+        //Print the report
+        populationDistrictReport.printPopulation_District_Report(populationDistrictList);
 
 
         //============================================================
