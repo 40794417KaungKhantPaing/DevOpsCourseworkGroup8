@@ -148,6 +148,12 @@ public class App {
 
         //------------------------------------------
 
+        // Retrieve population data using the PopulationWorldReport class
+        PopulationWorldReport worldReport = new PopulationWorldReport();
+        long worldPop = worldReport.getPopulation_World_Report(app.conn);
+        // Print the report
+        worldReport.printPopulation_World_Report(worldPop);
+
         // Retrieve population data using the PopulationContinentReport class
         PopulationContinentReport populationContinentReport = new PopulationContinentReport();
         List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
