@@ -64,7 +64,7 @@ public class PopulationContinentReport {
      * @param countries List of Country objects
      */
     protected void printPopulation_Continent_Report(List<Country> countries) {
-        System.out.println("\n==================== Population by Continent Report ====================");
+        System.out.println("\n==================== ReportID 27. Population by Continent Report ====================");
         System.out.println("------------------------------------------------------------");
         System.out.printf("%-20s %-20s%n", "Continent", "Total Population");
         System.out.println("------------------------------------------------------------");
@@ -143,7 +143,7 @@ public class PopulationContinentReport {
      * @param results List of Country objects
      */
     protected void printPopulation_City_vs_NonCity_ByContinent(List<Country> results) {
-        System.out.println("\n==================== Population in Cities vs Not in Cities by Continent ====================");
+        System.out.println("\n==================== ReportID 23. Population in Cities vs Not in Cities by Continent ====================");
         System.out.println("---------------------------------------------------------------------------------------------");
         System.out.printf("%-20s %-20s %-20s %-20s%n",
                 "Continent", "Total Population", "City Population", "Non-City Population");

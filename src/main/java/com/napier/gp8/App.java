@@ -149,44 +149,44 @@ public class App {
         //------------------------------------------
 
 
-        // Retrieve population data using the PopulationContinentReport class
+        //23 Retrieve population data using the PopulationContinentReport class
         PopulationContinentReport report = new PopulationContinentReport();
         // Get and print population breakdown by continent
         List<Country> populations = report.getPopulation_City_vs_NonCity_ByContinent(app.conn);
         report.printPopulation_City_vs_NonCity_ByContinent(populations);
 
 
-        // Retrieve population data using the PopulationWorldReport class
+        //26 Retrieve population data using the PopulationWorldReport class
         PopulationWorldReport worldReport = new PopulationWorldReport();
         long worldPop = worldReport.getPopulation_World_Report(app.conn);
         // Print the report
         worldReport.printPopulation_World_Report(worldPop);
 
-        // Retrieve population data using the PopulationContinentReport class
+        //27 Retrieve population data using the PopulationContinentReport class
         PopulationContinentReport populationContinentReport = new PopulationContinentReport();
         List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
         // Print the report
         populationContinentReport.printPopulation_Continent_Report(populationContinentList);
 
-        // Retrieve population data using the PopulationRegionReport class
+        //28 Retrieve population data using the PopulationRegionReport class
         PopulationRegionReport populationRegionReport = new PopulationRegionReport();
         List<Country> populationRegionList = populationRegionReport.getPopulation_Region_Report(app.conn);
         // Print the report
         populationRegionReport.printPopulation_Region_Report(populationRegionList);
 
-        // Retrieve population data using the PopulationCountryReport class
+        //29 Retrieve population data using the PopulationCountryReport class
         PopulationCountryReport populationCountryReport = new PopulationCountryReport();
         List<Country> populationCountryList = populationCountryReport.getPopulation_Country_Report(app.conn);
         // Print the report
         populationCountryReport.printPopulation_Country_Report(populationCountryList);
 
-        //Retrieve population data using the PopulationDistrictReport class
+        //30 Retrieve population data using the PopulationDistrictReport class
         PopulationDistrictReport populationDistrictReport = new PopulationDistrictReport();
         List<Country> populationDistrictList = populationDistrictReport.getPopulation_District_Report(app.conn);
         //Print the report
         populationDistrictReport.printPopulation_District_Report(populationDistrictList);
 
-        //Retrieve population data using the PopulationCityReport class
+        //31 Retrieve population data using the PopulationCityReport class
         PopulationCityReport populationCityReport = new PopulationCityReport();
         List<City> populationCityList = populationCityReport.getPopulation_City_Report(app.conn);
         //Print the report

@@ -71,7 +71,7 @@ public class PopulationCityReport {
      * @param cities List of City objects
      */
     protected void printPopulation_City_Report(List<City> cities) {
-        System.out.println("\n==================== Population by City Report ====================");
+        System.out.println("\n==================== Report ID 31. Population by City Report ====================");
         System.out.println("-------------------------------------------------------------------");
         System.out.printf("%-30s %-20s %-15s %-15s%n", "City Name", "District", "Country Code", "Population");
         System.out.println("-------------------------------------------------------------------");

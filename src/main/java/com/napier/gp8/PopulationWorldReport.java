@@ -61,7 +61,7 @@ public class PopulationWorldReport {
      * @param totalPopulation Total population of the world
      */
     protected void printPopulation_World_Report(long totalPopulation) {
-        System.out.println("\n==================== Population of the World Report ====================");
+        System.out.println("\n==================== ReportID 26. Population of the World Report ====================");
         System.out.println("-----------------------------------------------------------------------");
         System.out.printf("%-40s %,20d%n", "Total World Population", totalPopulation);
         System.out.println("-----------------------------------------------------------------------");

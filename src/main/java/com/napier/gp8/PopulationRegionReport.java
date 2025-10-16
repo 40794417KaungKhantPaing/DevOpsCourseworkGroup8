@@ -70,7 +70,7 @@ public class PopulationRegionReport {
      * @param countries List of Country objects
      */
     protected void printPopulation_Region_Report(List<Country> countries) {
-        System.out.println("\n==================== Population by Region Report ====================");
+        System.out.println("\n==================== ReportID 28. Population by Region Report ====================");
         System.out.println("--------------------------------------------------------------------");
         System.out.printf("%-30s %-20s%n", "Region", "Total Population");
         System.out.println("--------------------------------------------------------------------");
