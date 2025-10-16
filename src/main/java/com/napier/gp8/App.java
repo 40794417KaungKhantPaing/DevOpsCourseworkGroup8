@@ -161,6 +161,12 @@ public class App {
         // Print the report
         regionReport.printPopulation_Region_Details_Report(regions);
 
+        // 25 Retrieve and print population data by country (city vs non-city)
+        PopulationCountryReport countryReport = new PopulationCountryReport();
+        List<Country> countryPopulations = countryReport.getPopulation_City_vs_NonCity_ByCountry(app.conn);
+        // Print the report
+        countryReport.printPopulation_City_vs_NonCity_ByCountry(countryPopulations);
+
         //26 Retrieve population data using the PopulationWorldReport class
         PopulationWorldReport worldReport = new PopulationWorldReport();
         long worldPop = worldReport.getPopulation_World_Report(app.conn);
