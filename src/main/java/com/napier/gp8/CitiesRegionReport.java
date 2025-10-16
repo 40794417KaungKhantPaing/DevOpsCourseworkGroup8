@@ -30,6 +30,12 @@ public class CitiesRegionReport extends CitiesReportBase {
         // Initialize an empty list to hold city data
         ArrayList<City> cities = new ArrayList<>();
 
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
+
         // SQL query: selects cities and their related country names
         // filtered by region, sorted by population in descending order.
         String query = """
@@ -75,6 +81,12 @@ public class CitiesRegionReport extends CitiesReportBase {
     public ArrayList<City> getTopNCitiesRegionReport(Connection conn, String region, int n) {
         // Initialize an empty list for city results
         ArrayList<City> cities = new ArrayList<>();
+
+        // Check for null connection or invalid input
+        if (conn == null){
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
 
         // SQL query: selects cities from the specified region,
         // ordered by population descending, limited to top N results.

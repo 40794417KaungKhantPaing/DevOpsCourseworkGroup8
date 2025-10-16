@@ -30,6 +30,12 @@ public class CitiesContinentReport extends CitiesReportBase {
         // Initialize a list to hold City objects
         ArrayList<City> cities = new ArrayList<>();
 
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
+
         // SQL query: Select all cities that belong to countries in the specified continent,
         // joining the city and country tables to include the country name.
         // Results are sorted in descending order by population.
@@ -76,6 +82,12 @@ public class CitiesContinentReport extends CitiesReportBase {
     public ArrayList<City> getTopNCitiesContinentReport(Connection conn, String continent, int topN) {
         // Initialize a list to hold City objects
         ArrayList<City> cities = new ArrayList<>();
+
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
 
         // SQL query: Select cities within the specified continent, ordered by population,
         // but only return the top N results based on the LIMIT parameter.

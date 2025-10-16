@@ -23,6 +23,12 @@ public class CitiesWorldReport extends CitiesReportBase {
         // Initialize an empty list to store city data
         ArrayList<City> cities = new ArrayList<>();
 
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
+
         // SQL query to retrieve all cities joined with their corresponding countries
         // Ordered by population in descending order
         String query = """
@@ -61,6 +67,12 @@ public class CitiesWorldReport extends CitiesReportBase {
     public ArrayList<City> getTopNCitiesWorldReport(Connection conn, int topN) {
         // Initialize an empty list to store city data
         ArrayList<City> cities = new ArrayList<>();
+
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
+        }
 
         // SQL query to retrieve only the top N cities by population
         String query = """
