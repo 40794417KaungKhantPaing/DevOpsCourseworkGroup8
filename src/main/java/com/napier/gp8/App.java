@@ -82,10 +82,15 @@ public class App {
         List<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
         countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
 
-        // Retrieve city world report
         CitiesWorldReport citiesWorldReport = new CitiesWorldReport();
-        List<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
+        // All cities in world
+        ArrayList<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
         citiesWorldReport.printCitiesWorldReport(citiesWorldList);
+
+        // Top N cities in world
+        int cities_World_N = 10;
+        ArrayList<City> topnCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, cities_World_N);
+        citiesWorldReport.printTopNCitiesWorldReport(topnCitiesWorldList, cities_World_N);
 
         // Retrieve city continent report
         String cities_Continent = "Asia";
@@ -93,6 +98,7 @@ public class App {
         List<City> citiesContinentList = citiesContinentReport.getCities_By_Continent_Report(app.conn, cities_Continent);
         citiesContinentReport.printCities_By_Continent_Report(citiesContinentList, cities_Continent);
 
+        // -------------------------------------------------------------------------
         // Retrieve city region report
         String cities_Region = "Caribbean";
         CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
