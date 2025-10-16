@@ -25,6 +25,12 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
         //arraylist to hold the retrieved the capital cities data
         ArrayList<City> capitals = new ArrayList<>();
 
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display All Capital Cities in the World Report");
+            return capitals;
+        }
+
         // SQL query to extract data from database, the query join 'country' and 'city' tables, ordered by population
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
@@ -60,6 +66,12 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
     public ArrayList<City> getTopNCapitalCitiesInWorldByPopulation(Connection conn, int numberOfCapitalCities) {
         //arraylist to store capitals
         ArrayList<City> capitals = new ArrayList<>();
+
+        //Validate connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display Top N Capital Cities in the World Report");
+            return capitals;
+        }
 
         //query for top n capital cities
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +

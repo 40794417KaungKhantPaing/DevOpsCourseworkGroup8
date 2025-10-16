@@ -23,6 +23,12 @@ public class CapitalCitiesContinentReport extends CapitalCitiesReportBase {
     public ArrayList<City> getAllCapitalCitiesInContinentByPopulation(Connection conn, String continent) {
         ArrayList<City> capitals = new ArrayList<>(); // ArrayList to hold the retrieved capital cities data
 
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display  All Capital Cities in the Continent Report.");
+            return capitals;
+        }
+
         // SQL query to get capitals in the specified continent, ordered by population
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
@@ -57,6 +63,13 @@ public class CapitalCitiesContinentReport extends CapitalCitiesReportBase {
      */
     public ArrayList<City> getTopNCapitalCitiesInContinentByPopulation(Connection conn, String continent, int numberOfCapitalCities) {
         ArrayList<City> capitals = new ArrayList<>();
+
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display Top N Capital Cities in the Continent Report.");
+            return capitals;
+        }
+
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
                 "JOIN city c ON co.Capital = c.ID " +

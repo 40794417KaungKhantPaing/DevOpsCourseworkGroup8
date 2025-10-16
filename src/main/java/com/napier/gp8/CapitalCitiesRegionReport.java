@@ -23,6 +23,12 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
         // ArrayList to hold the retrieved capital cities data
         ArrayList<City> capitals = new ArrayList<>();
 
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display All Capital Cities in the Region Report");
+            return capitals;
+        }
+
         // SQL query to get capitals in the specified region, ordered by population
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
@@ -60,6 +66,13 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
      */
     public ArrayList<City> getTopNCapitalCitiesInRegionByPopulation(Connection conn, String region, int numberOfCapitalCities) {
         ArrayList<City> capitals = new ArrayList<>();
+
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display Top N Capital Cities in the Region Report");
+            return capitals;
+        }
+
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
                 "JOIN city c ON co.Capital = c.ID " +
