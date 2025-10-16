@@ -149,12 +149,17 @@ public class App {
         //------------------------------------------
 
 
-        //23 Retrieve population data using the PopulationContinentReport class
-        PopulationContinentReport report = new PopulationContinentReport();
-        // Get and print population breakdown by continent
-        List<Country> populations = report.getPopulation_City_vs_NonCity_ByContinent(app.conn);
-        report.printPopulation_City_vs_NonCity_ByContinent(populations);
+        // 23 Retrieve population data using the PopulationContinentReport class
+        PopulationContinentReport continentReport = new PopulationContinentReport();
+        List<Country> populations = continentReport.getPopulation_City_vs_NonCity_ByContinent(app.conn);
+        // Print the report
+        continentReport.printPopulation_City_vs_NonCity_ByContinent(populations);
 
+        //24 Retrieve and print population data by region
+        PopulationRegionReport regionReport = new PopulationRegionReport();
+        List<Country> regions = regionReport.getPopulation_Region_Details_Report(app.conn);
+        // Print the report
+        regionReport.printPopulation_Region_Details_Report(regions);
 
         //26 Retrieve population data using the PopulationWorldReport class
         PopulationWorldReport worldReport = new PopulationWorldReport();
