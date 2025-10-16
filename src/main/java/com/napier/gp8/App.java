@@ -113,6 +113,23 @@ public class App {
         capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorldList);
 
         //============================================================
+        // REPORT: Capital Cities in a Continent
+        //============================================================
+
+        // Define the continent for which the report will be generated.
+        String capitalCities_Continent = "Asia";
+
+        // Create instance to generate the continent level report
+        CapitalCitiesContinentReport capitalCitiesContinentReport = new CapitalCitiesContinentReport();
+
+        // Get all capital cities within the specified continent, ordered by population (Descending)
+        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getAllCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
+
+        // Print the capital cities in the specified continent report.
+        capitalCitiesContinentReport.printAllCapitalCitiesInContinentByPopulation(capitalsContinentList,capitalCities_Continent);
+
+
+        //============================================================
         // REPORT: Top N Capital Cities in the World
         //============================================================
 
@@ -122,6 +139,15 @@ public class App {
         //print top n capital cities in the world
         capitalCitiesWorldReport.printTopNCapitalCitiesInWorldByPopulation(topNCapitalsWorldList,10);
 
+        //============================================================
+        // REPORT: Top N Capital Cities in a Continent
+        //============================================================
+
+        //Get top n capital cities within the specified continent, ordered by population (Descending)
+        ArrayList<City> topNCapitalsContinentList = capitalCitiesContinentReport.getTopNCapitalCitiesInContinentByPopulation(app.conn,capitalCities_Continent,10);
+
+        //Print top n capital cities in the specified continent report.
+        capitalCitiesContinentReport.printTopNCapitalCitiesInContinentByPopulation(topNCapitalsContinentList,capitalCities_Continent,10);
 
 
         //------------------------------------------
