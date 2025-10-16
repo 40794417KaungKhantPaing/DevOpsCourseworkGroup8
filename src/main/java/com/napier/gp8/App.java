@@ -99,6 +99,12 @@ public class App {
         List<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
         citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
 
+        // Retrieve city country report
+        String cities_Country = "Myanmar";
+        CitiesCountryReport citiesCountryReport = new CitiesCountryReport();
+        ArrayList<City> cityCountryList = citiesCountryReport.getCitiesCountryReport(app.conn, cities_Country);
+        citiesCountryReport.printCitiesCountryReport(cityCountryList, cities_Country);
+
         // Retrieve city district report
         String cities_District = "Rio de Janeiro";
         CitiesDistrictReport citiesDistrictReport = new CitiesDistrictReport();
