@@ -76,17 +76,17 @@ public class CitiesReportBase {
 
 
         // Print the report title
-        System.out.println("\n========================" + reportTitle + "=======================");
+        System.out.println("\n==========================" + reportTitle + "=========================");
         // Print a separator line for readability
         System.out.println("--------------------------------------------------------------------------------------------" +
-                "--------------------------------");
+                "------------------------------");
         // Print the table header (column titles)
         System.out.printf("%-35s %-35s %-20s %-15s%n",
                 "City", "Country", "District", "Population");
 
         // Print a separator line for readability
         System.out.println("--------------------------------------------------------------------------------------------" +
-                "--------------------------------");
+                "------------------------------");
 
         // Loop through each City object and print its details
         for (City city : cities) {
@@ -102,7 +102,7 @@ public class CitiesReportBase {
 
         // Print a closing separator line
         System.out.println("--------------------------------------------------------------------------------------------" +
-                "--------------------------------");
+                "------------------------------");
         System.out.println("============================================================================================" +
                 "================================");
     }
