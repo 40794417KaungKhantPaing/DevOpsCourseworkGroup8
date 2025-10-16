@@ -112,43 +112,6 @@ public class App {
         // Print the capital cities in world report
         capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorldList);
 
-
-        //============================================================
-        // REPORT: Capital Cities in a Continent
-        //============================================================
-
-        // Define the continent for which the report will be generated.
-        String capitalCities_Continent = "Asia";
-
-        // Create instance to generate the continent level report
-        CapitalCitiesContinentReport capitalCitiesContinentReport = new CapitalCitiesContinentReport();
-
-        // Get all capital cities within the specified continent, ordered by population (Descending)
-        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getAllCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
-
-        // Print the capital cities in the specified continent report.
-        capitalCitiesContinentReport.printAllCapitalCitiesInContinentByPopulation(capitalsContinentList,capitalCities_Continent);
-
-
-
-        //============================================================
-        // REPORT: Capital Cities in a Region
-        //============================================================
-
-        // Define the region for which the report will be generated.
-        String capitalCities_Region = "Middle East";
-
-        // Create instance to generate the region-level report.
-        CapitalCitiesRegionReport capitalCitiesRegionReport = new CapitalCitiesRegionReport();
-
-        // Retrieve all capital cities with the specified region, ordered by population (Descending)
-        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getAllCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
-
-        // Print the capital cities in the specified region report
-        capitalCitiesRegionReport.printAllCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
-
-
-
         //============================================================
         // REPORT: Top N Capital Cities in the World
         //============================================================
