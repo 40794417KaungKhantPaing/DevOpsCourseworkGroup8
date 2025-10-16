@@ -67,7 +67,7 @@ public class App {
 
         // Retrieve country world report
         CountriesWorldReport countriesWorld = new CountriesWorldReport();
-        List<Country> countriesWorldList = countriesWorld.getCountries_World_Report(app.conn);
+        ArrayList<Country> countriesWorldList = countriesWorld.getCountries_World_Report(app.conn);
         countriesWorld.printCountries_World_Report(countriesWorldList);
 
         // Retrieve country continent report
@@ -81,6 +81,10 @@ public class App {
         CountriesRegionReport countriesRegionReport = new CountriesRegionReport();
         List<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
         countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
+
+        //Retrieve top n countries report
+        ArrayList<Country> topNCountries = countriesWorld.getTopNCountries_World_Report(app.conn,10);
+        countriesWorld.printTopNCountries_World_Report(topNCountries,10);
 
         // Retrieve city world report
         CitiesWorldReport citiesWorldReport = new CitiesWorldReport();

@@ -2,88 +2,84 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Handles generating and retrieving the Country Report for the world.
+ * CountriesWorldReport extends CountriesReportBase and provides
+ * methods to retrieve and print countries globally by population.
  */
-public class CountriesWorldReport {
+public class CountriesWorldReport extends CountriesReportBase {
 
     /**
-     * Retrieves a list of all countries in the world ordered by population (largest to smallest).
-     * Columns: Name, Continent, Region, Population
+     * Retrieves all countries in the world ordered by population descending.
      *
-     * @param conn Active database connection
-     * @return List of Country objects, or an empty list if an error occurs or no data is found.
+     * @param conn Active database connection.
+     * @return List of Country objects.
      */
-    public List<Country> getCountries_World_Report(Connection conn) {
+    public ArrayList<Country> getCountries_World_Report(Connection conn) {
+        ArrayList<Country> countries = new ArrayList<>();
 
-        List<Country> countries = new ArrayList<>();
+        // SQL query to retrieve all countries by population descending
+        String query = "SELECT Name AS CountryName, Continent, Region, Population " +
+                "FROM country ORDER BY Population DESC";
 
-        // 1. Check for null connection and return an empty list upon failure.
-        if (conn == null) {
-            System.err.println("Database not connected. Cannot generate country report.");
-            return countries;
-        }
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-        // 2. Use try-with-resources for automatic Statement closing
-        try (Statement stmt = conn.createStatement()) {
-
-            String sql = """
-                    SELECT Name AS CountryName, Continent, Region, Population
-                    FROM country
-                    ORDER BY Population DESC;
-                    """;
-
-            // 3. Execute query and handle results safely
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-
-                while (rs.next()) {
-                    Country country = new Country();
-                    country.setCountryName(rs.getString("CountryName"));
-                    country.setContinent(rs.getString("Continent"));
-                    country.setRegion(rs.getString("Region"));
-                    country.setPopulation(rs.getInt("Population"));
-                    countries.add(country);
-                }
-            }
+            countries = buildCountriesFromResultSet(resultSet);
 
         } catch (SQLException e) {
-            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving country report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
+            System.err.println("Error getting country report due to a database issue.");
             e.printStackTrace();
-            return countries; // Return empty list upon failure
-        }
 
-        // 5. Warn if no data was retrieved
-        if (countries.isEmpty()) {
-            System.out.println("Warning: No country data was found in the database. Report will be empty.");
+            return countries;
         }
 
         return countries;
     }
 
     /**
-     * Prints the Country Report to the console.
+     * Retrieves the top N countries in the world ordered by population descending.
      *
-     * @param countries List of Country objects
+     * @param conn Active database connection.
+     * @param numberOfCountries Number of top countries to show
+     * @return List of Country objects.
      */
-    public void printCountries_World_Report(List<Country> countries) {
-        System.out.println("1. All countries in the world by population Report");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-35s %-35s %-20s %-15s%n", "Country Name", "Continent", "Region", "Population");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+    public ArrayList<Country> getTopNCountries_World_Report(Connection conn, int numberOfCountries) {
+        ArrayList<Country> countries = new ArrayList<>();
 
-        for (Country country : countries) {
-            System.out.printf("%-35s %-35s %-20s %-15d%n",
-                    country.getCountryName(),
-                    country.getContinent(),
-                    country.getRegion(),
-                    country.getPopulation());
+        String query = "SELECT Name AS CountryName, Continent, Region, Population " +
+                "FROM country ORDER BY Population DESC LIMIT ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, numberOfCountries);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                countries = buildCountriesFromResultSet(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting top countries report due to a database issue.");
+            e.printStackTrace();
+            return countries;
         }
 
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        return countries;
     }
+
+    /**
+     * Prints all countries in the world in population descending order.
+     *
+     * @param countries List of countries
+     */
+    public void printCountries_World_Report(ArrayList<Country> countries) {
+        printCountries(countries, "All Countries in the World Report");
+    }
+
+    /**
+     * Prints the top N countries in the world by population descending
+     * @param countries List of countries to print.
+     * @param numberOfCountries Number of top countries
+     */
+    public void printTopNCountries_World_Report(ArrayList<Country> countries, int numberOfCountries) {
+        printCountries(countries, "Top " + numberOfCountries + " Countries in the World Report");
+    }
+
 }
