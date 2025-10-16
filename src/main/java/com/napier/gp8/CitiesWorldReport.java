@@ -113,7 +113,7 @@ public class CitiesWorldReport extends CitiesReportBase {
      * @param cities The list of cities to display.
      */
     public void printCitiesWorldReport(ArrayList<City> cities) {
-        printCities(cities, "All Cities in the World (Ordered by Population Descending)");
+        printCities(cities, "ReportID 7. All Cities in the World Report");
     }
 
     /**
@@ -124,6 +124,6 @@ public class CitiesWorldReport extends CitiesReportBase {
      * @param topN The number of top cities included in the report.
      */
     public void printTopNCitiesWorldReport(ArrayList<City> cities, int topN) {
-        printCities(cities, "Top " + topN + " Cities in the World (Ordered by Population Descending)");
+        printCities(cities, "ReportID 12. Top " + topN + " Cities in the World Report");
     }
 }

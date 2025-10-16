@@ -116,6 +116,25 @@ public class App {
         ArrayList<City> topnCitiesRegionList = citiesRegionReport.getTopNCitiesRegionReport(app.conn, cities_Region, cities_Region_N);
         citiesRegionReport.printTopNCitiesRegionReport(topnCitiesRegionList, cities_Region, cities_Region_N);
 
+        // Retrieve city country report
+        String cities_Country = "Myanmar";
+        CitiesCountryReport citiesCountryReport = new CitiesCountryReport();
+        ArrayList<City> cityCountryList = citiesCountryReport.getCitiesCountryReport(app.conn, cities_Country);
+        citiesCountryReport.printCitiesCountryReport(cityCountryList, cities_Country);
+
+        // Retrieve top N populated cities in a country report
+        int cities_Country_N = 10;  // Number of top cities to display
+        ArrayList<City> topnCitiesCountryList = citiesCountryReport.getTopNCitiesCountryReport(app.conn, cities_Country, cities_Country_N);
+        citiesCountryReport.printTopNCitiesCountryReport(topnCitiesCountryList, cities_Country, cities_Country_N);
+
+        // Retrieve city district report
+        String cities_District = "Rio de Janeiro";
+        CitiesDistrictReport citiesDistrictReport = new CitiesDistrictReport();
+        ArrayList<City> cityDistrictList = citiesDistrictReport.getCitiesDistrictReport(app.conn, cities_District);
+        citiesDistrictReport.printCitiesDistrictReport(cityDistrictList, cities_District);
+
+
+
         // -------------------------------------------------------------------------
 
         //============================================================
