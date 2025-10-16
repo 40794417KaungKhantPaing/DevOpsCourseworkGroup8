@@ -105,7 +105,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
     public void printAllCapitalCitiesInRegionByPopulation(ArrayList<City> capitals, String region) {
 
         //call general print method from base class
-        printCapitalCities(capitals, "All Capital Cities in Region: " + region + " Report");
+        printCapitalCities(capitals, "\n==================== ReportID 19. All Capital Cities in Region: " + region + " Report ====================");
     }
 
     /**
@@ -116,7 +116,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
      * @param numberOfCapitalCities Number of top capitals displayed
      */
     public void printTopNCapitalCitiesInRegionByPopulation(ArrayList<City> capitals, String region, int numberOfCapitalCities) {
-        printCapitalCities(capitals, "Top " + numberOfCapitalCities + " Capital Cities in Region: " + region + " Report");
+        printCapitalCities(capitals, "\n==================== ReportID 22. Top " + numberOfCapitalCities + " Capital Cities in Region: " + region + " Report ====================");
     }
 
 }
