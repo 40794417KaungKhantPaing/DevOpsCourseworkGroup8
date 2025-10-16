@@ -1,37 +1,38 @@
 package com.napier.gp8;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Handles generating and retrieving City Report data.
+ * Handles region-based city reports such as:
+ * - Listing all cities within a specific region
+ * - Listing the top N most populated cities in a region
+ * This class extends {@link CitiesReportBase}, allowing it to reuse methods
+ * for building {@link City} objects from a ResultSet and printing reports.
  */
-public class CitiesRegionReport {
+public class CitiesRegionReport extends CitiesReportBase {
+
     /**
-     * Retrieves a list of all cities in a given region ordered by largest population to smallest.
-     * Columns: Name, Country, District, Population
+     * Retrieves all cities located within a specified region, ordered by population
+     * from highest to lowest.
+     * Expected ResultSet columns:
+     * CityName, CountryName, District, Population.
      *
      * @param conn   Active database connection
-     * @param region The region name to filter by
-     * @return List of City objects, or an empty list if an error occurs or no data is found.
+     * @param region The region name to filter cities by (e.g., "Southern Europe", "Eastern Asia")
+     * @return A list of {@link City} objects representing all cities in the given region.
+     *         Returns an empty list if an error occurs or no data is found.
      */
-    public List<City> getCitiesRegionReport(Connection conn, String region) {
+    public ArrayList<City> getCitiesRegionReport(Connection conn, String region) {
+        // Initialize an empty list to hold city data
+        ArrayList<City> cities = new ArrayList<>();
 
-        List<City> cities = new ArrayList<>();
-
-        // 1. Check for null connection and invalid region
-        if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
-            return cities;
-        }
-        if (region == null || region.trim().isEmpty()) {
-            System.err.println("Region name cannot be null or empty.");
-            return cities;
-        }
-
-        // 2. Use try-with-resources for automatic Statement and ResultSet closing
-        String sql = """
+        // SQL query: selects cities and their related country names
+        // filtered by region, sorted by population in descending order.
+        String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName,
                        city.District, city.Population
                 FROM city
@@ -40,62 +41,95 @@ public class CitiesRegionReport {
                 ORDER BY city.Population DESC;
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        // Use try-with-resources to automatically close PreparedStatement and ResultSet
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            // Bind the region parameter to the SQL query
             pstmt.setString(1, region);
 
+            // Execute the query and retrieve results
             try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    City city = new City();
-                    Country country = new Country();
-                    city.setCityName(rs.getString("CityName"));
-                    country.setCountryName(rs.getString("CountryName"));
-                    city.setCountry(country);
-                    city.setDistrict(rs.getString("District"));
-                    city.setPopulation(rs.getInt("Population"));
-                    cities.add(city);
-                }
+                // Convert ResultSet rows into City objects using the base class helper
+                cities = buildCitiesFromResultSet(rs);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error retrieving city report for region: " + region);
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
+            // Print detailed error message if SQL execution fails
+            System.err.println("Error retrieving all cities in region: " + region);
             e.printStackTrace();
-            return cities;
         }
 
-        if (cities.isEmpty()) {
-            System.out.println("Warning: No city data found for region '" + region + "'. Report will be empty.");
-        }
-
+        // Return the populated list (or empty list if query failed or had no data)
         return cities;
     }
 
     /**
-     * Prints the City Report to the console.
+     * Retrieves the top N most populated cities within a specific region.
+     * This method filters by region and limits the number of cities returned.
      *
-     * @param cities List of City objects
-     * @param region The region name
+     * @param conn   Active database connection
+     * @param region The region name to filter cities by
+     * @param n      The number of top cities to return (e.g., 10 for top 10)
+     * @return A list of {@link City} objects representing the top N populated cities.
+     *         Returns an empty list if an error occurs or no data is found.
      */
-    public void printCitiesRegionReport(List<City> cities, String region) {
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
-        System.out.println("Cities in Region: " + region + " (Ordered by Population Descending)");
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
-        System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
+    public ArrayList<City> getTopNCitiesRegionReport(Connection conn, String region, int n) {
+        // Initialize an empty list for city results
+        ArrayList<City> cities = new ArrayList<>();
 
-        for (City city : cities) {
-            System.out.printf("%-35s %-35s %-20s %-15d%n",
-                    city.getCityName(),
-                    city.getCountry().getCountryName(),
-                    city.getDistrict(),
-                    city.getPopulation());
+        // SQL query: selects cities from the specified region,
+        // ordered by population descending, limited to top N results.
+        String query = """
+                SELECT city.Name AS CityName, country.Name AS CountryName,
+                       city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                WHERE country.Region = ?
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
+
+        // Try-with-resources ensures proper closing of SQL resources
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            // Set the region name and top N limit parameters
+            pstmt.setString(1, region);
+            pstmt.setInt(2, n);
+
+            // Execute the SQL query
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Map the query results into City objects
+                cities = buildCitiesFromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            // Log an informative error message for debugging
+            System.err.println("Error retrieving top " + n + " cities in region: " + region);
+            e.printStackTrace();
         }
 
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
+        // Return the resulting list of cities (or empty list on error)
+        return cities;
+    }
+
+    /**
+     * Prints a formatted report listing all cities in the specified region.
+     * Uses the inherited printCities() method from {@link CitiesReportBase}.
+     *
+     * @param cities The list of cities to display in the report.
+     * @param region The name of the region displayed in the report title.
+     */
+    public void printCitiesRegionReport(ArrayList<City> cities, String region) {
+        printCities(cities, "All Cities in Region: " + region + " (Ordered by Population Descending)");
+    }
+
+    /**
+     * Prints a formatted report listing the top N cities in the specified region.
+     * Uses the inherited printCities() method from {@link CitiesReportBase}.
+     *
+     * @param cities The list of top N cities to display.
+     * @param region The name of the region displayed in the report title.
+     * @param n      The number of top cities being displayed.
+     */
+    public void printTopNCitiesRegionReport(ArrayList<City> cities, String region, int n) {
+        printCities(cities, "Top " + n + " Cities in Region: " + region + " (Ordered by Population Descending)");
     }
 }

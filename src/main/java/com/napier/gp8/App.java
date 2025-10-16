@@ -106,10 +106,15 @@ public class App {
 
 
         // Retrieve city region report
-        String cities_Region = "Caribbean";
+        String cities_Region = "Eastern Asia";
         CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
-        List<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
+        ArrayList<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
         citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
+
+        // Retrieve top N populated cities in a region report
+        int cities_Region_N = 10;
+        ArrayList<City> topnCitiesRegionList = citiesRegionReport.getTopNCitiesRegionReport(app.conn, cities_Region, cities_Region_N);
+        citiesRegionReport.printTopNCitiesRegionReport(topnCitiesRegionList, cities_Region, cities_Region_N);
 
         // -------------------------------------------------------------------------
 
