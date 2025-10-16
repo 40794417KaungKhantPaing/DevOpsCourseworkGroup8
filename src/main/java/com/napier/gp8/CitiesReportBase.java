@@ -76,7 +76,7 @@ public class CitiesReportBase {
 
 
         // Print the report title
-        System.out.println("\n==========================" + reportTitle + "=========================");
+        System.out.println("\n========================" + reportTitle + "=======================");
         // Print a separator line for readability
         System.out.println("--------------------------------------------------------------------------------------------" +
                 "------------------------------");
