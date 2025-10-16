@@ -11,53 +11,53 @@ import java.util.logging.Logger;
  */
 public class PopulationDistrictReport {
 
-    // Logger instance for this class
     private static final Logger LOGGER = Logger.getLogger(PopulationDistrictReport.class.getName());
 
     /**
      * Retrieves total population grouped by district, ordered from largest to smallest.
      *
      * @param conn Active database connection
-     * @return List of Country objects containing district and population data,
-     *         or an empty list if an error occurs or no data is found.
+     * @return List of Country objects containing district and population data
      */
     public List<Country> getPopulation_District_Report(Connection conn) {
-
         List<Country> countries = new ArrayList<>();
 
-        // 1. Check for null connection
         if (conn == null) {
             LOGGER.warning("Database not connected. Cannot generate population report by district.");
             return countries;
         }
 
-        // SQL query to calculate population per district (from city table)
+        // SQL query: total population per district and city/non-city population
         String sql = """
-                SELECT District, SUM(Population) AS TotalPopulation
+                SELECT
+                    District,
+                    SUM(Population) AS TotalPopulation,
+                    SUM(Population) AS CityPopulation,   -- all population in cities (for simplicity)
+                    0 AS NonCityPopulation               -- no separate non-city data for districts
                 FROM city
                 GROUP BY District
                 ORDER BY TotalPopulation DESC;
                 """;
 
-        // 2. Use try-with-resources for automatic Statement and ResultSet closing
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Country country = new Country();
-                // Using 'countryName' field to store district name (to match existing Country class)
                 country.setCountryName(rs.getString("District"));
                 country.setPopulation(rs.getLong("TotalPopulation"));
+
+                // reuse gnp for city population, gnpOld for non-city population
+                country.setGnp(rs.getDouble("CityPopulation"));
+                country.setGnpOld(rs.getDouble("NonCityPopulation"));
+
                 countries.add(country);
             }
 
         } catch (SQLException e) {
-            // 3. Log SQL errors instead of printing stack traces
             LOGGER.log(Level.SEVERE, "Error retrieving population report by district.", e);
-            return countries;
         }
 
-        // 4. Warn if no data found
         if (countries.isEmpty()) {
             LOGGER.warning("No population data found by district. Report will be empty.");
         }
@@ -66,23 +66,35 @@ public class PopulationDistrictReport {
     }
 
     /**
-     * Prints the Population by District Report to the console.
+     * Prints the Population by District Report including percentages.
      *
      * @param countries List of Country objects
      */
-    protected void printPopulation_District_Report(List<Country> countries) {
+    protected void printPopulation_District_Report(List<Country> countries, String selectedDistrict) {
         System.out.println("\n==================== ReportID 30. Population by District Report ====================");
-        System.out.println("---------------------------------------------------------------------");
-        System.out.printf("%-30s %-20s%n", "District", "Total Population");
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-30s %20s %20s %20s %10s%n",
+                "District", "Total Population", "City Population", "Non-City Population", "City %");
+        System.out.println("------------------------------------------------------------------------------------------------------");
 
-        for (Country country : countries) {
-            System.out.printf("%-30s %,20d%n",
-                    country.getCountryName(),  // Reusing countryName to represent district name
-                    country.getPopulation());
-        }
+        countries.stream()
+                .filter(c -> c.getCountryName().equalsIgnoreCase(selectedDistrict))
+                .forEach(c -> {
+                    long total = c.getPopulation();
+                    long city = c.getGnp() != null ? c.getGnp().longValue() : 0;
+                    long nonCity = c.getGnpOld() != null ? c.getGnpOld().longValue() : 0;
+                    double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
 
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("=====================================================================\n");
+                    System.out.printf("%-30s %,20d %,20d %,20d %9.2f%%%n",
+                            c.getCountryName(),
+                            total,
+                            city,
+                            nonCity,
+                            cityPercent);
+                });
+
+        System.out.println("------------------------------------------------------------------------------------------------------");
+        System.out.println("======================================================================================================\n");
     }
+
 }

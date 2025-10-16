@@ -173,35 +173,46 @@ public class App {
         // Print the report
         worldReport.printPopulation_World_Report(worldPop);
 
-        //27 Retrieve population data using the PopulationContinentReport class
+        // 27. Retrieve population data for a specific continent
+        String continentVariable = "Asia"; // Replace with any continent you want
         PopulationContinentReport populationContinentReport = new PopulationContinentReport();
         List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
-        // Print the report
-        populationContinentReport.printPopulation_Continent_Report(populationContinentList);
+        // Filter the list to only include the chosen continent
+        List<Country> filteredList = populationContinentList.stream()
+                .filter(c -> c.getContinent().equalsIgnoreCase(continentVariable))
+                .toList(); // Java 16+, or use Collectors.toList() for older versions
+        // Print the report for that continent
+        populationContinentReport.printPopulation_Continent_Report(filteredList);
 
-        //28 Retrieve population data using the PopulationRegionReport class
+        // 28. Retrieve population data for a specific region
+        String regionVariable = "Southern Europe"; // Replace with any region you want
         PopulationRegionReport populationRegionReport = new PopulationRegionReport();
         List<Country> populationRegionList = populationRegionReport.getPopulation_Region_Report(app.conn);
-        // Print the report
-        populationRegionReport.printPopulation_Region_Report(populationRegionList);
+        // Print the report for the selected region only
+        populationRegionReport.printPopulation_Region_Report(populationRegionList, regionVariable);
 
-        //29 Retrieve population data using the PopulationCountryReport class
+
+        // 29. Retrieve population data for a specific country
+        String countryVariable = "Japan"; // Replace with the country you want
         PopulationCountryReport populationCountryReport = new PopulationCountryReport();
         List<Country> populationCountryList = populationCountryReport.getPopulation_Country_Report(app.conn);
-        // Print the report
-        populationCountryReport.printPopulation_Country_Report(populationCountryList);
+        // Print the report for the selected country only
+        populationCountryReport.printPopulation_Country_Report(populationCountryList, countryVariable);
 
-        //30 Retrieve population data using the PopulationDistrictReport class
+
+        // 30. Retrieve population data for a specific district
+        String districtVariable = "California"; // Replace with your desired district
         PopulationDistrictReport populationDistrictReport = new PopulationDistrictReport();
         List<Country> populationDistrictList = populationDistrictReport.getPopulation_District_Report(app.conn);
-        //Print the report
-        populationDistrictReport.printPopulation_District_Report(populationDistrictList);
+        // Print the report for the selected district including percentages
+        populationDistrictReport.printPopulation_District_Report(populationDistrictList, districtVariable);
+
 
         //31 Retrieve population data using the PopulationCityReport class
-        PopulationCityReport populationCityReport = new PopulationCityReport();
-        List<City> populationCityList = populationCityReport.getPopulation_City_Report(app.conn);
-        //Print the report
-        populationCityReport.printPopulation_City_Report(populationCityList);
+        PopulationCityReport cityReport = new PopulationCityReport();
+        List<City> cityList = cityReport.getPopulation_City_Report(app.conn);
+        // Print a specific city
+        cityReport.printPopulation_City_Report(cityList, "Tokyo");
 
         //============================================================
         // REPORT: Language Population

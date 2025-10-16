@@ -11,18 +11,20 @@ import java.util.logging.Logger;
  */
 public class PopulationContinentReport {
 
-    // Logger instance for this class
     private static final Logger LOGGER = Logger.getLogger(PopulationContinentReport.class.getName());
+
+    // ---------------------------------------------------------------------
+    // Report 27: Population by Continent
+    // ---------------------------------------------------------------------
 
     /**
      * Retrieves total population grouped by continent, ordered from largest to smallest.
      *
      * @param conn Active database connection
      * @return List of Country objects containing continent and population data,
-     *         or an empty list if an error occurs or no data is found.
+     *         or empty list if error occurs.
      */
     public List<Country> getPopulation_Continent_Report(Connection conn) {
-
         List<Country> countries = new ArrayList<>();
 
         if (conn == null) {
@@ -63,7 +65,7 @@ public class PopulationContinentReport {
      *
      * @param countries List of Country objects
      */
-    protected void printPopulation_Continent_Report(List<Country> countries) {
+    public void printPopulation_Continent_Report(List<Country> countries) {
         System.out.println("\n==================== ReportID 27. Population by Continent Report ====================");
         System.out.println("------------------------------------------------------------");
         System.out.printf("%-20s %-20s%n", "Continent", "Total Population");
@@ -80,7 +82,7 @@ public class PopulationContinentReport {
     }
 
     // ---------------------------------------------------------------------
-    // NEW REPORT: Population in Cities vs Not in Cities by Continent
+    // Report 23: Population in Cities vs Not in Cities by Continent
     // ---------------------------------------------------------------------
 
     /**
@@ -98,7 +100,6 @@ public class PopulationContinentReport {
             return results;
         }
 
-        // Query: total pop, city pop, and non-city pop grouped by continent
         String sql = """
                 SELECT 
                     c.Continent,
@@ -119,9 +120,9 @@ public class PopulationContinentReport {
                 c.setContinent(rs.getString("Continent"));
                 c.setPopulation(rs.getLong("TotalPopulation"));
 
-                // Using existing fields for storage
-                c.setGnp((double) rs.getLong("CityPopulation"));      // reuse gnp for city population
-                c.setGnpOld((double) rs.getLong("NonCityPopulation")); // reuse gnpOld for non-city population
+                // Reuse fields: gnp = city population, gnpOld = non-city population
+                c.setGnp((double) rs.getLong("CityPopulation"));
+                c.setGnpOld((double) rs.getLong("NonCityPopulation"));
 
                 results.add(c);
             }
@@ -138,26 +139,36 @@ public class PopulationContinentReport {
     }
 
     /**
-     * Prints the population report showing total, city, and non-city populations by continent.
+     * Prints the population report showing total, city, and non-city populations by continent with percentages.
      *
      * @param results List of Country objects
      */
-    protected void printPopulation_City_vs_NonCity_ByContinent(List<Country> results) {
+    public void printPopulation_City_vs_NonCity_ByContinent(List<Country> results) {
         System.out.println("\n==================== ReportID 23. Population in Cities vs Not in Cities by Continent ====================");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.printf("%-20s %-20s %-20s %-20s%n",
-                "Continent", "Total Population", "City Population", "Non-City Population");
-        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-20s %20s %20s %20s %10s %10s%n",
+                "Continent", "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
 
         for (Country c : results) {
-            System.out.printf("%-20s %,20d %,20d %,20d%n",
+            long total = c.getPopulation();
+            long city = c.getGnp() != null ? c.getGnp().longValue() : 0;
+            long nonCity = c.getGnpOld() != null ? c.getGnpOld().longValue() : 0;
+
+            double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
+            double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
+
+            System.out.printf("%-20s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
                     c.getContinent(),
-                    c.getPopulation(),
-                    c.getGnp() != null ? c.getGnp().longValue() : 0,
-                    c.getGnpOld() != null ? c.getGnpOld().longValue() : 0);
+                    total,
+                    city,
+                    nonCity,
+                    cityPercent,
+                    nonCityPercent);
         }
 
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println("=============================================================================================\n");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.println("========================================================================================================\n");
     }
+
 }

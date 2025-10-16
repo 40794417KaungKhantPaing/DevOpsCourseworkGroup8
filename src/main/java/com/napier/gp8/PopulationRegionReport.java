@@ -13,12 +13,10 @@ public class PopulationRegionReport {
 
     private static final Logger LOGGER = Logger.getLogger(PopulationRegionReport.class.getName());
 
-    /**
-     * Retrieves total population grouped by region.
-     *
-     * @param conn Active database connection
-     * @return List of Country objects
-     */
+    // ---------------------------------------------------------------------
+    // Report 28: Population by Region
+    // ---------------------------------------------------------------------
+
     public List<Country> getPopulation_Region_Report(Connection conn) {
         List<Country> countries = new ArrayList<>();
 
@@ -55,18 +53,27 @@ public class PopulationRegionReport {
         return countries;
     }
 
-    /**
-     * NEW REPORT:
-     * Retrieves total population, people living in cities, and people not living in cities in each region.
-     * Reuses Country class fields:
-     * - region → region name
-     * - population → total population
-     * - gnp → people living in cities
-     * - gnpOld → people not living in cities
-     *
-     * @param conn Active database connection
-     * @return List of Country objects containing region population data
-     */
+    public void printPopulation_Region_Report(List<Country> countries, String selectedRegion) {
+        System.out.println("\n==================== ReportID 28. Population by Region Report ====================");
+        System.out.println("--------------------------------------------------------------------");
+        System.out.printf("%-30s %-20s%n", "Region", "Total Population");
+        System.out.println("--------------------------------------------------------------------");
+
+        // Filter for selected region
+        countries.stream()
+                .filter(c -> c.getRegion().equalsIgnoreCase(selectedRegion))
+                .forEach(c -> System.out.printf("%-30s %,20d%n",
+                        c.getRegion(),
+                        c.getPopulation()));
+
+        System.out.println("--------------------------------------------------------------------");
+        System.out.println("====================================================================\n");
+    }
+
+    // ---------------------------------------------------------------------
+    // Report 24: Population by Region (Urban vs Non-Urban)
+    // ---------------------------------------------------------------------
+
     public List<Country> getPopulation_Region_Details_Report(Connection conn) {
         List<Country> regions = new ArrayList<>();
 
@@ -94,8 +101,8 @@ public class PopulationRegionReport {
                 Country region = new Country();
                 region.setRegion(rs.getString("Region"));
                 region.setPopulation(rs.getLong("TotalPopulation"));
-                region.setGnp(rs.getDouble("CityPopulation"));       // reuse gnp for city population
-                region.setGnpOld(rs.getDouble("NonCityPopulation")); // reuse gnpOld for non-city population
+                region.setGnp(rs.getDouble("CityPopulation"));
+                region.setGnpOld(rs.getDouble("NonCityPopulation"));
                 regions.add(region);
             }
 
@@ -110,47 +117,31 @@ public class PopulationRegionReport {
         return regions;
     }
 
-    /**
-     * Prints simple region population report.
-     */
-    protected void printPopulation_Region_Report(List<Country> countries) {
-        System.out.println("\n==================== ReportID 28. Population by Region Report ====================");
-        System.out.println("--------------------------------------------------------------------");
-        System.out.printf("%-30s %-20s%n", "Region", "Total Population");
-        System.out.println("--------------------------------------------------------------------");
-
-        for (Country country : countries) {
-            System.out.printf("%-30s %,20d%n", country.getRegion(), country.getPopulation());
-        }
-
-        System.out.println("--------------------------------------------------------------------");
-        System.out.println("====================================================================\n");
-    }
-
-    /**
-     * Prints detailed population report: total, city, and non-city populations.
-     * Uses:
-     * - region → Region
-     * - population → Total
-     * - gnp → City pop
-     * - gnpOld → Non-city pop
-     */
-    protected void printPopulation_Region_Details_Report(List<Country> regions) {
-        System.out.println("\n==================== Report ID 24. Population by Region (Urban vs Non-Urban) ====================");
-        System.out.println("----------------------------------------------------------------------------------");
-        System.out.printf("%-30s %-20s %-20s %-20s%n",
-                "Region", "Total Population", "City Population", "Non-City Population");
-        System.out.println("----------------------------------------------------------------------------------");
+    public void printPopulation_Region_Details_Report(List<Country> regions) {
+        System.out.println("\n========================== Report ID 24. Population by Region (Urban vs Non-Urban) ==========================");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-30s %20s %20s %20s %10s %10s%n",
+                "Region", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
 
         for (Country region : regions) {
-            System.out.printf("%-30s %,20d %,20.0f %,20.0f%n",
+            long total = region.getPopulation();
+            long city = region.getGnp() != null ? region.getGnp().longValue() : 0;
+            long nonCity = region.getGnpOld() != null ? region.getGnpOld().longValue() : 0;
+
+            double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
+            double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
+
+            System.out.printf("%-30s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
                     region.getRegion(),
-                    region.getPopulation(),
-                    region.getGnp(),      // city pop
-                    region.getGnpOld());  // non-city pop
+                    total,
+                    city,
+                    nonCity,
+                    cityPercent,
+                    nonCityPercent);
         }
 
-        System.out.println("----------------------------------------------------------------------------------");
-        System.out.println("==================================================================================\n");
+        System.out.println("------------------------------------------------------------------------------------------------------------");
+        System.out.println("============================================================================================================\n");
     }
 }

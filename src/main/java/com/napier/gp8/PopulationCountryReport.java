@@ -11,18 +11,12 @@ import java.util.logging.Logger;
  */
 public class PopulationCountryReport {
 
-    // Logger instance for this class
     private static final Logger LOGGER = Logger.getLogger(PopulationCountryReport.class.getName());
 
-    /**
-     * Retrieves total population for all countries, ordered from largest to smallest.
-     *
-     * @param conn Active database connection
-     * @return List of Country objects containing country name and population data,
-     *         or an empty list if an error occurs or no data is found.
-     */
+    // ---------------------------------------------------------------------
+    // Report 29: Population by Country (specific country)
+    // ---------------------------------------------------------------------
     public List<Country> getPopulation_Country_Report(Connection conn) {
-
         List<Country> countries = new ArrayList<>();
 
         if (conn == null) {
@@ -48,50 +42,31 @@ public class PopulationCountryReport {
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error retrieving population report by country.", e);
-            return countries;
-        }
-
-        if (countries.isEmpty()) {
-            LOGGER.warning("No country population data found. Report will be empty.");
         }
 
         return countries;
     }
 
-    /**
-     * Prints the Population by Country Report to the console.
-     *
-     * @param countries List of Country objects
-     */
-    protected void printPopulation_Country_Report(List<Country> countries) {
+    public void printPopulation_Country_Report(List<Country> countries, String selectedCountry) {
         System.out.println("\n==================== ReportID 29. Population by Country Report ====================");
         System.out.println("---------------------------------------------------------------------");
         System.out.printf("%-40s %-20s%n", "Country", "Population");
         System.out.println("---------------------------------------------------------------------");
 
-        for (Country country : countries) {
-            System.out.printf("%-40s %,20d%n",
-                    country.getCountryName(),
-                    country.getPopulation());
-        }
+        countries.stream()
+                .filter(c -> c.getCountryName().equalsIgnoreCase(selectedCountry))
+                .forEach(c -> System.out.printf("%-40s %,20d%n",
+                        c.getCountryName(),
+                        c.getPopulation()));
 
         System.out.println("---------------------------------------------------------------------");
         System.out.println("=====================================================================\n");
     }
 
-    // -------------------------------------------------------------------------
-    // NEW REPORT: Population, City Population, and Non-City Population by Country
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieves total population, city population, and non-city population per country.
-     *
-     * @param conn Active database connection
-     * @return List of Country objects with country name, total population,
-     *         and derived city/non-city population.
-     */
+    // ---------------------------------------------------------------------
+    // Report 25: Population by Country (City vs Non-City with percentages)
+    // ---------------------------------------------------------------------
     public List<Country> getPopulation_City_vs_NonCity_ByCountry(Connection conn) {
-
         List<Country> countries = new ArrayList<>();
 
         if (conn == null) {
@@ -119,49 +94,45 @@ public class PopulationCountryReport {
                 country.setCountryName(rs.getString("Country"));
                 country.setPopulation(rs.getLong("TotalPopulation"));
 
-                // We can temporarily reuse the GNP fields to store the two derived values
-                // but better is to just print them directly.
-                // So no need to modify Country class — we’ll just print directly later.
-
-                // To keep data if needed:
-                country.setSurfaceArea(rs.getDouble("CityPopulation")); // store temporarily
-                country.setLifeExpectancy(rs.getDouble("NonCityPopulation")); // store temporarily
+                // Reuse gnp for city population, gnpOld for non-city population
+                country.setGnp(rs.getDouble("CityPopulation"));
+                country.setGnpOld(rs.getDouble("NonCityPopulation"));
 
                 countries.add(country);
             }
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error retrieving city vs non-city population by country.", e);
-            return countries;
-        }
-
-        if (countries.isEmpty()) {
-            LOGGER.warning("No population data found by country (city vs non-city). Report will be empty.");
         }
 
         return countries;
     }
 
-    /**
-     * Prints the Population, City Population, and Non-City Population per Country.
-     *
-     * @param countries List of Country objects
-     */
-    protected void printPopulation_City_vs_NonCity_ByCountry(List<Country> countries) {
-        System.out.println("\n==================== ReportID 25. Population by Country (City vs Non-City) ====================");
-        System.out.println("-----------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-40s %-20s %-20s %-20s%n", "Country", "Total Population", "City Population", "Non-City Population");
-        System.out.println("-----------------------------------------------------------------------------------------------------------");
+    public void printPopulation_City_vs_NonCity_ByCountry(List<Country> countries) {
+        System.out.println("\n================================ ReportID 25. Population by Country (City vs Non-City) ============================");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-40s %20s %20s %20s %10s %10s%n",
+                "Country", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------");
 
         for (Country country : countries) {
-            System.out.printf("%-40s %,20d %,20.0f %,20.0f%n",
+            long total = country.getPopulation();
+            long city = country.getGnp() != null ? country.getGnp().longValue() : 0;
+            long nonCity = country.getGnpOld() != null ? country.getGnpOld().longValue() : 0;
+
+            double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
+            double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
+
+            System.out.printf("%-40s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
                     country.getCountryName(),
-                    country.getPopulation(),
-                    country.getSurfaceArea(),        // temporarily holds city population
-                    country.getLifeExpectancy());    // temporarily holds non-city population
+                    total,
+                    city,
+                    nonCity,
+                    cityPercent,
+                    nonCityPercent);
         }
 
-        System.out.println("-----------------------------------------------------------------------------------------------------------");
-        System.out.println("===========================================================================================================\n");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("=======================================================================================================================\n");
     }
 }

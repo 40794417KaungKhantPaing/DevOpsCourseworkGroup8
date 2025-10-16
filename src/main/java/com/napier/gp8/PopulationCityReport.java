@@ -25,7 +25,6 @@ public class PopulationCityReport {
 
         List<City> cities = new ArrayList<>();
 
-        // 1. Check for null connection
         if (conn == null) {
             LOGGER.warning("Database not connected. Cannot generate city population report.");
             return cities;
@@ -38,7 +37,6 @@ public class PopulationCityReport {
                 ORDER BY Population DESC;
                 """;
 
-        // 2. Execute query and process results
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -54,10 +52,8 @@ public class PopulationCityReport {
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error retrieving population report by city.", e);
-            return cities;
         }
 
-        // 3. Log if no results found
         if (cities.isEmpty()) {
             LOGGER.warning("No population data found for cities. Report will be empty.");
         }
@@ -72,9 +68,9 @@ public class PopulationCityReport {
      */
     protected void printPopulation_City_Report(List<City> cities) {
         System.out.println("\n==================== Report ID 31. Population by City Report ====================");
-        System.out.println("-------------------------------------------------------------------");
-        System.out.printf("%-30s %-20s %-15s %-15s%n", "City Name", "District", "Country Code", "Population");
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-30s %-20s %-15s %-20s%n", "City Name", "District", "Country Code", "Population");
+        System.out.println("----------------------------------------------------------------------------------");
 
         for (City city : cities) {
             System.out.printf("%-30s %-20s %-15s %,15d%n",
@@ -84,7 +80,21 @@ public class PopulationCityReport {
                     city.getPopulation());
         }
 
-        System.out.println("-------------------------------------------------------------------");
-        System.out.println("===================================================================\n");
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("===============================================================================\n");
+    }
+
+    /**
+     * Prints the Population by City Report for a specific city.
+     *
+     * @param cities List of City objects
+     * @param selectedCity Name of the city to print
+     */
+    protected void printPopulation_City_Report(List<City> cities, String selectedCity) {
+        List<City> filteredCities = cities.stream()
+                .filter(c -> c.getCityName().equalsIgnoreCase(selectedCity))
+                .toList(); // Use Collectors.toList() if Java version < 16
+
+        printPopulation_City_Report(filteredCities);
     }
 }
