@@ -131,7 +131,7 @@ public class CitiesContinentReport extends CitiesReportBase {
      * @param continent  The continent name to include in the report title.
      */
     public void printCitiesContinentReport(ArrayList<City> cities, String continent) {
-        printCities(cities, "All Cities in Continent: " + continent + " (Ordered by Population Descending)");
+        printCities(cities, "ReportID 8. All Cities in a Continent: " + continent + " by Population Report");
     }
 
     /**
@@ -143,6 +143,6 @@ public class CitiesContinentReport extends CitiesReportBase {
      * @param topN       The number of cities displayed in the report.
      */
     public void printTopNCitiesContinentReport(ArrayList<City> cities, String continent, int topN) {
-        printCities(cities, "Top " + topN + " Cities in Continent: " + continent + " (Ordered by Population Descending)");
+        printCities(cities, "Report ID 13. Top " + topN + " Cities in a Continent: " + continent + " by Population Report");
     }
 }

@@ -130,7 +130,7 @@ public class CitiesRegionReport extends CitiesReportBase {
      * @param region The name of the region displayed in the report title.
      */
     public void printCitiesRegionReport(ArrayList<City> cities, String region) {
-        printCities(cities, "All Cities in Region: " + region + " (Ordered by Population Descending)");
+        printCities(cities, "ReportID 9. All Cities in a Region: " + region + " by Population Report");
     }
 
     /**
@@ -142,6 +142,6 @@ public class CitiesRegionReport extends CitiesReportBase {
      * @param n      The number of top cities being displayed.
      */
     public void printTopNCitiesRegionReport(ArrayList<City> cities, String region, int n) {
-        printCities(cities, "Top " + n + " Cities in Region: " + region + " (Ordered by Population Descending)");
+        printCities(cities, "ReportID 14. Top " + n + " Cities in a Region: " + region + " by Population Report");
     }
 }

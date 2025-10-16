@@ -109,7 +109,7 @@ public class CitiesCountryReport extends CitiesReportBase {
      */
     public void printCitiesCountryReport(ArrayList<City> cities, String countryName) {
         // Use the base class method to print cities with a descriptive title
-        printCities(cities, "All Cities in Country: " + countryName + " (Ordered by Population Descending)");
+        printCities(cities, "ReportID 10. All Cities in a Country: " + countryName + " by Population Report");
     }
 
     /**
@@ -121,6 +121,6 @@ public class CitiesCountryReport extends CitiesReportBase {
      */
     public void printTopNCitiesCountryReport(ArrayList<City> cities, String countryName, int n) {
         // Use the base class method to print cities with a descriptive title
-        printCities(cities, "Top " + n + " Cities in Country: " + countryName + " (Ordered by Population Descending)");
+        printCities(cities, "ReportID 15. Top " + n + " Cities in a Country: " + countryName + " by Population Report");
     }
 }
