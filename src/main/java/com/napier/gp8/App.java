@@ -82,28 +82,36 @@ public class App {
         List<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
         countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
 
+        // -------------------------------------------------------------------------
+
         CitiesWorldReport citiesWorldReport = new CitiesWorldReport();
         // All cities in world
         ArrayList<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
         citiesWorldReport.printCitiesWorldReport(citiesWorldList);
-
         // Top N cities in world
         int cities_World_N = 10;
-        ArrayList<City> topnCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, cities_World_N);
-        citiesWorldReport.printTopNCitiesWorldReport(topnCitiesWorldList, cities_World_N);
+        ArrayList<City> topNCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, cities_World_N);
+        citiesWorldReport.printTopNCitiesWorldReport(topNCitiesWorldList, cities_World_N);
 
         // Retrieve city continent report
         String cities_Continent = "Asia";
         CitiesContinentReport citiesContinentReport = new CitiesContinentReport();
-        List<City> citiesContinentList = citiesContinentReport.getCities_By_Continent_Report(app.conn, cities_Continent);
-        citiesContinentReport.printCities_By_Continent_Report(citiesContinentList, cities_Continent);
+        ArrayList<City> citiesContinentList = citiesContinentReport.getCitiesContinentReport(app.conn, cities_Continent);
+        citiesContinentReport.printCitiesContinentReport(citiesContinentList, cities_Continent);
 
-        // -------------------------------------------------------------------------
+        // Retrieve top N populated cities in a continent report
+        int cities_Continent_N = 10;
+        ArrayList<City> topNCitiesContinentList = citiesContinentReport.getTopNCitiesContinentReport(app.conn, cities_Continent, cities_Continent_N);
+        citiesContinentReport.printTopNCitiesContinentReport(topNCitiesContinentList, cities_Continent, cities_Continent_N);
+
+
         // Retrieve city region report
         String cities_Region = "Caribbean";
         CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
         List<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
         citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
+
+        // -------------------------------------------------------------------------
 
         //============================================================
         // REPORT: Capital Cities in the World
