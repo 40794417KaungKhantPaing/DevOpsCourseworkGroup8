@@ -79,12 +79,17 @@ public class App {
         // Retrieve country region report
         String countries_Region = "Middle East";
         CountriesRegionReport countriesRegionReport = new CountriesRegionReport();
-        List<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
+        ArrayList<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
         countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
 
         //Retrieve top n countries report
         ArrayList<Country> topNCountries = countriesWorld.getTopNCountries_World_Report(app.conn,10);
         countriesWorld.printTopNCountries_World_Report(topNCountries,10);
+
+        //Retrieve top n countries in the region report
+        ArrayList<Country> topNCountriesRegion = countriesRegionReport.getTopNCountries_Region_Report(app.conn,countries_Region,10);
+        countriesRegionReport.printTopNCountries_Region_Report(countries_Region,topNCountriesRegion,10);
+
 
         // Retrieve city world report
         CitiesWorldReport citiesWorldReport = new CitiesWorldReport();

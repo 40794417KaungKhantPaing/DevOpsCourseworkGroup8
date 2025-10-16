@@ -2,12 +2,11 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Handles generating and retrieving the Country Report for a specific region.
  */
-public class CountriesRegionReport {
+public class CountriesRegionReport extends CountriesReportBase {
 
     /**
      * Retrieves a list of all countries within a specified region,
@@ -18,11 +17,11 @@ public class CountriesRegionReport {
      * @param region Region name (e.g., "Southern and Central Asia", "Western Europe")
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public List<Country> getCountries_Region_Report(Connection conn, String region) {
+    public ArrayList<Country> getCountries_Region_Report(Connection conn, String region) {
 
-        List<Country> countries = new ArrayList<>();
+        ArrayList<Country> countries = new ArrayList<>();
 
-        // 1. Validate connection and parameter
+        // 1. Validate connection and region parameter
         if (conn == null) {
             System.err.println("Database not connected. Cannot generate region report.");
             return countries;
@@ -32,8 +31,8 @@ public class CountriesRegionReport {
             return countries;
         }
 
-        // 2. Prepare SQL statement
-        String sql = """
+        // 2. Prepare SQL query
+        String query = """
                 SELECT Name AS CountryName, Continent, Region, Population
                 FROM country
                 WHERE Region = ?
@@ -41,31 +40,24 @@ public class CountriesRegionReport {
                 """;
 
         // 3. Execute query using PreparedStatement
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, region.trim());
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
-                while (rs.next()) {
-                    Country country = new Country();
-                    country.setCountryName(rs.getString("CountryName"));
-                    country.setContinent(rs.getString("Continent"));
-                    country.setRegion(rs.getString("Region"));
-                    country.setPopulation(rs.getInt("Population"));
-                    countries.add(country);
-                }
+                // Use base class method to build list
+                countries = buildCountriesFromResultSet(rs);
             }
 
         } catch (SQLException e) {
-            // 4. Handle SQL exceptions
-            System.err.println("Error retrieving region country report:");
+            // 4. Handle SQL exceptions with detailed messages
+            System.err.println("Error retrieving region country report due to a database issue:");
             System.err.println("SQL State: " + e.getSQLState());
             System.err.println("Error Code: " + e.getErrorCode());
             e.printStackTrace();
             return countries;
         }
 
-        // 5. Warn if empty result
+        // 5. Warn if no data found
         if (countries.isEmpty()) {
             System.out.println("Warning: No country data found for region '" + region + "'.");
         }
@@ -74,27 +66,82 @@ public class CountriesRegionReport {
     }
 
     /**
-     * Prints the Country Report for a specific region to the console.
+     * Retrieves a list of the top N countries within a specified region,
+     * ordered by population (largest to smallest).
      *
-     * @param region    Region name
-     * @param countries List of Country objects
+     * @param connection               Active database connection
+     * @param regionName          Region name (e.g., "Southern and Central Asia")
+     * @param numberOfCountries  Number of top countries to limit
+     * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public void printCountries_Region_Report(String region, List<Country> countries) {
-        System.out.println("3. All countries in a region by population Report");
-        System.out.println("==================================================================================================================");
-        System.out.printf("Countries in region: %s (ordered by population)%n", region);
-        System.out.println("==================================================================================================================");
-        System.out.printf("%-35s %-35s %-20s %-15s%n", "Country Name", "Continent", "Region", "Population");
-        System.out.println("------------------------------------------------------------------------------------------------------------------");
+    public ArrayList<Country> getTopNCountries_Region_Report(Connection connection, String regionName, int numberOfCountries) {
 
-        for (Country country : countries) {
-            System.out.printf("%-35s %-35s %-20s %-15d%n",
-                    country.getCountryName(),
-                    country.getContinent(),
-                    country.getRegion(),
-                    country.getPopulation());
+        ArrayList<Country> countries = new ArrayList<>();
+
+        // 1. Validate connection and parameters
+        if (connection == null) {
+            System.err.println("Database not connected. Cannot generate top N countries in region report.");
+            return countries;
+        }
+        if (regionName == null || regionName.trim().isEmpty()) {
+            System.err.println("Invalid region name provided.");
+            return countries;
         }
 
-        System.out.println("------------------------------------------------------------------------------------------------------------------");
+        // 2. Prepare SQL query with LIMIT
+        String query = """
+                SELECT Name AS CountryName, Continent, Region, Population
+                FROM country
+                WHERE Region = ?
+                ORDER BY Population DESC
+                LIMIT ?;
+                """;
+
+        // 3. Execute query safely
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, regionName.trim());
+            pstmt.setInt(2, numberOfCountries);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Use base class method to build list
+                countries = buildCountriesFromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            // 4. Handle SQL exceptions with detailed messages
+            System.err.println("Error retrieving top countries region report due to a database issue:");
+            System.err.println("SQL State: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
+            e.printStackTrace();
+            return countries;
+        }
+
+        // 5. Warn if empty
+        if (countries.isEmpty()) {
+            System.out.println("Warning: No top country data found for region '" + regionName + "'.");
+        }
+
+        return countries;
+    }
+
+    /**
+     * Prints the Country Report for a specific region to the console.
+     *
+     * @param regionName    Region name
+     * @param countries List of Country objects
+     */
+    public void printCountries_Region_Report(String regionName, ArrayList<Country> countries) {
+        printCountries(countries, "All Countries in Region '" + regionName + "' Report");
+    }
+
+    /**
+     * Prints the Top N Country Report for a specific region to the console.
+     *
+     * @param regionName             Region name
+     * @param countries          List of Country objects
+     * @param topNCountries  Number of top countries displayed
+     */
+    public void printTopNCountries_Region_Report(String regionName, ArrayList<Country> countries, int topNCountries) {
+        printCountries(countries, "Top " + topNCountries + " Countries in the Region '" + regionName + "' Report");
     }
 }

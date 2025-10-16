@@ -54,13 +54,13 @@ public class CountriesReportBase {
         }
 
         System.out.println("\n" + reportTitle);
-        System.out.printf("%-35s %-30s %-25s %-15s%n",
+        System.out.printf("%-35s %-25s %-25s %-15s%n",
                 "Country Name", "Continent", "Region", "Population");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
 
         for (Country country : countries) {
             if (country != null) {
-                System.out.printf("%-35s %-30s %-25s %,15d%n",
+                System.out.printf("%-35s %-25s %-25s %,15d%n",
                         country.getCountryName(),
                         country.getContinent(),
                         country.getRegion(),
