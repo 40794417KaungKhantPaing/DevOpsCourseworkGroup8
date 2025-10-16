@@ -73,7 +73,7 @@ public class App {
         // Retrieve country continent report
         String countries_Continent = "Asia";
         CountriesContinentReport countriesContinentReport = new CountriesContinentReport();
-        List<Country> countriesContinentList = countriesContinentReport.getCountries_Continent_Report(app.conn, countries_Continent);
+        ArrayList<Country> countriesContinentList = countriesContinentReport.getCountries_Continent_Report(app.conn, countries_Continent);
         countriesContinentReport.printCountries_Continent_Report(countries_Continent, countriesContinentList);
 
         // Retrieve country region report
@@ -85,6 +85,10 @@ public class App {
         //Retrieve top n countries report
         ArrayList<Country> topNCountries = countriesWorld.getTopNCountries_World_Report(app.conn,10);
         countriesWorld.printTopNCountries_World_Report(topNCountries,10);
+
+        //Retrieve top n countries in the continent report
+        ArrayList<Country> topNCountriesContinent = countriesContinentReport.getTopNCountries_Continent_Report(app.conn,countries_Continent,10);
+        countriesContinentReport.printTopNCountries_Continent_Report(countries_Continent,topNCountriesContinent,10);
 
         //Retrieve top n countries in the region report
         ArrayList<Country> topNCountriesRegion = countriesRegionReport.getTopNCountries_Region_Report(app.conn,countries_Region,10);

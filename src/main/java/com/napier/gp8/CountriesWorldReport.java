@@ -18,6 +18,12 @@ public class CountriesWorldReport extends CountriesReportBase {
     public ArrayList<Country> getCountries_World_Report(Connection conn) {
         ArrayList<Country> countries = new ArrayList<>();
 
+        //Check if database is connected
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate countries world report.");
+            return countries;
+        }
+
         // SQL query to retrieve all countries by population descending
         String query = "SELECT Name AS CountryName, Continent, Region, Population " +
                 "FROM country ORDER BY Population DESC";
@@ -41,17 +47,23 @@ public class CountriesWorldReport extends CountriesReportBase {
      * Retrieves the top N countries in the world ordered by population descending.
      *
      * @param conn Active database connection.
-     * @param numberOfCountries Number of top countries to show
+     * @param topNCountries Number of top countries to show
      * @return List of Country objects.
      */
-    public ArrayList<Country> getTopNCountries_World_Report(Connection conn, int numberOfCountries) {
+    public ArrayList<Country> getTopNCountries_World_Report(Connection conn, int topNCountries) {
         ArrayList<Country> countries = new ArrayList<>();
+
+        //Check if database is connected
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate countries world report.");
+            return countries;
+        }
 
         String query = "SELECT Name AS CountryName, Continent, Region, Population " +
                 "FROM country ORDER BY Population DESC LIMIT ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setInt(1, numberOfCountries);
+            preparedStatement.setInt(1, topNCountries);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 countries = buildCountriesFromResultSet(rs);
             }
@@ -76,10 +88,10 @@ public class CountriesWorldReport extends CountriesReportBase {
     /**
      * Prints the top N countries in the world by population descending
      * @param countries List of countries to print.
-     * @param numberOfCountries Number of top countries
+     * @param topNCountries Number of top countries
      */
-    public void printTopNCountries_World_Report(ArrayList<Country> countries, int numberOfCountries) {
-        printCountries(countries, "Top " + numberOfCountries + " Countries in the World Report");
+    public void printTopNCountries_World_Report(ArrayList<Country> countries, int topNCountries) {
+        printCountries(countries, "Top " + topNCountries + " Countries in the World Report");
     }
 
 }
