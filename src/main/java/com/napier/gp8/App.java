@@ -130,6 +130,23 @@ public class App {
 
 
         //============================================================
+        // REPORT: Capital Cities in a Region
+        //============================================================
+
+        // Define the region for which the report will be generated.
+        String capitalCities_Region = "Middle East";
+
+        // Create instance to generate the region-level report.
+        CapitalCitiesRegionReport capitalCitiesRegionReport = new CapitalCitiesRegionReport();
+
+        // Retrieve all capital cities with the specified region, ordered by population (Descending)
+        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getAllCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
+
+        // Print the capital cities in the specified region report
+        capitalCitiesRegionReport.printAllCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
+
+
+        //============================================================
         // REPORT: Top N Capital Cities in the World
         //============================================================
 
@@ -149,6 +166,15 @@ public class App {
         //Print top n capital cities in the specified continent report.
         capitalCitiesContinentReport.printTopNCapitalCitiesInContinentByPopulation(topNCapitalsContinentList,capitalCities_Continent,10);
 
+        //============================================================
+        // REPORT: Top N Capital Cities in a Region
+        //============================================================
+
+        // Retrieve all capital cities with the specified region, ordered by population (Descending)
+        ArrayList<City> topNCapitalsRegionList = capitalCitiesRegionReport.getTopNCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region,10);
+
+        // Print the capital cities in the specified region report
+        capitalCitiesRegionReport.printTopNCapitalCitiesInRegionByPopulation(topNCapitalsRegionList, capitalCities_Region,10);
 
         //------------------------------------------
 
