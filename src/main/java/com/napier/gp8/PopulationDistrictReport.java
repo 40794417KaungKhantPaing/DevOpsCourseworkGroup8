@@ -72,10 +72,10 @@ public class PopulationDistrictReport {
      */
     protected void printPopulation_District_Report(List<Country> countries, String selectedDistrict) {
         System.out.println("\n==================== ReportID 30. Population by District Report ====================");
-        System.out.println("------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-30s %20s %20s %20s %10s%n",
-                "District", "Total Population", "City Population", "Non-City Population", "City %");
-        System.out.println("------------------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-30s %20s %20s %20s %10s %10s%n",
+                "District", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
 
         countries.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(selectedDistrict))
@@ -84,17 +84,19 @@ public class PopulationDistrictReport {
                     long city = c.getGnp() != null ? c.getGnp().longValue() : 0;
                     long nonCity = c.getGnpOld() != null ? c.getGnpOld().longValue() : 0;
                     double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
+                    double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
 
-                    System.out.printf("%-30s %,20d %,20d %,20d %9.2f%%%n",
+                    System.out.printf("%-30s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
                             c.getCountryName(),
                             total,
                             city,
                             nonCity,
-                            cityPercent);
+                            cityPercent,
+                            nonCityPercent);
                 });
 
-        System.out.println("------------------------------------------------------------------------------------------------------");
-        System.out.println("======================================================================================================\n");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("==========================================================================================================================\n");
     }
 
 }

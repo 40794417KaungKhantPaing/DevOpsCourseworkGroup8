@@ -5,7 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Handles generating and retrieving the total population of the world.
+ * Handles generating and retrieving the total population of the world,
+ * including breakdowns for city and non-city populations.
  */
 public class PopulationWorldReport {
 
@@ -13,58 +14,88 @@ public class PopulationWorldReport {
     private static final Logger LOGGER = Logger.getLogger(PopulationWorldReport.class.getName());
 
     /**
-     * Retrieves the total world population from the database.
+     * Retrieves the total world population and breakdown (city vs non-city) from the database.
      *
      * @param conn Active database connection
-     * @return total world population (long), or 0 if an error occurs or no data found
+     * @return PopulationData containing total, city, and non-city data
      */
-    public long getPopulation_World_Report(Connection conn) {
+    public PopulationData getPopulation_World_Report(Connection conn) {
 
-        long totalPopulation = 0;
+        PopulationData data = new PopulationData("World");
 
         // 1. Check for null connection
         if (conn == null) {
             LOGGER.warning("Database not connected. Cannot retrieve world population report.");
-            return 0;
+            return data;
         }
 
-        // SQL query to calculate total world population
-        String sql = """
-                SELECT SUM(Population) AS WorldPopulation
-                FROM country;
-                """;
+        // SQL queries
+        String totalSql = "SELECT SUM(Population) AS TotalPopulation FROM country;";
+        String citySql = "SELECT SUM(city.Population) AS CityPopulation FROM city;";
 
-        // 2. Execute query
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmtTotal = conn.createStatement();
+             Statement stmtCity = conn.createStatement();
+             ResultSet rsTotal = stmtTotal.executeQuery(totalSql);
+             ResultSet rsCity = stmtCity.executeQuery(citySql)) {
 
-            if (rs.next()) {
-                totalPopulation = rs.getLong("WorldPopulation");
+            if (rsTotal.next()) {
+                data.totalPopulation = rsTotal.getLong("TotalPopulation");
+            }
+            if (rsCity.next()) {
+                data.cityPopulation = rsCity.getLong("CityPopulation");
+            }
+
+            data.nonCityPopulation = data.totalPopulation - data.cityPopulation;
+
+            if (data.totalPopulation > 0) {
+                data.cityPercentage = (data.cityPopulation * 100.0) / data.totalPopulation;
+                data.nonCityPercentage = (data.nonCityPopulation * 100.0) / data.totalPopulation;
             }
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error retrieving total world population.", e);
-            return 0;
+            LOGGER.log(Level.SEVERE, "Error retrieving world population report.", e);
         }
 
-        // 3. Log if no population data found
-        if (totalPopulation == 0) {
-            LOGGER.warning("No population data found in the database. World population report may be empty.");
-        }
-
-        return totalPopulation;
+        return data;
     }
 
     /**
-     * Prints the total world population to the console in a formatted layout.
+     * Prints the world population report in formatted layout.
      *
-     * @param totalPopulation Total population of the world
+     * @param data PopulationData object containing all population info
      */
-    protected void printPopulation_World_Report(long totalPopulation) {
+    protected void printPopulation_World_Report(PopulationData data) {
         System.out.println("\n==================== ReportID 26. Population of the World Report ====================");
-        System.out.println("-----------------------------------------------------------------------");
-        System.out.printf("%-40s %,20d%n", "Total World Population", totalPopulation);
-        System.out.println("-----------------------------------------------------------------------");
-        System.out.println("=======================================================================\n");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-25s %-20s %-20s %-20s %-10s %-12s%n",
+                "Name", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+
+        System.out.printf("%-25s %,20d %,20d %,20d %9.2f%% %12.2f%%%n",
+                data.name,
+                data.totalPopulation,
+                data.cityPopulation,
+                data.nonCityPopulation,
+                data.cityPercentage,
+                data.nonCityPercentage);
+
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.println("===============================================================================================================\n");
+    }
+
+    /**
+     * Inner class to hold population data.
+     */
+    public static class PopulationData {
+        String name;
+        long totalPopulation;
+        long cityPopulation;
+        long nonCityPopulation;
+        double cityPercentage;
+        double nonCityPercentage;
+
+        public PopulationData(String name) {
+            this.name = name;
+        }
     }
 }

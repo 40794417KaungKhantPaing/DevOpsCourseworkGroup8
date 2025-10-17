@@ -14,7 +14,7 @@ public class PopulationCountryReport {
     private static final Logger LOGGER = Logger.getLogger(PopulationCountryReport.class.getName());
 
     // ---------------------------------------------------------------------
-    // Report 29: Population by Country (specific country)
+    // Report 29: Population by Country (specific country, with City/Non-City)
     // ---------------------------------------------------------------------
     public List<Country> getPopulation_Country_Report(Connection conn) {
         List<Country> countries = new ArrayList<>();
@@ -25,9 +25,15 @@ public class PopulationCountryReport {
         }
 
         String sql = """
-                SELECT Name, Population
-                FROM country
-                ORDER BY Population DESC;
+                SELECT
+                    co.Name AS Country,
+                    co.Population AS TotalPopulation,
+                    IFNULL(SUM(ci.Population), 0) AS CityPopulation,
+                    (co.Population - IFNULL(SUM(ci.Population), 0)) AS NonCityPopulation
+                FROM country co
+                LEFT JOIN city ci ON co.Code = ci.CountryCode
+                GROUP BY co.Name, co.Population
+                ORDER BY TotalPopulation DESC;
                 """;
 
         try (Statement stmt = conn.createStatement();
@@ -35,8 +41,13 @@ public class PopulationCountryReport {
 
             while (rs.next()) {
                 Country country = new Country();
-                country.setCountryName(rs.getString("Name"));
-                country.setPopulation(rs.getLong("Population"));
+                country.setCountryName(rs.getString("Country"));
+                country.setPopulation(rs.getLong("TotalPopulation"));
+
+                // Reuse gnp for city population, gnpOld for non-city population
+                country.setGnp(rs.getDouble("CityPopulation"));
+                country.setGnpOld(rs.getDouble("NonCityPopulation"));
+
                 countries.add(country);
             }
 
@@ -49,18 +60,32 @@ public class PopulationCountryReport {
 
     public void printPopulation_Country_Report(List<Country> countries, String selectedCountry) {
         System.out.println("\n==================== ReportID 29. Population by Country Report ====================");
-        System.out.println("---------------------------------------------------------------------");
-        System.out.printf("%-40s %-20s%n", "Country", "Population");
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-40s %20s %20s %20s %10s %10s%n",
+                "Country", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
 
         countries.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(selectedCountry))
-                .forEach(c -> System.out.printf("%-40s %,20d%n",
-                        c.getCountryName(),
-                        c.getPopulation()));
+                .forEach(country -> {
+                    long total = country.getPopulation();
+                    long city = country.getGnp() != null ? country.getGnp().longValue() : 0;
+                    long nonCity = country.getGnpOld() != null ? country.getGnpOld().longValue() : 0;
 
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("=====================================================================\n");
+                    double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
+                    double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
+
+                    System.out.printf("%-40s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
+                            country.getCountryName(),
+                            total,
+                            city,
+                            nonCity,
+                            cityPercent,
+                            nonCityPercent);
+                });
+
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+        System.out.println("==============================================================================================================\n");
     }
 
     // ---------------------------------------------------------------------
