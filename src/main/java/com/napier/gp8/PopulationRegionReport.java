@@ -26,15 +26,19 @@ public class PopulationRegionReport {
         }
 
         String sql = """
-                SELECT
-                    c.Region AS Region,
-                    SUM(c.Population) AS TotalPopulation,
-                    SUM(ci.Population) AS CityPopulation,
-                    (SUM(c.Population) - SUM(ci.Population)) AS NonCityPopulation
-                FROM country c
-                LEFT JOIN city ci ON c.Code = ci.CountryCode
-                GROUP BY c.Region
-                ORDER BY TotalPopulation DESC;
+                    SELECT
+                        c.Region AS Region,
+                        SUM(c.Population) AS TotalPopulation,
+                        COALESCE(SUM(city_pop.CityPopulation), 0) AS CityPopulation,
+                        SUM(c.Population) - COALESCE(SUM(city_pop.CityPopulation), 0) AS NonCityPopulation
+                    FROM country c
+                    LEFT JOIN (
+                        SELECT CountryCode, SUM(Population) AS CityPopulation
+                        FROM city
+                        GROUP BY CountryCode
+                    ) city_pop ON c.Code = city_pop.CountryCode
+                    GROUP BY c.Region
+                    ORDER BY TotalPopulation DESC;
                 """;
 
         try (Statement stmt = conn.createStatement();

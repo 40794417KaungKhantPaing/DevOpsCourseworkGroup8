@@ -27,15 +27,19 @@ public class PopulationContinentReport {
         }
 
         String sql = """
-                SELECT
-                    c.Continent,
-                    SUM(c.Population) AS TotalPopulation,
-                    SUM(ci.Population) AS CityPopulation,
-                    (SUM(c.Population) - SUM(ci.Population)) AS NonCityPopulation
-                FROM country c
-                LEFT JOIN city ci ON ci.CountryCode = c.Code
-                GROUP BY c.Continent
-                ORDER BY TotalPopulation DESC;
+                    SELECT
+                        c.Continent,
+                        SUM(c.Population) AS TotalPopulation,
+                        COALESCE(SUM(ci.CityPop), 0) AS CityPopulation,
+                        SUM(c.Population) - COALESCE(SUM(ci.CityPop), 0) AS NonCityPopulation
+                    FROM country c
+                    LEFT JOIN (
+                        SELECT CountryCode, SUM(Population) AS CityPop
+                        FROM city
+                        GROUP BY CountryCode
+                    ) ci ON ci.CountryCode = c.Code
+                    GROUP BY c.Continent
+                    ORDER BY TotalPopulation DESC;
                 """;
 
         try (Statement stmt = conn.createStatement();
