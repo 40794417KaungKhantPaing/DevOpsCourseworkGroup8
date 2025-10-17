@@ -4,10 +4,10 @@
 
 This project is currently in development. Security updates will be provided for stable releases once they are published.
 
-| **Release Version** | **Description** | **Supported** |
-|----------------------|-----------------|----------------|
+| **Release Version**   | **Description** | **Supported** |
+|-----------------------|-----------------|----------------|
 | **Version 1 (v-0.1)** | Initial release including all country, city, capital city, population, and language reports. Each report retrieves and displays data from the MySQL world database using JDBC. Variable names are uniquely defined for clarity, ensuring better readability, maintainability, and conflict-free execution across all report-generating modules. | ✅ |
-| **Version 2** | Implements all 32 reports and includes screenshots of their outputs. | ✅ |
+| **Version 2 (v-0.2)** | Implements all 32 reports and includes screenshots of their outputs. | ✅ |
 
 ---
 
