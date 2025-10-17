@@ -101,7 +101,7 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
      */
     public void printAllCapitalCitiesInWorldByPopulation(ArrayList<City> capitals) {
         //call print method from base class
-        printCapitalCities(capitals, "\n==================== ReportID 17. All Capital Cities in the World Report ============================");
+        printCapitalCities(capitals, "ReportID 17. All Capital Cities in the World Report");
     }
 
     /**
@@ -111,7 +111,7 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
      * @param numberOfCapitals Number of top cities displayed
      */
     public void printTopNCapitalCitiesInWorldByPopulation(ArrayList<City> capitals, int numberOfCapitals) {
-        printCapitalCities(capitals, "\n==================== ReportID 20. Top " + numberOfCapitals + " Capital Cities in the World Report  =========================");
+        printCapitalCities(capitals, "ReportID 20. Top " + numberOfCapitals + " Capital Cities in the World Report");
     }
 
 }

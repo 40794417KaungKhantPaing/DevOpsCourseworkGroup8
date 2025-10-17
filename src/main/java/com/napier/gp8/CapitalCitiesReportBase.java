@@ -64,7 +64,7 @@ public class CapitalCitiesReportBase {
         }
 
         // Print header
-        System.out.println("\n" + reportTitle);
+        System.out.println("\n======================= " + reportTitle +" ============================");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.printf("%-35s %-45s %-15s%n", "Capital", "Country", "Population");
         System.out.println("----------------------------------------------------------------------------------------------------");
