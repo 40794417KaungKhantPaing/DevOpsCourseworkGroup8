@@ -90,13 +90,15 @@ public class LanguagePopulationReport {
                                               ArrayList<Long> speakers,
                                               ArrayList<Double> worldPercent) {
 
+
         // Validate lists
         if (languages == null || languages.isEmpty()) {
             System.out.println("No data available for language population report.");
             return;
         }
         // Print header
-        System.out.println("\nLanguage Population Report:");
+        System.out.println("\n============= ReportID 32. Language Population Report =============");
+        System.out.println("------------------------------------------------------------");
         System.out.printf("%-15s %-20s %-20s%n", "Language", "Speakers", "% of World Population");
         System.out.println("------------------------------------------------------------");
 
@@ -109,5 +111,6 @@ public class LanguagePopulationReport {
         }
 
         System.out.println("------------------------------------------------------------");
+        System.out.println("============================================================");
     }
 }
