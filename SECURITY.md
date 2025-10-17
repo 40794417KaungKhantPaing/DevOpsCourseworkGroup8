@@ -4,31 +4,35 @@
 
 This project is currently in development. Security updates will be provided for stable releases once they are published.
 
-- **Unreleased / In Development** – Not officially supported yet
+| **Release Version** | **Description** | **Supported** |
+|----------------------|-----------------|----------------|
+| **Version 1 (v-0.1)** | Initial release including all country, city, capital city, population, and language reports. Each report retrieves and displays data from the MySQL world database using JDBC. Variable names are uniquely defined for clarity, ensuring better readability, maintainability, and conflict-free execution across all report-generating modules. | ✅ |
+| **Version 2** | Implements all 32 reports and includes screenshots of their outputs. | ✅ |
 
 ---
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in this project, please follow these steps:
+If you discover a security vulnerability in this project, please follow the process below:
 
-1. **Contact the Team Privately**
-    - Email the **Product Owner**: 40794417@live.napier.ac.uk
-    - Email the **Scrum Master**: 40794419@live.napier.ac.uk
-    - Include:
-        - Description of the vulnerability
-        - Steps to reproduce
-        - Environment details (OS, database, JDK version, etc.)
-        - Suggested mitigation if possible
+### 1. Contact the Team Privately
+- **Product Owner:** [40794417@live.napier.ac.uk](mailto:40794417@live.napier.ac.uk)
+- **Scrum Master:** [40794419@live.napier.ac.uk](mailto:40794419@live.napier.ac.uk)
 
-2. **Response Time**
-    - Acknowledge reports within 48 hours.
-    - Provide fixes or mitigation advice as soon as possible.
+Please include the following details in your report:
+- Description of the vulnerability
+- Steps to reproduce
+- Environment details (OS, database, JDK version, etc.)
+- Suggested mitigation, if possible
 
-3. **Resolution Process**
-    - Evaluate the issue and confirm if it is a valid vulnerability.
-    - If confirmed, create a fix and release it in the next stable version.
-    - Reporter may be credited if they wish.
+### 2. Response Time
+- Acknowledgement within **48 hours**
+- Fixes or mitigation guidance provided as soon as possible
 
-4. **Do Not Publicly Disclose**
-    - Do not disclose the vulnerability until a fix is released.
+### 3. Resolution Process
+- Evaluate and confirm if the report identifies a valid vulnerability
+- Develop a fix and release it in the next stable version
+- Credit the reporter if they wish
+
+### 4. Do Not Publicly Disclose
+Please **do not disclose** the vulnerability publicly until a fix has been officially released.
