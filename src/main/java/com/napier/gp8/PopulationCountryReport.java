@@ -6,30 +6,31 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Handles generating and retrieving population reports by country.
- */
 public class PopulationCountryReport {
 
     private static final Logger LOGGER = Logger.getLogger(PopulationCountryReport.class.getName());
 
-    // ---------------------------------------------------------------------
-    // Report 29: Population by Country (specific country, with City/Non-City)
-    // ---------------------------------------------------------------------
     public List<Country> getPopulation_Country_Report(Connection conn) {
-        List<Country> countries = new ArrayList<>();
+        return fetchCountryPopulation(conn);
+    }
 
+    public List<Country> getPopulation_City_vs_NonCity_ByCountry(Connection conn) {
+        return fetchCountryPopulation(conn);
+    }
+
+    private List<Country> fetchCountryPopulation(Connection conn) {
+        List<Country> results = new ArrayList<>();
         if (conn == null) {
-            LOGGER.warning("Database not connected. Cannot generate population report by country.");
-            return countries;
+            LOGGER.warning("Database not connected. Cannot generate country population report.");
+            return results;
         }
 
         String sql = """
                 SELECT
                     co.Name AS Country,
                     co.Population AS TotalPopulation,
-                    IFNULL(SUM(ci.Population), 0) AS CityPopulation,
-                    (co.Population - IFNULL(SUM(ci.Population), 0)) AS NonCityPopulation
+                    IFNULL(SUM(ci.Population),0) AS CityPopulation,
+                    (co.Population - IFNULL(SUM(ci.Population),0)) AS NonCityPopulation
                 FROM country co
                 LEFT JOIN city ci ON co.Code = ci.CountryCode
                 GROUP BY co.Name, co.Population
@@ -40,124 +41,49 @@ public class PopulationCountryReport {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Country country = new Country();
-                country.setCountryName(rs.getString("Country"));
-                country.setPopulation(rs.getLong("TotalPopulation"));
-
-                // Reuse gnp for city population, gnpOld for non-city population
-                country.setGnp(rs.getDouble("CityPopulation"));
-                country.setGnpOld(rs.getDouble("NonCityPopulation"));
-
-                countries.add(country);
+                Country c = new Country();
+                c.setCountryName(rs.getString("Country"));
+                c.setPopulation(rs.getLong("TotalPopulation"));
+                c.setGnp(rs.getDouble("CityPopulation"));
+                c.setGnpOld(rs.getDouble("NonCityPopulation"));
+                results.add(c);
             }
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error retrieving population report by country.", e);
         }
 
-        return countries;
-    }
-
-    public void printPopulation_Country_Report(List<Country> countries, String selectedCountry) {
-        System.out.println("\n==================== ReportID 29. Population by Country Report ====================");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-40s %20s %20s %20s %10s %10s%n",
-                "Country", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
-
-        countries.stream()
-                .filter(c -> c.getCountryName().equalsIgnoreCase(selectedCountry))
-                .forEach(country -> {
-                    long total = country.getPopulation();
-                    long city = country.getGnp() != null ? country.getGnp().longValue() : 0;
-                    long nonCity = country.getGnpOld() != null ? country.getGnpOld().longValue() : 0;
-
-                    double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
-                    double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
-
-                    System.out.printf("%-40s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
-                            country.getCountryName(),
-                            total,
-                            city,
-                            nonCity,
-                            cityPercent,
-                            nonCityPercent);
-                });
-
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("=============================================================================================================================\n");
-    }
-
-    // ---------------------------------------------------------------------
-    // Report 25: Population by Country (City vs Non-City with percentages)
-    // ---------------------------------------------------------------------
-    public List<Country> getPopulation_City_vs_NonCity_ByCountry(Connection conn) {
-        List<Country> countries = new ArrayList<>();
-
-        if (conn == null) {
-            LOGGER.warning("Database not connected. Cannot generate city vs non-city population report by country.");
-            return countries;
+        if (results.isEmpty()) {
+            LOGGER.warning("No population data found for country report.");
         }
 
-        String sql = """
-                SELECT
-                    co.Name AS Country,
-                    co.Population AS TotalPopulation,
-                    IFNULL(SUM(ci.Population), 0) AS CityPopulation,
-                    (co.Population - IFNULL(SUM(ci.Population), 0)) AS NonCityPopulation
-                FROM country co
-                LEFT JOIN city ci ON co.Code = ci.CountryCode
-                GROUP BY co.Name, co.Population
-                ORDER BY TotalPopulation DESC;
-                """;
-
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Country country = new Country();
-                country.setCountryName(rs.getString("Country"));
-                country.setPopulation(rs.getLong("TotalPopulation"));
-
-                // Reuse gnp for city population, gnpOld for non-city population
-                country.setGnp(rs.getDouble("CityPopulation"));
-                country.setGnpOld(rs.getDouble("NonCityPopulation"));
-
-                countries.add(country);
-            }
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error retrieving city vs non-city population by country.", e);
-        }
-
-        return countries;
+        return results;
     }
 
-    public void printPopulation_City_vs_NonCity_ByCountry(List<Country> countries) {
-        System.out.println("\n================================ ReportID 25. Population by Country (City vs Non-City) ============================");
-        System.out.println("---------------------------------------------------------------------------------------------------------------------");
+    public void printPopulation_Country_Report(List<Country> results, String selectedCountry) {
+        String groupByColumn = "Country";
+        printPopulation(results, "ReportID 29. Population by Country Report",groupByColumn,selectedCountry);
+    }
+
+    public void printPopulation_City_vs_NonCity_ByCountry(List<Country> results) {
+        printPopulation(results, "ReportID 25. Population by Country (City vs Non-City)", "Country", null);
+    }
+
+    private void printPopulation(List<Country> results, String title, String groupByColumn, String selectedValue) {
+        System.out.println("\n==================== " + title + " ====================");
         System.out.printf("%-40s %20s %20s %20s %10s %10s%n",
-                "Country", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
+                groupByColumn, "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        for (Country country : countries) {
-            long total = country.getPopulation();
-            long city = country.getGnp() != null ? country.getGnp().longValue() : 0;
-            long nonCity = country.getGnpOld() != null ? country.getGnpOld().longValue() : 0;
-
-            double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
-            double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
-
+        for (Country c : results) {
+            String name = c.getCountryName();
+            if (selectedValue != null && !name.equalsIgnoreCase(selectedValue)) continue;
+            PopulationUtils.PopValues v = PopulationUtils.calculatePopulationValues(c);
             System.out.printf("%-40s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
-                    country.getCountryName(),
-                    total,
-                    city,
-                    nonCity,
-                    cityPercent,
-                    nonCityPercent);
+                    name, v.total(), v.city(), v.nonCity(), v.cityPercent(), v.nonCityPercent());
         }
 
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("=======================================================================================================================\n");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("========================================================================================================================================================================\n");
     }
 }

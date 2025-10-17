@@ -209,10 +209,11 @@ public class App {
 
 
         //31 Retrieve population data using the PopulationCityReport class
+        String cityVariable = "Tokyo";
         PopulationCityReport cityReport = new PopulationCityReport();
         List<City> cityList = cityReport.getPopulation_City_Report(app.conn);
         // Print a specific city
-        cityReport.printPopulation_City_Report(cityList, "Tokyo");
+        cityReport.printPopulation_City_Report(cityList,cityVariable);
 
         //============================================================
         // REPORT: Language Population

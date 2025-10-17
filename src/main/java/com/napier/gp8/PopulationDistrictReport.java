@@ -80,23 +80,19 @@ public class PopulationDistrictReport {
         countries.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(selectedDistrict))
                 .forEach(c -> {
-                    long total = c.getPopulation();
-                    long city = c.getGnp() != null ? c.getGnp().longValue() : 0;
-                    long nonCity = c.getGnpOld() != null ? c.getGnpOld().longValue() : 0;
-                    double cityPercent = total > 0 ? (city * 100.0 / total) : 0;
-                    double nonCityPercent = total > 0 ? (nonCity * 100.0 / total) : 0;
+                    // Use PopulationUtils helper
+                    PopulationUtils.PopValues v = PopulationUtils.calculatePopulationValues(c);
 
                     System.out.printf("%-30s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
                             c.getCountryName(),
-                            total,
-                            city,
-                            nonCity,
-                            cityPercent,
-                            nonCityPercent);
+                            v.total(),
+                            v.city(),
+                            v.nonCity(),
+                            v.cityPercent(),
+                            v.nonCityPercent());
                 });
 
         System.out.println("--------------------------------------------------------------------------------------------------------------------------");
         System.out.println("==========================================================================================================================\n");
     }
-
 }
