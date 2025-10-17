@@ -119,7 +119,7 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param countries List of Country objects
      */
     public void printCountries_Continent_Report(String continent, ArrayList<Country> countries) {
-        printCountries(countries, "All Countries in Continent '" + continent + "' Report");
+        printCountries(countries, "ReportID 2. All Countries in Continent '" + continent + "' Report");
     }
 
     /**
@@ -130,6 +130,6 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param numberOfCountries Number of top countries displayed
      */
     public void printTopNCountries_Continent_Report(String continent, ArrayList<Country> countries, int numberOfCountries) {
-        printCountries(countries, "Top " + numberOfCountries + " Countries in Continent '" + continent + "' Report");
+        printCountries(countries, "ReportID 5. Top " + numberOfCountries + " Countries in Continent '" + continent + "' Report");
     }
 }

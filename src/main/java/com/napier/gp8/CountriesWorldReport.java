@@ -82,7 +82,7 @@ public class CountriesWorldReport extends CountriesReportBase {
      * @param countries List of countries
      */
     public void printCountries_World_Report(ArrayList<Country> countries) {
-        printCountries(countries, "All Countries in the World Report");
+        printCountries(countries, "ReportID 1. All Countries in the World Report");
     }
 
     /**
@@ -91,7 +91,6 @@ public class CountriesWorldReport extends CountriesReportBase {
      * @param topNCountries Number of top countries
      */
     public void printTopNCountries_World_Report(ArrayList<Country> countries, int topNCountries) {
-        printCountries(countries, "Top " + topNCountries + " Countries in the World Report");
+        printCountries(countries, "ReportID 4. Top " + topNCountries + " Countries in the World Report");
     }
-
 }

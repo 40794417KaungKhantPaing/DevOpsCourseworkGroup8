@@ -131,7 +131,7 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param countries List of Country objects
      */
     public void printCountries_Region_Report(String regionName, ArrayList<Country> countries) {
-        printCountries(countries, "All Countries in Region '" + regionName + "' Report");
+        printCountries(countries, "ReportID 3. All Countries in Region '" + regionName + "' Report");
     }
 
     /**
@@ -142,6 +142,6 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param topNCountries  Number of top countries displayed
      */
     public void printTopNCountries_Region_Report(String regionName, ArrayList<Country> countries, int topNCountries) {
-        printCountries(countries, "Top " + topNCountries + " Countries in the Region '" + regionName + "' Report");
+        printCountries(countries, "ReportID 6. Top " + topNCountries + " Countries in the Region '" + regionName + "' Report");
     }
 }
