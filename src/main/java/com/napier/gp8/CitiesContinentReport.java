@@ -1,38 +1,45 @@
 package com.napier.gp8;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Handles generating and retrieving City Report data by continent.
+ * Handles continent-based city reports such as:
+ * - All cities in a given continent
+ * - Top N most populated cities in a given continent
+ * This class extends {@link CitiesReportBase} to reuse methods for building
+ * city lists from a ResultSet and for printing formatted reports.
  */
-public class CitiesContinentReport {
+public class CitiesContinentReport extends CitiesReportBase {
 
     /**
-     * Retrieves a list of all cities in a given continent ordered by largest population to smallest.
-     * Columns: Name, Country, District, Population
+     * Retrieves all cities within a specified continent, ordered by population (descending).
+     * This method queries the database to return cities belonging to countries
+     * located in the given continent.
+     * Expected ResultSet columns: CityName, CountryName, District, Population.
      *
-     * @param conn Active database connection
-     * @param continent The continent to filter cities by
-     * @return List of City objects, or an empty list if an error occurs or no data is found.
+     * @param conn       Active database connection
+     * @param continent  The name of the continent (e.g., "Asia", "Europe")
+     * @return A list of {@link City} objects for the specified continent.
+     *         Returns an empty list if an error occurs or no results are found.
      */
-    public List<City> getCities_By_Continent_Report(Connection conn, String continent) {
+    public ArrayList<City> getCitiesContinentReport(Connection conn, String continent) {
+        // Initialize a list to hold City objects
+        ArrayList<City> cities = new ArrayList<>();
 
-        List<City> cities = new ArrayList<>();
-
-        // 1. Check for null connection or invalid input
+        // Check for null connection or invalid input
         if (conn == null) {
             System.err.println("Database not connected. Cannot generate city report.");
             return cities;
         }
-        if (continent == null || continent.isEmpty()) {
-            System.err.println("Invalid continent input. Please specify a valid continent.");
-            return cities;
-        }
 
-        // 2. SQL query for cities in the given continent ordered by population descending
-        String sql = """
+        // SQL query: Select all cities that belong to countries in the specified continent,
+        // joining the city and country tables to include the country name.
+        // Results are sorted in descending order by population.
+        String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName,
                        city.District, city.Population
                 FROM city
@@ -41,63 +48,101 @@ public class CitiesContinentReport {
                 ORDER BY city.Population DESC;
                 """;
 
-        // 3. Execute query and populate list
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        // Use try-with-resources to ensure PreparedStatement and ResultSet are automatically closed
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            // Set the parameter for the continent filter in the SQL query
+            pstmt.setString(1, continent);
 
-            stmt.setString(1, continent);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    City city = new City();
-                    Country country = new Country();
-
-                    city.setCityName(rs.getString("CityName"));
-                    country.setCountryName(rs.getString("CountryName"));
-                    city.setCountry(country);
-                    city.setDistrict(rs.getString("District"));
-                    city.setPopulation(rs.getInt("Population"));
-
-                    cities.add(city);
-                }
+            // Execute the query and retrieve results
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Build a list of City objects from the query results using the base class helper
+                cities = buildCitiesFromResultSet(rs);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error retrieving city report for continent: " + continent);
+            // Handle database errors and print details for debugging
+            System.err.println("Error retrieving all cities in continent: " + continent);
             e.printStackTrace();
         }
 
-        if (cities.isEmpty()) {
-            System.out.println("Warning: No city data found for continent '" + continent + "'.");
-        }
-
+        // Return the populated list (or an empty one if an error occurred)
         return cities;
     }
 
     /**
-     * Prints the City Report for a continent to the console.
+     * Retrieves the top N most populated cities within a specified continent.
+     * This method filters results by continent and limits the number of records returned.
      *
-     * @param cities List of City objects
-     * @param continent The continent name
+     * @param conn       Active database connection
+     * @param continent  The name of the continent (e.g., "Africa", "Europe")
+     * @param topN       The number of top cities to return (e.g., 10 for top 10)
+     * @return A list of {@link City} objects for the specified continent.
+     *         Returns an empty list if an error occurs or no results are found.
      */
-    public void printCities_By_Continent_Report(List<City> cities, String continent) {
-        System.out.println("----------------------------------------------------------------------------------------------" +
-                "------------------");
-        System.out.printf("Cities in a Continent: %s (Ordered by Population Descending)%n", continent);
-        System.out.println("----------------------------------------------------------------------------------------------" +
-                "----------------");
-        System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
-        System.out.println("----------------------------------------------------------------------------------------------" +
-                "----------------");
+    public ArrayList<City> getTopNCitiesContinentReport(Connection conn, String continent, int topN) {
+        // Initialize a list to hold City objects
+        ArrayList<City> cities = new ArrayList<>();
 
-        for (City city : cities) {
-            System.out.printf("%-35s %-35s %-20s %-15d%n",
-                    city.getCityName(),
-                    city.getCountry().getCountryName(),
-                    city.getDistrict(),
-                    city.getPopulation());
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
         }
 
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "----------------");
+        // SQL query: Select cities within the specified continent, ordered by population,
+        // but only return the top N results based on the LIMIT parameter.
+        String query = """
+                SELECT city.Name AS CityName, country.Name AS CountryName,
+                       city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                WHERE country.Continent = ?
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
+
+        // Use try-with-resources for safe database resource management
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            // Set query parameters: continent name and top N limit
+            pstmt.setString(1, continent);
+            pstmt.setInt(2, topN);
+
+            // Execute the query and process the results
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Build City objects from the ResultSet using a method from the base class
+                cities = buildCitiesFromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            // Handle database errors and output detailed information
+            System.err.println("Error retrieving top " + topN + " cities in continent: " + continent);
+            e.printStackTrace();
+        }
+
+        // Return the list of top N cities (or empty if no results)
+        return cities;
+    }
+
+    /**
+     * Prints a formatted report showing all cities within a given continent.
+     * Utilizes the printCities() method inherited from {@link CitiesReportBase}.
+     *
+     * @param cities     The list of cities to display.
+     * @param continent  The continent name to include in the report title.
+     */
+    public void printCitiesContinentReport(ArrayList<City> cities, String continent) {
+        printCities(cities, "ReportID 8. All Cities in a Continent: " + continent + " by Population Report");
+    }
+
+    /**
+     * Prints a formatted report showing the top N most populated cities within a given continent.
+     * Utilizes the printCities() method inherited from {@link CitiesReportBase}.
+     *
+     * @param cities     The list of top N cities to display.
+     * @param continent  The continent name to include in the report title.
+     * @param topN       The number of cities displayed in the report.
+     */
+    public void printTopNCitiesContinentReport(ArrayList<City> cities, String continent, int topN) {
+        printCities(cities, "Report ID 13. Top " + topN + " Cities in a Continent: " + continent + " by Population Report");
     }
 }

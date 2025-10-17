@@ -1,100 +1,129 @@
 package com.napier.gp8;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Handles generating and retrieving City Report data.
+ * Handles world city reports (all cities, top N cities) using CitiesReportBase.
+ * This class extends {@link CitiesReportBase} to reuse methods for building and printing city data.
  */
-public class CitiesWorldReport {
+public class CitiesWorldReport extends CitiesReportBase {
+
     /**
-     * Retrieves a list of all cities in the world ordered by largest population to smallest.
-     * Columns: Name, Country, District, Population
+     * Retrieves all cities in the world, ordered by population (from highest to lowest).
      *
-     * @param conn Active database connection
-     * @return List of City objects, or an empty list if an error occurs or no data is found.
+     * @param conn A valid database connection.
+     * @return A list of {@link City} objects sorted by population descending.
+     *         Returns an empty list if an error occurs or no data is found.
      */
-    public List<City> getCitiesWorldReport(Connection conn) {
+    public ArrayList<City> getCitiesWorldReport(Connection conn) {
+        // Initialize an empty list to store city data
+        ArrayList<City> cities = new ArrayList<>();
 
-        List<City> cities = new ArrayList<>();
-
-        // 1. Check for null connection and return an empty list upon failure.
+        // Check for null connection or invalid input
         if (conn == null) {
             System.err.println("Database not connected. Cannot generate city report.");
             return cities;
         }
 
-        // 2. Use try-with-resources for automatic Statement closing
-        try (Statement stmt = conn.createStatement()) {
+        // SQL query to retrieve all cities joined with their corresponding countries
+        // Ordered by population in descending order
+        String query = """
+                SELECT city.Name AS CityName, country.Name AS CountryName,
+                       city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                ORDER BY city.Population DESC;
+                """;
 
-            String sql = """
-                    SELECT city.Name AS CityName, country.Name AS CountryName,
-                           city.District, city.Population
-                    FROM city
-                    JOIN country ON city.CountryCode = country.Code
-                    ORDER BY city.Population DESC;
-                    """;
+        // Use a try-with-resources block to ensure PreparedStatement and ResultSet are closed automatically
+        try (PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
 
-            // 3. Use try-with-resources for automatic ResultSet closing
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-
-                while (rs.next()) {
-                    City city = new City();
-                    Country country = new Country();
-                    city.setCityName(rs.getString("CityName"));
-                    // Build Country object and link it
-                    country.setCountryName(rs.getString("CountryName"));
-                    city.setCountry(country);
-                    city.setDistrict(rs.getString("District"));
-                    city.setPopulation(rs.getInt("Population"));
-                    cities.add(city);
-                }
-            }
+            // Convert the ResultSet into a list of City objects using a method from the base class
+            cities = buildCitiesFromResultSet(rs);
 
         } catch (SQLException e) {
-            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving city report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
+            // Handle any SQL-related errors
+            System.err.println("Error retrieving all cities in the world:");
             e.printStackTrace();
-            return cities; // Return empty list upon failure
         }
 
-        // 5. Check for Missing Data
-        if (cities.isEmpty()) {
-            System.out.println("Warning: No city data was found in the database. Report will be empty.");
-        }
-
+        // Return the list of cities (possibly empty)
         return cities;
     }
 
     /**
-     * Prints the City Report to the console.
+     * Retrieves the top N most populated cities in the world.
      *
-     * @param cities List of City objects
+     * @param conn A valid database connection.
+     * @param topN The number of top cities to retrieve (e.g., 10 for the top 10).
+     * @return A list of {@link City} objects containing the top N cities.
+     *         Returns an empty list if an error occurs or no data is found.
      */
-    public void printCitiesWorldReport(List<City> cities) {
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
-        System.out.println("Cities in World (Ordered by Population Descending)");
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
-        System.out.printf("%-35s %-35s %-20s %-15s%n", "Name", "Country", "District", "Population");
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
+    public ArrayList<City> getTopNCitiesWorldReport(Connection conn, int topN) {
+        // Initialize an empty list to store city data
+        ArrayList<City> cities = new ArrayList<>();
 
-        for (City city : cities) {
-            System.out.printf("%-35s %-35s %-20s %-15d%n",
-                    city.getCityName(),
-                    city.getCountry().getCountryName(),
-                    city.getDistrict(),
-                    city.getPopulation());
+        // Check for null connection or invalid input
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot generate city report.");
+            return cities;
         }
 
-        System.out.println("--------------------------------------------------------------------------------------------" +
-                "------------------");
+        // SQL query to retrieve only the top N cities by population
+        String query = """
+                SELECT city.Name AS CityName, country.Name AS CountryName,
+                       city.District, city.Population
+                FROM city
+                JOIN country ON city.CountryCode = country.Code
+                ORDER BY city.Population DESC
+                LIMIT ?;
+                """;
+
+        // Use a try-with-resources block to ensure all database resources are properly closed
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the parameter for the LIMIT clause dynamically
+            pstmt.setInt(1, topN);
+
+            // Execute the query and process the result
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Convert the ResultSet into a list of City objects
+                cities = buildCitiesFromResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            // Handle SQL errors and display which report failed
+            System.err.println("Error retrieving top " + topN + " cities in the world:");
+            e.printStackTrace();
+        }
+
+        // Return the resulting city list (possibly empty)
+        return cities;
     }
 
+    /**
+     * Prints a formatted report showing all cities in the world.
+     * Utilizes the printCities() method inherited from {@link CitiesReportBase}.
+     *
+     * @param cities The list of cities to display.
+     */
+    public void printCitiesWorldReport(ArrayList<City> cities) {
+        printCities(cities, "ReportID 7. All Cities in the World by Population Report");
+    }
 
+    /**
+     * Prints a formatted report showing the top N cities in the world.
+     * Utilizes the printCities() method inherited from {@link CitiesReportBase}.
+     *
+     * @param cities The list of top N cities to display.
+     * @param topN The number of top cities included in the report.
+     */
+    public void printTopNCitiesWorldReport(ArrayList<City> cities, int topN) {
+        printCities(cities, "ReportID 12. Top " + topN + " Cities in the World by Population Report");
+    }
 }
