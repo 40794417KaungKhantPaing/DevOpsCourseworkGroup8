@@ -6,7 +6,7 @@
 
     <groupId>com.napier.gp8</groupId>
     <artifactId>DevOpsGroup8CourseWork</artifactId>
-    <version>v-0.1</version>
+    <version>v-0.2</version>
 
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
