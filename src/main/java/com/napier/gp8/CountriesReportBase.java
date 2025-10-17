@@ -53,7 +53,7 @@ public class CountriesReportBase {
             return;
         }
 
-        System.out.println("\n========================== " + reportTitle + " ==========================");
+        System.out.println("\n============= " + reportTitle + " =============");
         System.out.println("-------------------------------------------------------------------------------------------------------");
         System.out.printf("%-35s %-25s %-25s %-15s%n",
                 "Country Name", "Continent", "Region", "Population");
