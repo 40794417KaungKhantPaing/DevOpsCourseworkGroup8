@@ -3,85 +3,89 @@ package com.napier.gp8;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- * Handles generating and retrieving population reports by region.
- */
 public class PopulationRegionReport {
 
-    /**
-     * Retrieves total population grouped by region, ordered from largest to smallest.
-     *
-     * @param conn Active database connection
-     * @return List of Country objects containing region and population data,
-     *         or an empty list if an error occurs or no data is found.
-     */
+    private static final Logger LOGGER = Logger.getLogger(PopulationRegionReport.class.getName());
+
     public List<Country> getPopulation_Region_Report(Connection conn) {
+        return fetchRegionPopulation(conn);
+    }
 
-        List<Country> countries = new ArrayList<>();
+    public List<Country> getPopulation_Region_Details_Report(Connection conn) {
+        return fetchRegionPopulation(conn);
+    }
 
-        // 1. Check for null connection and return an empty list upon failure.
+    private List<Country> fetchRegionPopulation(Connection conn) {
+        List<Country> results = new ArrayList<>();
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate population report by region.");
-            return countries;
+            LOGGER.warning("Database not connected. Cannot generate region population report.");
+            return results;
         }
 
         String sql = """
-                SELECT Region, SUM(Population) AS TotalPopulation
-                FROM country
-                GROUP BY Region
+                SELECT
+                    c.Region AS Region,
+                    SUM(c.Population) AS TotalPopulation,
+                    SUM(ci.Population) AS CityPopulation,
+                    (SUM(c.Population) - SUM(ci.Population)) AS NonCityPopulation
+                FROM country c
+                LEFT JOIN city ci ON c.Code = ci.CountryCode
+                GROUP BY c.Region
                 ORDER BY TotalPopulation DESC;
                 """;
 
-        // 2. Use try-with-resources for automatic Statement closing
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            // 3. Use try-with-resources for automatic ResultSet closing
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                while (rs.next()) {
-                    Country country = new Country();
-                    country.setRegion(rs.getString("Region"));
-                    country.setPopulation(rs.getLong("TotalPopulation"));
-                    countries.add(country);
-                }
+            while (rs.next()) {
+                Country c = new Country();
+                c.setRegion(rs.getString("Region"));
+                c.setPopulation(rs.getLong("TotalPopulation"));
+                c.setGnp(rs.getDouble("CityPopulation"));
+                c.setGnpOld(rs.getDouble("NonCityPopulation"));
+                results.add(c);
             }
 
         } catch (SQLException e) {
-            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving population report by region:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
-            return countries;
+            LOGGER.log(Level.SEVERE, "Error retrieving population report by region.", e);
         }
 
-        // 5. Check for Missing Data
-        if (countries.isEmpty()) {
-            System.out.println("Warning: No population data found by region. Report will be empty.");
+        if (results.isEmpty()) {
+            LOGGER.warning("No population data found for region report.");
         }
 
-        return countries;
+        return results;
     }
 
-    /**
-     * Prints the Population by Region Report to the console.
-     *
-     * @param countries List of Country objects
-     */
-    protected void printPopulation_Region_Report(List<Country> countries) {
-        System.out.println("\n==================== Population by Region Report ====================");
-        System.out.println("--------------------------------------------------------------------");
-        System.out.printf("%-30s %-20s%n", "Region", "Total Population");
-        System.out.println("--------------------------------------------------------------------");
-
-        for (Country country : countries) {
-            System.out.printf("%-30s %,20d%n",
-                    country.getRegion(),
-                    country.getPopulation());
-        }
-
-        System.out.println("--------------------------------------------------------------------");
-        System.out.println("====================================================================\n");
+    public void printPopulation_Region_Report(List<Country> results, String selectedRegion) {
+        String groupbyColumn = "Region";
+        printPopulation(results, "ReportID 28. Population by Region Report",groupbyColumn,selectedRegion);
     }
 
+    public void printPopulation_Region_Details_Report(List<Country> results) {
+        printPopulation(results, "Report ID 24. Population by Region (Urban vs Non-Urban)", "Region", null);
+    }
+
+    private void printPopulation(List<Country> results, String title, String groupByColumn, String selectedValue) {
+        System.out.println("\n==================== " + title + " ====================");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
+        System.out.printf("%-30s %20s %20s %20s %10s %10s%n",
+                groupByColumn, "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+
+        for (Country c : results) {
+            String name = c.getRegion();
+            if (selectedValue != null && !name.equalsIgnoreCase(selectedValue)) continue;
+            PopulationUtils.PopValues v = PopulationUtils.calculatePopulationValues(c);
+            System.out.printf("%-30s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
+                    name, v.total(), v.city(), v.nonCity(), v.cityPercent(), v.nonCityPercent());
+        }
+
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("=========================================================================================================================\n");
+    }
 }

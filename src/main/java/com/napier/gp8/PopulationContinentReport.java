@@ -3,85 +3,103 @@ package com.napier.gp8;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generating and retrieving population reports by continent.
  */
 public class PopulationContinentReport {
 
-    /**
-     * Retrieves total population grouped by continent, ordered from largest to smallest.
-     *
-     * @param conn Active database connection
-     * @return List of Country objects containing continent and population data,
-     *         or an empty list if an error occurs or no data is found.
-     */
-    public List<Country> getPopulation_Continent_Report(Connection conn) {
+    private static final Logger LOGGER = Logger.getLogger(PopulationContinentReport.class.getName());
 
-        List<Country> countries = new ArrayList<>();
 
-        // 1. Check for null connection and return an empty list upon failure.
+
+    // ---------------------------------------------------------------------
+    // Private helper to fetch continent population data
+    // ---------------------------------------------------------------------
+    private List<Country> fetchContinentPopulationReport(Connection conn) {
+        List<Country> results = new ArrayList<>();
+
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate population report by continent.");
-            return countries;
+            LOGGER.warning("Database not connected. Cannot generate continent population report.");
+            return results;
         }
 
         String sql = """
-                SELECT continent, SUM(population) AS TotalPopulation
-                FROM country
-                GROUP BY continent
+                SELECT
+                    c.Continent,
+                    SUM(c.Population) AS TotalPopulation,
+                    SUM(ci.Population) AS CityPopulation,
+                    (SUM(c.Population) - SUM(ci.Population)) AS NonCityPopulation
+                FROM country c
+                LEFT JOIN city ci ON ci.CountryCode = c.Code
+                GROUP BY c.Continent
                 ORDER BY TotalPopulation DESC;
                 """;
 
-        // 2. Use try-with-resources for automatic Statement closing
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            // 3. Use try-with-resources for automatic ResultSet closing
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                while (rs.next()) {
-                    Country country = new Country();
-                    country.setContinent(rs.getString("Continent"));
-                    country.setPopulation(rs.getLong("TotalPopulation"));
-                    countries.add(country);
-                }
+            while (rs.next()) {
+                Country c = new Country();
+                c.setContinent(rs.getString("Continent"));
+                c.setPopulation(rs.getLong("TotalPopulation"));
+                c.setGnp((double) rs.getLong("CityPopulation"));     // reuse fields
+                c.setGnpOld((double) rs.getLong("NonCityPopulation"));
+                results.add(c);
             }
 
         } catch (SQLException e) {
-            // 4. Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving population report by continent:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
-            return countries;
+            LOGGER.log(Level.SEVERE, "Error retrieving continent population report.", e);
         }
 
-        // 5. Check for Missing Data
-        if (countries.isEmpty()) {
-            System.out.println("Warning: No population data found by continent. Report will be empty.");
+        if (results.isEmpty()) {
+            LOGGER.warning("No population data found for continent report.");
         }
 
-        return countries;
+        return results;
     }
 
-    /**
-     * Prints the Population by Continent Report to the console.
-     *
-     * @param countries List of Country objects
-     */
-    protected void printPopulation_Continent_Report(List<Country> countries) {
-        System.out.println("\n==================== Population by Continent Report ====================");
-        System.out.println("------------------------------------------------------------");
-        System.out.printf("%-20s %-20s%n", "Continent", "Total Population");
-        System.out.println("------------------------------------------------------------");
-
-        for (Country country : countries) {
-            System.out.printf("%-20s %,20d%n",
-                    country.getContinent(),
-                    country.getPopulation());
-        }
-
-        System.out.println("------------------------------------------------------------");
-        System.out.println("=======================================================================\n");
+    // ---------------------------------------------------------------------
+    // Public methods to fetch reports (original names)
+    // ---------------------------------------------------------------------
+    public List<Country> getPopulation_Continent_Report(Connection conn) {
+        return fetchContinentPopulationReport(conn);
     }
 
+    public List<Country> getPopulation_City_vs_NonCity_ByContinent(Connection conn) {
+        return fetchContinentPopulationReport(conn);
+    }
+
+    // ---------------------------------------------------------------------
+    // Private helper to print continent population
+    // ---------------------------------------------------------------------
+    private void printContinentPopulation(List<Country> results, String title) {
+        System.out.println("\n==================== " + title + " ====================");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-20s %20s %20s %20s %10s %10s%n",
+                "Continent", "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+
+        for (Country c : results) {
+            PopulationUtils.PopValues v = PopulationUtils.calculatePopulationValues(c);
+            System.out.printf("%-20s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
+                    c.getContinent(), v.total(), v.city(), v.nonCity(), v.cityPercent(), v.nonCityPercent());
+        }
+
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.println("========================================================================================================\n");
+    }
+
+    // ---------------------------------------------------------------------
+    // Public methods to print reports (original names)
+    // ---------------------------------------------------------------------
+    public void printPopulation_Continent_Report(List<Country> results) {
+        printContinentPopulation(results, "ReportID 27. Population by Continent Report");
+    }
+
+    public void printPopulation_City_vs_NonCity_ByContinent(List<Country> results) {
+        printContinentPopulation(results, "ReportID 23. Population in Cities vs Not in Cities by Continent");
+    }
 }
