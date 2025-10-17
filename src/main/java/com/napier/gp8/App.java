@@ -167,7 +167,6 @@ public class App {
         // Print the capital cities in world report
         capitalCitiesWorldReport.printAllCapitalCitiesInWorldByPopulation(capitalsWorldList);
 
-
         //============================================================
         // REPORT: Capital Cities in a Continent
         //============================================================
@@ -179,10 +178,10 @@ public class App {
         CapitalCitiesContinentReport capitalCitiesContinentReport = new CapitalCitiesContinentReport();
 
         // Get all capital cities within the specified continent, ordered by population (Descending)
-        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
+        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getAllCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
 
         // Print the capital cities in the specified continent report.
-        capitalCitiesContinentReport.printCapitalCitiesInContinentByPopulation(capitalsContinentList, capitalCities_Continent);
+        capitalCitiesContinentReport.printAllCapitalCitiesInContinentByPopulation(capitalsContinentList,capitalCities_Continent);
 
 
         //============================================================
@@ -196,11 +195,41 @@ public class App {
         CapitalCitiesRegionReport capitalCitiesRegionReport = new CapitalCitiesRegionReport();
 
         // Retrieve all capital cities with the specified region, ordered by population (Descending)
-        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
+        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getAllCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
 
         // Print the capital cities in the specified region report
-        capitalCitiesRegionReport.printCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
+        capitalCitiesRegionReport.printAllCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
 
+
+        //============================================================
+        // REPORT: Top N Capital Cities in the World
+        //============================================================
+
+        //Get top n capital cities in the world, ordered by population (Descending)
+        ArrayList<City> topNCapitalsWorldList = capitalCitiesWorldReport.getTopNCapitalCitiesInWorldByPopulation(app.conn, 10);
+
+        //print top n capital cities in the world
+        capitalCitiesWorldReport.printTopNCapitalCitiesInWorldByPopulation(topNCapitalsWorldList,10);
+
+        //============================================================
+        // REPORT: Top N Capital Cities in a Continent
+        //============================================================
+
+        //Get top n capital cities within the specified continent, ordered by population (Descending)
+        ArrayList<City> topNCapitalsContinentList = capitalCitiesContinentReport.getTopNCapitalCitiesInContinentByPopulation(app.conn,capitalCities_Continent,10);
+
+        //Print top n capital cities in the specified continent report.
+        capitalCitiesContinentReport.printTopNCapitalCitiesInContinentByPopulation(topNCapitalsContinentList,capitalCities_Continent,10);
+
+        //============================================================
+        // REPORT: Top N Capital Cities in a Region
+        //============================================================
+
+        // Retrieve all capital cities with the specified region, ordered by population (Descending)
+        ArrayList<City> topNCapitalsRegionList = capitalCitiesRegionReport.getTopNCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region,10);
+
+        // Print the capital cities in the specified region report
+        capitalCitiesRegionReport.printTopNCapitalCitiesInRegionByPopulation(topNCapitalsRegionList, capitalCities_Region,10);
 
         //------------------------------------------
 

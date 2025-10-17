@@ -1,122 +1,122 @@
 package com.napier.gp8;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * CapitalCities_Region generates a report of capital cities within a specific region sorted by population desc.
- * Include get data method and print method.
- * Get data method extracts the capital cities data in a region, ordered by desc from database.
- * Print method displays the report.
+ * CapitalCitiesRegionReport extends CapitalCitiesReportBase and provides
+ * methods to retrieve and print capital cities in a specific region by population.
  */
-public class CapitalCitiesRegionReport {
+public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
     /**
-     * Retrieves all capital cities in a specific region, ordered by population descending.
-     * @param conn Active database connection
-     * @param region Name of the region
-     * @return ArrayList of capitals, empty if no data or error occurs
+     * Get all capital cities in a specific region, ordered by population descending
+     *
+     * @param conn Database connection object
+     * @param region Region name to filter countries
+     * @return ArrayList of City objects
      */
-    public ArrayList<City> getCapitalCitiesInRegionByPopulation(Connection conn, String region) {
-
-        //arraylist to hold  the retrieved the capital cities data
+    public ArrayList<City> getAllCapitalCitiesInRegionByPopulation(Connection conn, String region) {
+        // ArrayList to hold the retrieved capital cities data
         ArrayList<City> capitals = new ArrayList<>();
 
-        // Validate the database connection before proceeding
+        //Validate Connection
         if (conn == null) {
-            System.err.println("Database connection is null. Cannot generate report.");
+            System.err.println("Database not connected. Cannot display All Capital Cities in the Region Report");
             return capitals;
         }
 
-        //check the region is not null and not whitespace
-        if (region == null || region.trim().isEmpty()) {
-            System.err.println("Invalid region input. Please provide a valid region.");
-            return capitals;
-        }
+        // SQL query to get capitals in the specified region, ordered by population
+        String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
+                "co.Name AS CountryName FROM country co " +
+                "JOIN city c ON co.Capital = c.ID " +
+                "WHERE co.Region = ? ORDER BY c.Population DESC";
 
-        //try with resources for automatic closing the statement after use.
-        try (Statement stmt = conn.createStatement()) {
+        try (PreparedStatement queryStmt = conn.prepareStatement(query)) {
 
-            // SQL query to extract data from database, the query join 'country' and 'city' tables, ordered by population
-            String strSelect =
-                    "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
-                            "co.Name AS CountryName " +
-                            "FROM country co " +
-                            "JOIN city c ON co.Capital = c.ID " +
-                            "WHERE co.Region = '" + region + "' " +
-                            "ORDER BY c.Population DESC";
+            // Bind the region parameter safely to prevent SQL injection
+            queryStmt.setString(1, region);
 
-            //Try-with-resources for ResultSet
-            try (ResultSet rs = stmt.executeQuery(strSelect)) {
+            try (ResultSet rs = queryStmt.executeQuery()) {
 
-                while (rs.next()) {
-
-                    //create and populate city object with data
-                    City city = new City();
-                    city.setId(rs.getInt("ID"));
-                    city.setCityName(rs.getString("CapitalName"));
-                    city.setCountryCode(rs.getString("CountryCode"));
-                    city.setPopulation(rs.getInt("Population"));
-
-                    //create and associate a country object for the city
-                    Country country = new Country();
-                    country.setCountryName(rs.getString("CountryName"));
-                    city.setCountry(country);
-
-                    //Add city to the list
-                    capitals.add(city);
-                }
+                // Call helper method from base class to build the list of capitals
+                capitals = buildCapitalCitiesFromResultSet(rs);
             }
-
         } catch (SQLException e) {
-            //provide detailed SQL error information for debugging and logging.
-            System.err.println("SQL Error while retrieving capital cities for region: " + region);
-            System.err.println("SQL State: " + e.getSQLState()); //SQL state error
-            System.err.println("Error Code: " + e.getErrorCode()); // Error code
+            //Catch SQL exceptions, print detailed error, and return the (empty) list
+            System.err.println("Error retrieving capital cities report due to a database issue:");
+            System.err.println("Error Code: " + e.getErrorCode()); //Error code
             e.printStackTrace();
-            return capitals;
+            return capitals; //return safely with an empty list.
         }
 
-        // Check if no data was found
-        if (capitals.isEmpty()) {
-            System.out.println("Warning: No capital city data found for region: " + region);
-        }
-
-        //return list of capital cities retrieved from database.
         return capitals;
     }
 
     /**
-     * Prints the capital cities report for a region in a formatted table.
+     * Get top N capital cities in a specific region by population
      *
-     * @param capitals ArrayList of City objects
-     * @param region   Name of the region
+     * @param conn Database connection object
+     * @param region Region name to filter countries
+     * @param numberOfCapitalCities Number of top capitals to retrieve
+     * @return ArrayList of City objects
      */
-    public void printCapitalCitiesInRegionByPopulation(ArrayList<City> capitals, String region) {
+    public ArrayList<City> getTopNCapitalCitiesInRegionByPopulation(Connection conn, String region, int numberOfCapitalCities) {
+        ArrayList<City> capitals = new ArrayList<>();
 
-        // Validate list if null or empty
-        if (capitals == null || capitals.isEmpty()) {
-            System.out.println("No capital cities found to display for region: " + region);
-            return;
+        //Validate Connection
+        if (conn == null) {
+            System.err.println("Database not connected. Cannot display Top N Capital Cities in the Region Report");
+            return capitals;
         }
 
-        // Print table header
-        System.out.println("\nAll the Capital Cities in Region: " + region + " Report");
-        System.out.printf("%-35s %-40s %-15s%n", "Capital", "Country", "Population");
-        System.out.println("----------------------------------------------------------------------------------------------------");
+        String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
+                "co.Name AS CountryName FROM country co " +
+                "JOIN city c ON co.Capital = c.ID " +
+                "WHERE co.Region = ? ORDER BY c.Population DESC LIMIT ?";
 
-        // Iterate each city object and print results
-        for (City city : capitals) {
-            //Ensure city and country data are valid
-            if (city != null && city.getCountry() != null) {
-                System.out.printf("%-35s %-40s %,15d%n",
-                        city.getCityName(),
-                        city.getCountry().getCountryName(),
-                        city.getPopulation());
+        try (PreparedStatement preparedStmt = conn.prepareStatement(query)) {
+            //safe binding
+            preparedStmt.setInt(2, numberOfCapitalCities);
+            preparedStmt.setString(1, region);
+            try (ResultSet rs = preparedStmt.executeQuery()) {
+                capitals = buildCapitalCitiesFromResultSet(rs);
             }
+        } catch (SQLException e) {
+            //Catch SQL exceptions, print detailed error, and return the (empty) list
+            System.err.println("Error retrieving capital cities report due to a database issue:");
+            System.err.println("Error Code: " + e.getErrorCode()); //Error code
+            e.printStackTrace();
+            return capitals; //return safely with an empty list.
         }
 
-        //print footer line to mark end of report.
-        System.out.println("----------------------------------------------------------------------------------------------------");
+        return capitals;
     }
+
+    /**
+     * Print all capital cities in a specific region
+     *
+     * @param capitals List of City objects to print
+     * @param region Region name for the report title
+     */
+    public void printAllCapitalCitiesInRegionByPopulation(ArrayList<City> capitals, String region) {
+
+        //call general print method from base class
+        printCapitalCities(capitals, "ReportID 19. All Capital Cities in Region: " + region + " Report");
+    }
+
+    /**
+     * Print top N capital cities in a specific region
+     *
+     * @param capitals List of City objects to print
+     * @param region Region name for the report title
+     * @param numberOfCapitalCities Number of top capitals displayed
+     */
+    public void printTopNCapitalCitiesInRegionByPopulation(ArrayList<City> capitals, String region, int numberOfCapitalCities) {
+        printCapitalCities(capitals, "ReportID 22. Top " + numberOfCapitalCities + " Capital Cities in Region: " + region + " Report");
+    }
+
 }
