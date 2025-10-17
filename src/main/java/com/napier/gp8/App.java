@@ -95,22 +95,64 @@ public class App {
         countriesRegionReport.printTopNCountries_Region_Report(countries_Region,topNCountriesRegion,10);
 
 
-        // Retrieve city world report
+        // -------------------------------------------------------------------------
+
         CitiesWorldReport citiesWorldReport = new CitiesWorldReport();
-        List<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
+        // All cities in world
+        ArrayList<City> citiesWorldList = citiesWorldReport.getCitiesWorldReport(app.conn);
         citiesWorldReport.printCitiesWorldReport(citiesWorldList);
 
         // Retrieve city continent report
         String cities_Continent = "Asia";
         CitiesContinentReport citiesContinentReport = new CitiesContinentReport();
-        List<City> citiesContinentList = citiesContinentReport.getCities_By_Continent_Report(app.conn, cities_Continent);
-        citiesContinentReport.printCities_By_Continent_Report(citiesContinentList, cities_Continent);
+        ArrayList<City> citiesContinentList = citiesContinentReport.getCitiesContinentReport(app.conn, cities_Continent);
+        citiesContinentReport.printCitiesContinentReport(citiesContinentList, cities_Continent);
+
 
         // Retrieve city region report
-        String cities_Region = "Caribbean";
+        String cities_Region = "Eastern Asia";
         CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
-        List<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
+        ArrayList<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
         citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
+
+
+        // Retrieve city country report
+        String cities_Country = "Myanmar";
+        CitiesCountryReport citiesCountryReport = new CitiesCountryReport();
+        ArrayList<City> cityCountryList = citiesCountryReport.getCitiesCountryReport(app.conn, cities_Country);
+        citiesCountryReport.printCitiesCountryReport(cityCountryList, cities_Country);
+
+
+        // Retrieve city district report
+        String cities_District = "Rio de Janeiro";
+        CitiesDistrictReport citiesDistrictReport = new CitiesDistrictReport();
+        ArrayList<City> cityDistrictList = citiesDistrictReport.getCitiesDistrictReport(app.conn, cities_District);
+        citiesDistrictReport.printCitiesDistrictReport(cityDistrictList, cities_District);
+
+        // Top N cities in world
+        int cities_World_N = 10;
+        ArrayList<City> topNCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, cities_World_N);
+        citiesWorldReport.printTopNCitiesWorldReport(topNCitiesWorldList, cities_World_N);
+
+        // Retrieve top N populated cities in a continent report
+        int cities_Continent_N = 10;
+        ArrayList<City> topNCitiesContinentList = citiesContinentReport.getTopNCitiesContinentReport(app.conn, cities_Continent, cities_Continent_N);
+        citiesContinentReport.printTopNCitiesContinentReport(topNCitiesContinentList, cities_Continent, cities_Continent_N);
+
+        // Retrieve top N populated cities in a region report
+        int cities_Region_N = 10;
+        ArrayList<City> topNCitiesRegionList = citiesRegionReport.getTopNCitiesRegionReport(app.conn, cities_Region, cities_Region_N);
+        citiesRegionReport.printTopNCitiesRegionReport(topNCitiesRegionList, cities_Region, cities_Region_N);
+
+        // Retrieve top N populated cities in a country report
+        int cities_Country_N = 10;  // Number of top cities to display
+        ArrayList<City> topNCitiesCountryList = citiesCountryReport.getTopNCitiesCountryReport(app.conn, cities_Country, cities_Country_N);
+        citiesCountryReport.printTopNCitiesCountryReport(topNCitiesCountryList, cities_Country, cities_Country_N);
+
+        // Retrieve top N populated cities in a district report
+        int cities_District_N = 10;  // Number of top cities to display
+        ArrayList<City> topNCitiesDistrictList = citiesDistrictReport.getTopNCitiesDistrictReport(app.conn, cities_District, cities_District_N);
+        citiesDistrictReport.printTopNCitiesDistrictReport(topNCitiesDistrictList, cities_District, cities_District_N);
 
         //============================================================
         // REPORT: Capital Cities in the World
