@@ -71,6 +71,11 @@ public class PopulationWorldReport {
                 "Name", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
 
+        if (data == null) {
+            System.out.println("No world population data available.");
+            return;
+        }
+
         System.out.printf("%-25s %,20d %,20d %,20d %9.2f%% %12.2f%%%n",
                 data.name,
                 data.totalPopulation,

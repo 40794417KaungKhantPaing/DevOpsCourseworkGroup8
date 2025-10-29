@@ -77,6 +77,11 @@ public class PopulationDistrictReport {
                 "District", "Total Population", "City Population", "Non-City Population", "City %", "Non-City %");
         System.out.println("--------------------------------------------------------------------------------------------------------------------------");
 
+        if (countries == null || countries.isEmpty()) {
+            System.out.println("No district population data available.");
+            return;
+        }
+
         countries.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(selectedDistrict))
                 .forEach(c -> {
