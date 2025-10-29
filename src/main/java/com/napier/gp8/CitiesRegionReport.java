@@ -23,7 +23,6 @@ public class CitiesRegionReport extends CitiesReportBase {
      * - private: accessible only within this class
      * - static: shared across all instances
      * - final: cannot be reassigned
-     *
      * The logger name is the fully qualified class name to easily identify log messages.
      */
     private static final Logger logger = Logger.getLogger(CitiesRegionReport.class.getName());
