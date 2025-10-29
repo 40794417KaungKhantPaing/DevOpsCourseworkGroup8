@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles continent-based city reports such as:
@@ -15,6 +17,16 @@ import java.util.ArrayList;
  */
 public class CitiesContinentReport extends CitiesReportBase {
 
+    /**
+     * Logger instance for the CitiesContinentReport class.
+     * Declared as:
+     * - private: only accessible within this class (encapsulation)
+     * - static: shared across all instances of this class
+     * - final: cannot be reassigned
+     * The logger name is the fully qualified class name to make it easier
+     * to identify the source of log messages.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesContinentReport.class.getName());
     /**
      * Retrieves all cities within a specified continent, ordered by population (descending).
      * This method queries the database to return cities belonging to countries
@@ -32,7 +44,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
+            logger.warning("Database not connected. Cannot generate city report for continent: " + continent);
             return cities;
         }
 
@@ -61,8 +73,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle database errors and print details for debugging
-            System.err.println("Error retrieving all cities in continent: " + continent);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
         }
 
         // Return the populated list (or an empty one if an error occurred)
@@ -85,7 +96,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
+            logger.warning("Database not connected. Cannot generate city report.");
             return cities;
         }
 
@@ -115,8 +126,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle database errors and output detailed information
-            System.err.println("Error retrieving top " + topN + " cities in continent: " + continent);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
         }
 
         // Return the list of top N cities (or empty if no results)

@@ -3,6 +3,8 @@ package com.napier.gp8;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Base class for generating city reports (world, continent, region).
@@ -10,6 +12,16 @@ import java.util.ArrayList;
  * and printing formatted reports to the console.
  */
 public class CitiesReportBase {
+
+    /**
+     * Logger instance for CitiesReportBase class.
+     * Declared as private static final to follow best practices:
+     * - private: only accessible within this class
+     * - static: shared across all instances
+     * - final: cannot be reassigned
+     * Logger name is fully qualified class name for easy identification.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesReportBase.class.getName());
 
     /**
      * Builds a list of City objects from a given SQL ResultSet.
@@ -24,7 +36,10 @@ public class CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         // If the ResultSet is null, return the empty list
-        if (rs == null) return cities;
+        if (rs == null) {
+            logger.warning("ResultSet is null. Returning empty city list.");
+            return cities;
+        }
 
         try {
             // Iterate through all rows in the ResultSet
@@ -46,14 +61,13 @@ public class CitiesReportBase {
                 cities.add(city);
             }
         } catch (SQLException e) {
-            // Handle SQL errors that occur during ResultSet processing
-            System.err.println("Error reading cities from ResultSet:");
-            e.printStackTrace();
+            // Log SQL exceptions with SEVERE level and include the stack trace
+            logger.log(Level.SEVERE, "Error reading cities from ResultSet.", e);
         }
 
         // If no city data was found, display a message
         if (cities.isEmpty()) {
-            System.out.println("No city data found. Report will be empty.");
+            logger.info("No city data found in ResultSet. Report will be empty.");
         }
 
         // Return the list of cities
@@ -70,7 +84,7 @@ public class CitiesReportBase {
     public void printCities(ArrayList<City> cities, String reportTitle) {
         // Check if there are any cities to print
         if (cities == null || cities.isEmpty()) {
-            System.out.println("No data to display for report: " + reportTitle);
+            logger.info("No data to display for report: " + reportTitle);
             return;
         }
 

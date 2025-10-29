@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generation of city reports filtered by district.
@@ -12,6 +14,18 @@ import java.util.ArrayList;
  */
 public class CitiesDistrictReport extends CitiesReportBase {
 
+    /**
+     * Logger instance for the CitiesDistrictReport class.
+     * <p>
+     * Declared as:
+     * - private: only accessible within this class
+     * - static: shared across all instances of this class
+     * - final: cannot be reassigned
+     * <p>
+     * The logger name is the fully qualified class name to identify the source
+     * of log messages easily.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesDistrictReport.class.getName());
     /**
      * Retrieves all cities in a specific district, ordered by population (descending).
      *
@@ -21,6 +35,11 @@ public class CitiesDistrictReport extends CitiesReportBase {
      */
     public ArrayList<City> getCitiesDistrictReport(Connection conn, String district) {
         ArrayList<City> cities = new ArrayList<>();
+
+        if (conn == null) {
+            logger.warning("Database not connected. Cannot generate city report for district: " + district);
+            return cities;
+        }
 
         // SQL query to select all city details joined with their respective country,
         // filtered by district, and ordered by population in descending order.
@@ -45,8 +64,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle SQL exceptions gracefully
-            System.err.println("Error retrieving all cities in district: " + district);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in district: " + district, e);
         }
 
         // Return the list of retrieved cities
@@ -63,6 +81,11 @@ public class CitiesDistrictReport extends CitiesReportBase {
      */
     public ArrayList<City> getTopNCitiesDistrictReport(Connection conn, String district, int n) {
         ArrayList<City> cities = new ArrayList<>();
+
+        if (conn == null) {
+            logger.warning("Database not connected. Cannot generate top " + n + " city report for district: " + district);
+            return cities;
+        }
 
         // SQL query similar to the previous one, but limits the number of rows returned
         String query = """
@@ -86,8 +109,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle SQL exceptions with detailed error message
-            System.err.println("Error retrieving top " + n + " cities in district: " + district);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in district: " + district, e);
         }
 
         // Return the top N cities

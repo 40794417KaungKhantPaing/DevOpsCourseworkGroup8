@@ -2,11 +2,19 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generating and retrieving the Country Report for a specific continent.
  */
 public class CountriesContinentReport extends CountriesReportBase {
+
+    /**Create a Logger instance for this class.
+     * This logger is used to log warnings, errors, and informational messages related to
+     * generating continent-based country reports.
+     **/
+    private static final Logger logger = Logger.getLogger(CountriesContinentReport.class.getName());
 
     /**
      * Retrieves a list of all countries within a specified continent,
@@ -23,11 +31,11 @@ public class CountriesContinentReport extends CountriesReportBase {
 
         // 1. Validate connection and parameter
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate continent report.");
+            logger.warning("Database not connected. Cannot generate continent report.");
             return countries;
         }
         if (continent == null || continent.trim().isEmpty()) {
-            System.err.println("Invalid continent name provided.");
+            logger.warning("Invalid continent name provided.");
             return countries;
         }
 
@@ -47,16 +55,13 @@ public class CountriesContinentReport extends CountriesReportBase {
             }
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            System.err.println("Error retrieving continent country report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving continent country report for '" + continent + "'.", e);
             return countries;
         }
 
         // 5. Warn if no data found
         if (countries.isEmpty()) {
-            System.out.println("Warning: No country data found for continent '" + continent + "'.");
+            logger.warning("No country data found for continent '" + continent + "'.");
         }
 
         return countries;
@@ -77,7 +82,7 @@ public class CountriesContinentReport extends CountriesReportBase {
 
         // 1. Validate connection
         if (connection == null) {
-            System.err.println("Database not connected. Cannot generate top continent report.");
+            logger.warning("Database not connected. Cannot generate top continent report.");
             return countries;
         }
 
@@ -99,14 +104,13 @@ public class CountriesContinentReport extends CountriesReportBase {
             }
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            System.err.println("Error retrieving top continent country report due to a database issue:");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + numberOfCountries + " countries in continent '" + continent + "'.", e);
             return countries;
         }
 
         // 5. Warn if no data found
         if (countries.isEmpty()) {
-            System.out.println("Warning: No top country data found for continent '" + continent + "'.");
+            logger.warning("No top country data found for continent '" + continent + "'.");
         }
 
         return countries;

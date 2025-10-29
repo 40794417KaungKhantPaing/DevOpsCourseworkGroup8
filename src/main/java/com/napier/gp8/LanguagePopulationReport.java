@@ -2,6 +2,8 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *The Language population generates a report of the amount of speakers of major languages and how much they occupy the world population.
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  */
 public class LanguagePopulationReport {
 
+    // Logger instance
+    private static final Logger logger = Logger.getLogger(LanguagePopulationReport.class.getName());
     /**
      * Retrieves the population and world percentage of speakers for major languages.
      * Languages: Chinese, English, Hindi, Spanish, Arabic.
@@ -31,7 +35,7 @@ public class LanguagePopulationReport {
 
         // Validate database connection
         if (conn == null) {
-            System.err.println("Database connection is null. Cannot generate language population report.");
+            logger.warning("Database connection is null. Cannot generate language population report.");
             return;
         }
 
@@ -63,10 +67,7 @@ public class LanguagePopulationReport {
 
         } catch (SQLException e) {
             // Handle SQL exceptions
-            System.err.println("SQL Error retrieving language population report.");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "SQL error retrieving language population report", e);
 
             // Clear lists on failure
             languages.clear();
@@ -76,7 +77,7 @@ public class LanguagePopulationReport {
 
         // Check if no data was retrieved
         if (languages.isEmpty()) {
-            System.out.println("Warning: No language population data found.");
+            logger.warning("No language population data found.");
         }
     }
 
@@ -93,7 +94,7 @@ public class LanguagePopulationReport {
 
         // Validate lists
         if (languages == null || languages.isEmpty()) {
-            System.out.println("No data available for language population report.");
+            logger.info("No data available for language population report.");
             return;
         }
         // Print header

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles region-based city reports such as:
@@ -15,6 +17,16 @@ import java.util.ArrayList;
  */
 public class CitiesRegionReport extends CitiesReportBase {
 
+    /**
+     * Logger instance for the CitiesRegionReport class.
+     * Declared as:
+     * - private: accessible only within this class
+     * - static: shared across all instances
+     * - final: cannot be reassigned
+     *
+     * The logger name is the fully qualified class name to easily identify log messages.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesRegionReport.class.getName());
     /**
      * Retrieves all cities located within a specified region, ordered by population
      * from highest to lowest.
@@ -32,7 +44,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
+            logger.warning("Database not connected. Cannot generate city report for region: " + region);
             return cities;
         }
 
@@ -60,8 +72,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Print detailed error message if SQL execution fails
-            System.err.println("Error retrieving all cities in region: " + region);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in region: " + region, e);
         }
 
         // Return the populated list (or empty list if query failed or had no data)
@@ -83,8 +94,8 @@ public class CitiesRegionReport extends CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         // Check for null connection or invalid input
-        if (conn == null){
-            System.err.println("Database not connected. Cannot generate city report.");
+        if (conn == null) {
+            logger.warning("Database not connected. Cannot generate top " + n + " city report for region: " + region);
             return cities;
         }
 
@@ -114,8 +125,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Log an informative error message for debugging
-            System.err.println("Error retrieving top " + n + " cities in region: " + region);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in region: " + region, e);
         }
 
         // Return the resulting list of cities (or empty list on error)

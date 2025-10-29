@@ -5,17 +5,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles country-based city reports.
  * This class provides methods to generate reports of all cities or
  * the top N populated cities within a specific country.
- *
  * It extends {@link CitiesReportBase}, which provides shared functionality
  * for formatting and printing city report results.
  */
 public class CitiesCountryReport extends CitiesReportBase {
-
+    /**
+     * Logger instance for the CitiesCountryReport class.
+     * <p>
+     * Declared as:
+     * - private: encapsulated within the class
+     * - static: shared across all instances of this class
+     * - final: cannot be reassigned
+     * <p>
+     * The logger name is the fully qualified class name, which helps
+     * identify the source of logged messages.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesCountryReport.class.getName());
     /**
      * Retrieves all cities in a given country, ordered by population in descending order.
      *
@@ -26,6 +38,11 @@ public class CitiesCountryReport extends CitiesReportBase {
     public ArrayList<City> getCitiesCountryReport(Connection conn, String countryName) {
         // Initialize an empty list to store city objects
         ArrayList<City> cities = new ArrayList<>();
+
+        if (conn == null) {
+            logger.warning("Database not connected. Cannot generate city report for country: " + countryName);
+            return cities;
+        }
 
         // SQL query to retrieve all cities for a specific country
         // The query joins the 'city' and 'country' tables to access the country name
@@ -50,8 +67,7 @@ public class CitiesCountryReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle database-related errors gracefully
-            System.err.println("Error retrieving all cities in country: " + countryName);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in country: " + countryName, e);
         }
 
         // Return the list of all cities found
@@ -93,8 +109,7 @@ public class CitiesCountryReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Log SQL exceptions with specific context for debugging
-            System.err.println("Error retrieving top " + n + " cities in country: " + countryName);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in country: " + countryName, e);
         }
 
         // Return the list of top N cities

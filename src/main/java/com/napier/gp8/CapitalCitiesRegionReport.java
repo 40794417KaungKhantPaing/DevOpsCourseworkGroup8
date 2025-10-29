@@ -5,12 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CapitalCitiesRegionReport extends CapitalCitiesReportBase and provides
  * methods to retrieve and print capital cities in a specific region by population.
  */
 public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
+
+    // Logger instance
+    private static final Logger logger = Logger.getLogger(CapitalCitiesRegionReport.class.getName());
 
     /**
      * Get all capital cities in a specific region, ordered by population descending
@@ -25,7 +30,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
         //Validate Connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot display All Capital Cities in the Region Report");
+            logger.warning("Database not connected. Cannot display All Capital Cities in the Region Report");
             return capitals;
         }
 
@@ -47,9 +52,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
             }
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving capital cities report due to a database issue:");
-            System.err.println("Error Code: " + e.getErrorCode()); //Error code
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all capital cities in region: " + region, e);
             return capitals; //return safely with an empty list.
         }
 
@@ -69,7 +72,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
         //Validate Connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot display Top N Capital Cities in the Region Report");
+            logger.warning("Database not connected. Cannot display Top N Capital Cities in the Region Report");
             return capitals;
         }
 
@@ -87,9 +90,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
             }
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving capital cities report due to a database issue:");
-            System.err.println("Error Code: " + e.getErrorCode()); //Error code
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + numberOfCapitalCities + " capital cities in region: " + region, e);
             return capitals; //return safely with an empty list.
         }
 

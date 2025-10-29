@@ -2,12 +2,16 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles generating and retrieving the Country Report for a specific region.
  */
 public class CountriesRegionReport extends CountriesReportBase {
 
+    // Logger instance for logging errors, warnings, and info messages
+    private static final Logger logger = Logger.getLogger(CountriesRegionReport.class.getName());
     /**
      * Retrieves a list of all countries within a specified region,
      * ordered by population (largest to smallest).
@@ -23,11 +27,11 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         // 1. Validate connection and region parameter
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate region report.");
+            logger.severe("Database not connected. Cannot generate region report.");
             return countries;
         }
         if (region == null || region.trim().isEmpty()) {
-            System.err.println("Invalid region name provided.");
+            logger.warning("Invalid region name provided.");
             return countries;
         }
 
@@ -50,16 +54,13 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            System.err.println("Error retrieving region country report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving region country report", e);
             return countries;
         }
 
         // 5. Warn if no data found
         if (countries.isEmpty()) {
-            System.out.println("Warning: No country data found for region '" + region + "'.");
+            logger.info("No country data found for region '" + region + "'.");
         }
 
         return countries;
@@ -80,11 +81,11 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         // 1. Validate connection and parameters
         if (connection == null) {
-            System.err.println("Database not connected. Cannot generate top N countries in region report.");
+            logger.severe("Database not connected. Cannot generate top N countries in region report.");
             return countries;
         }
         if (regionName == null || regionName.trim().isEmpty()) {
-            System.err.println("Invalid region name provided.");
+            logger.warning("Invalid region name provided.");
             return countries;
         }
 
@@ -109,16 +110,13 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            System.err.println("Error retrieving top countries region report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState());
-            System.err.println("Error Code: " + e.getErrorCode());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top countries region report", e);
             return countries;
         }
 
         // 5. Warn if empty
         if (countries.isEmpty()) {
-            System.out.println("Warning: No top country data found for region '" + regionName + "'.");
+            logger.info("No top country data found for region '" + regionName + "'.");
         }
 
         return countries;

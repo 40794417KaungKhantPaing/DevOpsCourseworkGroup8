@@ -5,12 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CapitalCitiesWorldReport extends CapitalCitiesReportBase and provides
  * methods to retrieve and print capital cities globally by population.
  */
 public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
+
+    // Logger instance for this class
+    private static final Logger logger = Logger.getLogger(CapitalCitiesWorldReport.class.getName());
 
 
     /**
@@ -27,10 +32,9 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
 
         //Validate Connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot display All Capital Cities in the World Report");
+            logger.warning("Database not connected. Cannot display All Capital Cities in the World Report");
             return capitals;
         }
-
         // SQL query to extract data from database, the query join 'country' and 'city' tables, ordered by population
         String query = "SELECT c.ID, c.Name AS CapitalName, c.CountryCode, c.Population, " +
                 "co.Name AS CountryName FROM country co " +
@@ -44,11 +48,7 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
 
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving capital cities report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState()); //SQL state error
-            System.err.println("Error Code: " + e.getErrorCode()); //Error code
-            e.printStackTrace();
-
+            logger.log(Level.SEVERE, "Error retrieving all capital cities report", e);
             return capitals; //return safely with an empty list.
         }
 
@@ -69,7 +69,7 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
 
         //Validate connection
         if (conn == null) {
-            System.err.println("Database not connected. Cannot display Top N Capital Cities in the World Report");
+            logger.warning("Database not connected. Cannot display Top N Capital Cities in the World Report");
             return capitals;
         }
 
@@ -85,10 +85,7 @@ public class CapitalCitiesWorldReport extends CapitalCitiesReportBase {
             }
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            System.err.println("Error retrieving capital cities report due to a database issue:");
-            System.err.println("SQL State: " + e.getSQLState()); //SQL state error
-            System.err.println("Error Code: " + e.getErrorCode()); //Error code
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top N capital cities report", e);
             return capitals; //return safely with an empty list.
         }
 

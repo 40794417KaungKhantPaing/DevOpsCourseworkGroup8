@@ -2,6 +2,8 @@ package com.napier.gp8;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CountriesWorldReport extends CountriesReportBase and provides
@@ -9,6 +11,8 @@ import java.util.ArrayList;
  */
 public class CountriesWorldReport extends CountriesReportBase {
 
+    // Logger instance for logging errors, warnings, and info messages
+    private static final Logger logger = Logger.getLogger(CountriesWorldReport.class.getName());
     /**
      * Retrieves all countries in the world ordered by population descending.
      *
@@ -20,7 +24,7 @@ public class CountriesWorldReport extends CountriesReportBase {
 
         //Check if database is connected
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate countries world report.");
+            logger.warning("Database not connected. Cannot generate countries world report.");
             return countries;
         }
 
@@ -34,8 +38,7 @@ public class CountriesWorldReport extends CountriesReportBase {
             countries = buildCountriesFromResultSet(resultSet);
 
         } catch (SQLException e) {
-            System.err.println("Error getting country report due to a database issue.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving countries world report from database", e);
 
             return countries;
         }
@@ -55,7 +58,7 @@ public class CountriesWorldReport extends CountriesReportBase {
 
         //Check if database is connected
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate countries world report.");
+            logger.warning("Database not connected. Cannot generate top countries world report.");
             return countries;
         }
 
@@ -68,8 +71,7 @@ public class CountriesWorldReport extends CountriesReportBase {
                 countries = buildCountriesFromResultSet(rs);
             }
         } catch (SQLException e) {
-            System.err.println("Error getting top countries report due to a database issue.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top countries world report from database", e);
             return countries;
         }
 

@@ -3,12 +3,17 @@ package com.napier.gp8;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Base class for Country reports.
  * Handles ResultSet → Country object mapping and generic print functionality.
  */
 public class CountriesReportBase {
+
+    // Logger instance for logging errors, warnings, and info messages
+    private static final Logger logger = Logger.getLogger(CountriesReportBase.class.getName());
 
     /**
      * Builds a list of Country objects from a ResultSet.
@@ -30,12 +35,11 @@ public class CountriesReportBase {
                 countries.add(country);
             }
         } catch (SQLException e) {
-            System.err.println("Error reading countries from ResultSet:");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error reading countries from ResultSet", e);
         }
 
         if (countries.isEmpty()) {
-            System.out.println("No country data found. Report will be empty.");
+            logger.info("No country data found. Report will be empty.");
         }
 
         return countries;
@@ -49,7 +53,7 @@ public class CountriesReportBase {
      */
     public void printCountries(ArrayList<Country> countries, String reportTitle) {
         if (countries == null || countries.isEmpty()) {
-            System.out.println("No data to display for report: " + reportTitle);
+            logger.info("No data to display for report: " + reportTitle);
             return;
         }
 

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles world city reports (all cities, top N cities) using CitiesReportBase.
@@ -12,6 +14,10 @@ import java.util.ArrayList;
  */
 public class CitiesWorldReport extends CitiesReportBase {
 
+    /**
+     * Logger instance for CitiesWorldReport class.
+     */
+    private static final Logger logger = Logger.getLogger(CitiesWorldReport.class.getName());
     /**
      * Retrieves all cities in the world, ordered by population (from highest to lowest).
      *
@@ -25,7 +31,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
+            logger.warning("Database not connected. Cannot generate world city report.");
             return cities;
         }
 
@@ -48,8 +54,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle any SQL-related errors
-            System.err.println("Error retrieving all cities in the world:");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving all cities in the world.", e);
         }
 
         // Return the list of cities (possibly empty)
@@ -70,7 +75,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            System.err.println("Database not connected. Cannot generate city report.");
+            logger.warning("Database not connected. Cannot generate top " + topN + " world city report.");
             return cities;
         }
 
@@ -98,8 +103,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle SQL errors and display which report failed
-            System.err.println("Error retrieving top " + topN + " cities in the world:");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error retrieving top " + topN + " cities in the world.", e);
         }
 
         // Return the resulting city list (possibly empty)
