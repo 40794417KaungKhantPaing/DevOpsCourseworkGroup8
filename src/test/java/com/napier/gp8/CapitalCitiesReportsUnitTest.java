@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * and sample data printing logic across all report layers.
  */
 
-class CapitalCitiesReportsTest {
+class CapitalCitiesReportsUnitTest {
 
     // Report classes under test
     CapitalCitiesWorldReport worldReport;
