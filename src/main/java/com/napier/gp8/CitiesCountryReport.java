@@ -86,6 +86,11 @@ public class CitiesCountryReport extends CitiesReportBase {
         // Initialize an empty list for storing City objects
         ArrayList<City> cities = new ArrayList<>();
 
+        if (conn == null) {
+            logger.warning("Database not connected. Cannot generate city report for country: " + countryName);
+            return cities;
+        }
+
         // SQL query similar to the one above but limits results to top N
         String query = """
                 SELECT city.Name AS CityName, country.Name AS CountryName,
