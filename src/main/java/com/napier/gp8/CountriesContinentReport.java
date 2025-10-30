@@ -34,10 +34,6 @@ public class CountriesContinentReport extends CountriesReportBase {
             logger.warning("Database not connected. Cannot generate continent report.");
             return countries;
         }
-        if (continent == null || continent.trim().isEmpty()) {
-            logger.warning("Invalid continent name provided.");
-            return countries;
-        }
 
         // 2. Prepare SQL query using PreparedStatement
         String query = """
@@ -57,11 +53,6 @@ public class CountriesContinentReport extends CountriesReportBase {
             // 4. Handle SQL exceptions with detailed messages
             logger.log(Level.SEVERE, "Error retrieving continent country report for '" + continent + "'.", e);
             return countries;
-        }
-
-        // 5. Warn if no data found
-        if (countries.isEmpty()) {
-            logger.warning("No country data found for continent '" + continent + "'.");
         }
 
         return countries;
@@ -108,10 +99,6 @@ public class CountriesContinentReport extends CountriesReportBase {
             return countries;
         }
 
-        // 5. Warn if no data found
-        if (countries.isEmpty()) {
-            logger.warning("No top country data found for continent '" + continent + "'.");
-        }
 
         return countries;
     }

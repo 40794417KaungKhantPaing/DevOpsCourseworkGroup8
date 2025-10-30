@@ -30,10 +30,6 @@ public class CountriesRegionReport extends CountriesReportBase {
             logger.severe("Database not connected. Cannot generate region report.");
             return countries;
         }
-        if (region == null || region.trim().isEmpty()) {
-            logger.warning("Invalid region name provided.");
-            return countries;
-        }
 
         // 2. Prepare SQL query
         String query = """
@@ -58,11 +54,6 @@ public class CountriesRegionReport extends CountriesReportBase {
             return countries;
         }
 
-        // 5. Warn if no data found
-        if (countries.isEmpty()) {
-            logger.info("No country data found for region '" + region + "'.");
-        }
-
         return countries;
     }
 
@@ -82,10 +73,6 @@ public class CountriesRegionReport extends CountriesReportBase {
         // 1. Validate connection and parameters
         if (connection == null) {
             logger.severe("Database not connected. Cannot generate top N countries in region report.");
-            return countries;
-        }
-        if (regionName == null || regionName.trim().isEmpty()) {
-            logger.warning("Invalid region name provided.");
             return countries;
         }
 
@@ -114,10 +101,6 @@ public class CountriesRegionReport extends CountriesReportBase {
             return countries;
         }
 
-        // 5. Warn if empty
-        if (countries.isEmpty()) {
-            logger.info("No top country data found for region '" + regionName + "'.");
-        }
 
         return countries;
     }
