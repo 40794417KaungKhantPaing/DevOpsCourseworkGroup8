@@ -79,7 +79,7 @@ public class CapitalCitiesContinentReport extends CapitalCitiesReportBase {
 
         try (PreparedStatement pStmt = conn.prepareStatement(query)) {
             pStmt.setString(1, continent); // safe binding
-            pStmt.setInt(2, numberOfCapitalCities); //safe binding         // safe binding
+            pStmt.setInt(2, numberOfCapitalCities); //safe binding
             try (ResultSet rs = pStmt.executeQuery()) {
 
                 capitals = buildCapitalCitiesFromResultSet(rs);
