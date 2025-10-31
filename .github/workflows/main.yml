@@ -28,7 +28,7 @@ jobs:
           mvn -Dtest=com.napier.gp8.PopulationCountryReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationDistrictReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationRegionReportUnitTest test
-          mvn -Dtest=com.napier.gp8.PopulationWorldReportsUnitTest test
+          mvn -Dtest=com.napier.gp8.PopulationWorldReportUnitTest test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -82,7 +82,7 @@ jobs:
           java-version: '24'
           distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn package
-      - name: Run Docker Compose
-        run: docker compose up --abort-on-container-exit
+      - name: Package and run docker-compose
+        run: |
+            mvmn package -DskipTests
+            docker-compose up --abort-on-container-exit
