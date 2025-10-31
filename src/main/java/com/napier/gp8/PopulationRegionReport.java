@@ -81,6 +81,13 @@ public class PopulationRegionReport {
                 groupByColumn, "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------");
 
+        if (results == null || results.isEmpty()) {
+            System.out.println("No data available to display.");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("=========================================================================================================================\n");
+            return;
+        }
+
         for (Country c : results) {
             String name = c.getRegion();
             if (selectedValue != null && !name.equalsIgnoreCase(selectedValue)) continue;

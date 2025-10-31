@@ -86,6 +86,14 @@ public class PopulationContinentReport {
                 "Continent", "Total Pop", "City Pop", "Non-City Pop", "City %", "Non-City %");
         System.out.println("--------------------------------------------------------------------------------------------------------");
 
+        // ✅ Prevent NullPointerException
+        if (results == null || results.isEmpty()) {
+            System.out.println("No data available to display.");
+            System.out.println("--------------------------------------------------------------------------------------------------------");
+            System.out.println("========================================================================================================\n");
+            return;
+        }
+
         for (Country c : results) {
             PopulationUtils.PopValues v = PopulationUtils.calculatePopulationValues(c);
             System.out.printf("%-20s %,20d %,20d %,20d %9.2f%% %9.2f%%%n",
@@ -95,6 +103,7 @@ public class PopulationContinentReport {
         System.out.println("--------------------------------------------------------------------------------------------------------");
         System.out.println("========================================================================================================\n");
     }
+
 
     // ---------------------------------------------------------------------
     // Public methods to print reports (original names)

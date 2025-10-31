@@ -72,6 +72,11 @@ public class PopulationCityReport {
         System.out.printf("%-30s %-20s %-15s %-20s%n", "City Name", "District", "Country Code", "Population");
         System.out.println("----------------------------------------------------------------------------------");
 
+        if (cities == null || cities.isEmpty()) {
+            System.out.println("No city population data available.");
+            return;
+        }
+
         for (City city : cities) {
             System.out.printf("%-30s %-20s %-15s %,15d%n",
                     city.getCityName(),
