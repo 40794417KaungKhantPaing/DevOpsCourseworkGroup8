@@ -345,18 +345,10 @@ public class App {
         // REPORT 32: Language Population
         //============================================================
         // Create instance of language_population class
-        LanguagePopulationReport languageReport = new LanguagePopulationReport();
+        LanguagePopulationReport report = new LanguagePopulationReport();
+        ArrayList<CountryLanguage> languageReport = report.getLanguagePopulationReport(app.conn);
+        report.printLanguagePopulationReport(languageReport);
 
-        // Declare arraylist to hold the data
-        ArrayList<String> languageNames = new ArrayList<>();
-        ArrayList<Long> languageSpeakers = new ArrayList<>();
-        ArrayList<Double> languagePercentages = new ArrayList<>();
-
-        // Get language population data from database
-        languageReport.getLanguagePopulationReport(app.conn, languageNames, languageSpeakers, languagePercentages);
-
-        // Print the population language report
-        languageReport.printLanguagePopulationReport(languageNames, languageSpeakers, languagePercentages);
 
         //disconnect from database
         app.disconnect();

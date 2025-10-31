@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for LanguagePopulationReport.
- * Consistent with style used for other report unit tests.
+ * Updated to match version using CountryLanguage class.
  */
 public class LanguagePopulationReportUnitTest
 {
@@ -28,37 +28,28 @@ public class LanguagePopulationReportUnitTest
     @Test
     void getLanguagePopulationReportTestNullConnection()
     {
-        ArrayList<String> languages = new ArrayList<>();
-        ArrayList<Long> speakers = new ArrayList<>();
-        ArrayList<Double> worldPercent = new ArrayList<>();
-
-        report.getLanguagePopulationReport(null, languages, speakers, worldPercent);
-
-        assertTrue(languages.isEmpty());
-        assertTrue(speakers.isEmpty());
-        assertTrue(worldPercent.isEmpty());
+        ArrayList<CountryLanguage> result = report.getLanguagePopulationReport(null);
+        assertNotNull(result);
+        assertTrue(result.isEmpty(), "Result list should be empty when connection is null");
     }
 
     // ---------------------------------------------------------------------
-    // Test: printLanguagePopulationReport with null lists
+    // Test: printLanguagePopulationReport with null list
     // ---------------------------------------------------------------------
     @Test
-    void printLanguagePopulationReportTestNullLists()
+    void printLanguagePopulationReportTestNullList()
     {
-        report.printLanguagePopulationReport(null, null, null);
+        assertDoesNotThrow(() -> report.printLanguagePopulationReport(null));
     }
 
     // ---------------------------------------------------------------------
-    // Test: printLanguagePopulationReport with empty lists
+    // Test: printLanguagePopulationReport with empty list
     // ---------------------------------------------------------------------
     @Test
-    void printLanguagePopulationReportTestEmptyLists()
+    void printLanguagePopulationReportTestEmptyList()
     {
-        ArrayList<String> languages = new ArrayList<>();
-        ArrayList<Long> speakers = new ArrayList<>();
-        ArrayList<Double> worldPercent = new ArrayList<>();
-
-        report.printLanguagePopulationReport(languages, speakers, worldPercent);
+        ArrayList<CountryLanguage> reportList = new ArrayList<>();
+        assertDoesNotThrow(() -> report.printLanguagePopulationReport(reportList));
     }
 
     // ---------------------------------------------------------------------
@@ -67,53 +58,49 @@ public class LanguagePopulationReportUnitTest
     @Test
     void printLanguagePopulationReportTestData()
     {
-        ArrayList<String> languages = new ArrayList<>();
-        ArrayList<Long> speakers = new ArrayList<>();
-        ArrayList<Double> worldPercent = new ArrayList<>();
+        ArrayList<CountryLanguage> reportList = new ArrayList<>();
 
-        languages.add("Chinese");
-        speakers.add(1200000000L);
-        worldPercent.add(15.5);
+        CountryLanguage chinese = new CountryLanguage();
+        chinese.setLanguage("Chinese");
+        chinese.setCountryCode("1,200,000,000");  // formatted speakers as string
+        chinese.setPercentage(15.5);              // world percentage
+        reportList.add(chinese);
 
-        languages.add("English");
-        speakers.add(950000000L);
-        worldPercent.add(12.3);
+        CountryLanguage english = new CountryLanguage();
+        english.setLanguage("English");
+        english.setCountryCode("950,000,000");
+        english.setPercentage(12.3);
+        reportList.add(english);
 
-        report.printLanguagePopulationReport(languages, speakers, worldPercent);
+        assertDoesNotThrow(() -> report.printLanguagePopulationReport(reportList));
     }
 
     // ---------------------------------------------------------------------
-    // Test: getLanguagePopulationReport with empty connection-like input
+    // Test: getLanguagePopulationReport with fake connection (null)
     // ---------------------------------------------------------------------
     @Test
     void getLanguagePopulationReportFakeConnection()
     {
         Connection conn = null;
-        ArrayList<String> languages = new ArrayList<>();
-        ArrayList<Long> speakers = new ArrayList<>();
-        ArrayList<Double> worldPercent = new ArrayList<>();
-
-        report.getLanguagePopulationReport(conn, languages, speakers, worldPercent);
-        assertNotNull(languages);
-        assertNotNull(speakers);
-        assertNotNull(worldPercent);
+        ArrayList<CountryLanguage> result = report.getLanguagePopulationReport(conn);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     // ---------------------------------------------------------------------
-    // Test: printLanguagePopulationReport with mismatched list sizes
+    // Test: printLanguagePopulationReport with incomplete data
     // ---------------------------------------------------------------------
     @Test
-    void printLanguagePopulationReportMismatchedSizes()
+    void printLanguagePopulationReportIncompleteData()
     {
-        ArrayList<String> languages = new ArrayList<>();
-        ArrayList<Long> speakers = new ArrayList<>();
-        ArrayList<Double> worldPercent = new ArrayList<>();
-        languages.add("Hindi");
-        speakers.add(800000000L);
-        // Missing worldPercent entry
+        ArrayList<CountryLanguage> reportList = new ArrayList<>();
+        CountryLanguage hindi = new CountryLanguage();
+        hindi.setLanguage("Hindi");
+        hindi.setCountryCode("800,000,000");
+        // Missing percentage (world %) on purpose
+        reportList.add(hindi);
 
-        // Should print without crashing
-        assertDoesNotThrow(() ->
-                report.printLanguagePopulationReport(languages, speakers, worldPercent));
+        // Should print without throwing exceptions
+        assertDoesNotThrow(() -> report.printLanguagePopulationReport(reportList));
     }
 }

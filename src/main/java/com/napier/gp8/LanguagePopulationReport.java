@@ -6,116 +6,88 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *The Language population generates a report of the amount of speakers of major languages and how much they occupy the world population.
- * Coding Standards:
- * - Class names: PascalCase
- * - Method names: camelCase
- * - Descriptive variable names
- * - Validate inputs before use
- * - Statement and ResultSet Use try-with-resources.
- * - Use ArrayList consistently
+ * Generates a report showing the total number of speakers
+ * and world population percentage for major languages.
  */
 public class LanguagePopulationReport {
 
     // Logger instance
     private static final Logger logger = Logger.getLogger(LanguagePopulationReport.class.getName());
+
     /**
      * Retrieves the population and world percentage of speakers for major languages.
      * Languages: Chinese, English, Hindi, Spanish, Arabic.
+     *
      * @param conn Active database connection (must not be null)
-     * @param languages ArrayList to store language names
-     * @param speakers ArrayList to store number of speakers
-     * @param worldPercent ArrayList to store world population percentage
+     * @return A list of CountryLanguage objects representing the report data
      */
+    public ArrayList<CountryLanguage> getLanguagePopulationReport(Connection conn) {
+        ArrayList<CountryLanguage> reportList = new ArrayList<>();
 
-    public void getLanguagePopulationReport(Connection conn,
-                                            ArrayList<String> languages,
-                                            ArrayList<Long> speakers,
-                                            ArrayList<Double> worldPercent) {
-
-        // Validate database connection
         if (conn == null) {
             logger.warning("Database connection is null. Cannot generate language population report.");
-            return;
+            return reportList;
         }
 
-        // Use try-with-resources for Statement
-        try (Statement stmt = conn.createStatement()) {
+        String strSelect =
+                "SELECT cl.Language, " +
+                        "SUM((c.Population * cl.Percentage) / 100) AS Speakers, " +
+                        "ROUND(SUM((c.Population * cl.Percentage) / 100) / " +
+                        "(SELECT SUM(Population) FROM country) * 100, 2) AS WorldPercentage " +
+                        "FROM countrylanguage cl " +
+                        "JOIN country c ON cl.CountryCode = c.Code " +
+                        "WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
+                        "GROUP BY cl.Language " +
+                        "ORDER BY Speakers DESC";
 
-            // SQL query in strSelect style
-            String strSelect =
-                    "SELECT cl.Language, " +
-                            "SUM((c.Population * cl.Percentage) / 100) AS Speakers, " +
-                            "ROUND(SUM((c.Population * cl.Percentage) / 100) / " +
-                            "(SELECT SUM(Population) FROM country) * 100, 2) AS WorldPercentage " +
-                            "FROM countrylanguage cl " +
-                            "JOIN country c ON cl.CountryCode = c.Code " +
-                            "WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
-                            "GROUP BY cl.Language " +
-                            "ORDER BY Speakers DESC";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(strSelect)) {
 
-            // Try-with-resources for ResultSet
-            try (ResultSet rs = stmt.executeQuery(strSelect)) {
+            while (rs.next()) {
+                CountryLanguage cl = new CountryLanguage();
 
-                // Extract data into the three lists
-                while (rs.next()) {
-                    languages.add(rs.getString("Language"));
-                    speakers.add(rs.getLong("Speakers"));
-                    worldPercent.add(rs.getDouble("WorldPercentage"));
-                }
+                // Reusing CountryLanguage fields for report data
+                cl.setLanguage(rs.getString("Language"));
+                cl.setCountryCode(String.format("%,d", rs.getLong("Speakers"))); // store speaker count as string
+                cl.setPercentage(rs.getDouble("WorldPercentage")); // reuse 'percentage' for world percentage
+                cl.setIsOfficial("N/A"); // Not applicable for this aggregated report
+
+                reportList.add(cl);
             }
 
         } catch (SQLException e) {
-            // Handle SQL exceptions
             logger.log(Level.SEVERE, "SQL error retrieving language population report", e);
-
-            // Clear lists on failure
-            languages.clear();
-            speakers.clear();
-            worldPercent.clear();
+            reportList.clear();
         }
 
-        // Check if no data was retrieved
-        if (languages.isEmpty()) {
+        if (reportList.isEmpty()) {
             logger.warning("No language population data found.");
         }
+
+        return reportList;
     }
 
     /**
      * Prints the language population report in a formatted table.
-     * @param languages ArrayList of language names
-     * @param speakers ArrayList of number of speakers
-     * @param worldPercent ArrayList of world population percentages
+     *
+     * @param reportList List of CountryLanguage objects
      */
-    public void printLanguagePopulationReport(ArrayList<String> languages,
-                                              ArrayList<Long> speakers,
-                                              ArrayList<Double> worldPercent) {
-
-
-        // Validate lists
-        if (languages == null || languages.isEmpty()) {
+    public void printLanguagePopulationReport(ArrayList<CountryLanguage> reportList) {
+        if (reportList == null || reportList.isEmpty()) {
             logger.info("No data available for language population report.");
             return;
         }
-        // Print header
+
         System.out.println("\n============= ReportID 32. Language Population Report =============");
         System.out.println("------------------------------------------------------------");
         System.out.printf("%-15s %-20s %-20s%n", "Language", "Speakers", "% of World Population");
         System.out.println("------------------------------------------------------------");
 
-
-        int minSize = Math.min(languages.size(), Math.min(speakers.size(), worldPercent.size()));
-        if (minSize == 0) {
-            logger.info("No data available for language population report.");
-            return;
-        }
-
-        // Print each row
-        for (int i = 0; i < languages.size(); i++) {
-            System.out.printf("%-15s %-20d %-20.2f%n",
-                    languages.get(i),
-                    speakers.get(i),
-                    worldPercent.get(i));
+        for (CountryLanguage cl : reportList) {
+            System.out.printf("%-15s %-20s %-20.2f%n",
+                    cl.getLanguage(),
+                    cl.getCountryCode(),     // used here to display formatted speakers
+                    cl.getPercentage());     // reused for world percentage
         }
 
         System.out.println("------------------------------------------------------------");
