@@ -5,7 +5,7 @@ FROM openjdk:24
 WORKDIR /app
 
 # Copy the JAR file from the build context into the container
-COPY ./target/DevOpsGroup8CourseWork-v-0.2-jar-with-dependencies.jar /app/
+COPY ./target/gp8CourseWork.jar /app/
 
 # Define the command to run the app
-ENTRYPOINT ["java", "-jar", "DevOpsGroup8CourseWork-v-0.2-jar-with-dependencies.jar"]
+ENTRYPOINT ["java", "-jar", "gp8CourseWork.jar", "db:3306", "30000"]

@@ -11,9 +11,14 @@ public class App {
      */
     private Connection conn = null;
 
+    public Connection getConnection() {
+        return this.conn;
+    }
+
+
     /* Connect to the MySQL database.
      */
-    public void connect() {
+    public void connect(String location, int delay) {
         try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -23,7 +28,7 @@ public class App {
         }
 
         // Database connection info
-        String url = "jdbc:mysql://db:3306/world?useSSL=false&allowPublicKeyRetrieval=true";
+        String url = "jdbc:mysql://" + location + "/world?useSSL=false&allowPublicKeyRetrieval=true";
         String user = "root";
         String password = "root";
 
@@ -32,7 +37,7 @@ public class App {
             System.out.println("Connecting to database...");
             try {
                 // Wait a bit for db to start
-                Thread.sleep(30000);
+                Thread.sleep(delay);
                 // Connect to database
                 conn = DriverManager.getConnection(url, user, password);
                 System.out.println("Successfully connected");
@@ -63,7 +68,13 @@ public class App {
 
     public static void main(String[] args) {
         App app = new App();
-        app.connect();
+
+        if(args.length < 1){
+            app.connect("localhost:33060", 30000);
+        }else{
+            app.connect(args[0], Integer.parseInt(args[1]));
+        }
+
 
         //============================================================
         // REPORT 1. Country world report
