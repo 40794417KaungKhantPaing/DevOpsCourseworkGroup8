@@ -28,7 +28,7 @@ jobs:
           mvn -Dtest=com.napier.gp8.PopulationCountryReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationDistrictReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationRegionReportUnitTest test
-          mvn -Dtest=com.napier.gp8.WorldReportsUnitTest test
+          mvn -Dtest=com.napier.gp8.PopulationWorldReportsUnitTest test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -53,7 +53,7 @@ jobs:
 
       - name: Integration Tests
         run: |
-          docker build -t database ./db
+          docker build -t database ./database
           docker run --name world -dp 33060:3306 database
           mvn -Dtest=com.napier.gp8.AppIntegrationTest test
           docker stop world
