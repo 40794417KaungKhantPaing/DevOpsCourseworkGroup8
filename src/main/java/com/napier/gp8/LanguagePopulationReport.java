@@ -103,6 +103,13 @@ public class LanguagePopulationReport {
         System.out.printf("%-15s %-20s %-20s%n", "Language", "Speakers", "% of World Population");
         System.out.println("------------------------------------------------------------");
 
+
+        int minSize = Math.min(languages.size(), Math.min(speakers.size(), worldPercent.size()));
+        if (minSize == 0) {
+            logger.info("No data available for language population report.");
+            return;
+        }
+
         // Print each row
         for (int i = 0; i < languages.size(); i++) {
             System.out.printf("%-15s %-20d %-20.2f%n",
