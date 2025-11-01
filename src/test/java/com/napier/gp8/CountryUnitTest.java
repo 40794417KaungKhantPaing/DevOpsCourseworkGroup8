@@ -3,7 +3,7 @@ package com.napier.gp8;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class CountryTest {
+class CountryUnitTest {
 
     @Test
     void testGettersAndSetters() {
