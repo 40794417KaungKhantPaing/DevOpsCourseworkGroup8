@@ -69,4 +69,25 @@ class CountryUnitTest {
         assertTrue(result.startsWith("Country{"));
         assertTrue(result.endsWith("}"));
     }
+
+    @Test
+    void testDefaultValues() {
+        Country country = new Country();
+
+        assertNull(country.getCode());
+        assertNull(country.getCountryName());
+        assertNull(country.getContinent());
+        assertNull(country.getRegion());
+        assertEquals(0.0, country.getSurfaceArea());
+        assertNull(country.getIndepYear());
+        assertEquals(0L, country.getPopulation());
+        assertNull(country.getLifeExpectancy());
+        assertNull(country.getGnp());
+        assertNull(country.getGnpOld());
+        assertNull(country.getLocalName());
+        assertNull(country.getGovernmentForm());
+        assertNull(country.getHeadOfState());
+        assertNull(country.getCapital());
+        assertNull(country.getCode2());
+    }
 }
