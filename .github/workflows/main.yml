@@ -19,6 +19,9 @@ jobs:
 
       - name: Run Unit Tests
         run: |
+          mvn -Dtest=com.napier.gp8.CityUnitTest test
+          mvn -Dtest=com.napier.gp8.CountryUnitTest test
+          mvn -Dtest=com.napier.gp8.CountryLanguageUnitTest test
           mvn -Dtest=com.napier.gp8.CapitalCitiesReportsUnitTest test
           mvn -Dtest=com.napier.gp8.CitiesReportsUnitTest test
           mvn -Dtest=com.napier.gp8.CountriesReportsUnitTest test

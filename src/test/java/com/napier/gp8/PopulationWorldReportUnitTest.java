@@ -84,4 +84,11 @@ public class PopulationWorldReportUnitTest
         assertEquals("Earth", data.name);
         assertEquals(0, data.totalPopulation);
     }
+
+    @Test
+    void printPopulationWorldReportTest_NullDataBranch() {
+        // This explicitly passes null to trigger the "if (data == null)" condition
+        report.printPopulation_World_Report(null);
+    }
+
 }
