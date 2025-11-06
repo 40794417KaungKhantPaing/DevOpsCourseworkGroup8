@@ -19,6 +19,7 @@ public class PopulationWorldReport {
      * @param conn Active database connection
      * @return PopulationData containing total, city, and non-city data
      */
+
     public PopulationData getPopulation_World_Report(Connection conn) {
 
         PopulationData data = new PopulationData("World");
