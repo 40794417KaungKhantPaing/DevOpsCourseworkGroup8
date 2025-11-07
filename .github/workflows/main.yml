@@ -88,7 +88,7 @@ jobs:
        - name: Build and Start docker-compose
          run: |
            mvn package -DskipTests
-           docker-compose up --abort-on-container-exit
+           docker compose up --abort-on-container-exit
 
        - name: Deploy Release
          uses: marvinpinto/action-automatic-releases@latest
