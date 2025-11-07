@@ -32,6 +32,7 @@ jobs:
           mvn -Dtest=com.napier.gp8.PopulationDistrictReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationRegionReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationWorldReportUnitTest test
+          mvn -Dtest=com.napier.gp8.PopulationUtilsUnitTest test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -71,21 +72,39 @@ jobs:
           flags: IntegrationTests
           verbose: true
 
-  build:
-    name: Build and Test with Docker
-    runs-on: ubuntu-latest
+BuildAndRelease:
+  name: Build, Start docker-compose, and Deploy Release
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
+      with:
+        java-version: '24'
+        distribution: 'temurin'
 
-      - name: Set up JDK 24
-        uses: actions/setup-java@v4
-        with:
-          java-version: '24'
-          distribution: 'temurin'
+    - name: Build and Start docker-compose
+      run: |
+        mvn package -DskipTests
+        docker-compose up --abort-on-container-exit
 
-      - name: Package and Run docker-compose
-        run: |
-          mvn package -DskipTests
-          docker compose up --abort-on-container-exit
+    - name: Deploy Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.PAT_TOKEN }}
+        prerelease: false
+        automatic_release_tag: latest
+        files: ./target/*.jar
+        overwrite: true
+
+    - name: Copy Output
+      run: docker cp devopscourseworkgroup8-app-1:/tmp/reports ./reports
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      with:
+        branch: reports
+        folder: reports
+        token: ${{ secrets.DEPLOY_PAT }}
