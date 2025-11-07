@@ -100,7 +100,7 @@ jobs:
            overwrite: true
 
        - name: Copy Output
-         run: docker container cp devopscourseworkgroup8-app-1:./tmp/reports ./
+         run: docker container cp devopscourseworkgroup8-app-1:./app/reports ./
 
        - name: Deploy
          uses: JamesIves/github-pages-deploy-action@v4.2.5
