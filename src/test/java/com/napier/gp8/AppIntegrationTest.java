@@ -405,6 +405,13 @@ public class AppIntegrationTest {
         assertTrue(new PopulationCityReport().getPopulation_City_Report(app.getConnection()).isEmpty());
         assertTrue(new PopulationDistrictReport().getPopulation_District_Report(app.getConnection()).isEmpty());
         assertTrue(new LanguagePopulationReport().getLanguagePopulationReport(app.getConnection()).isEmpty());
+        PopulationWorldReport report = new PopulationWorldReport();
+        PopulationWorldReport.PopulationData data = report.getPopulation_World_Report(app.getConnection());
+
+        // In your "catch block test style", treat zero total population as "empty result"
+        assertEquals(0, data.totalPopulation, "Total population should be 0 when SQLException occurs");
+        assertEquals(0, data.cityPopulation, "City population should be 0 when SQLException occurs");
+        assertEquals(0, data.nonCityPopulation, "Non-city population should be 0 when SQLException occurs");
 
         // --- Step 2: Reconnect to trigger successful 'try' branches ---
         reconnect();
@@ -443,6 +450,7 @@ public class AppIntegrationTest {
         assertNotNull(new PopulationCountryReport().getPopulation_Country_Report(app.getConnection()));
         assertNotNull(new PopulationCityReport().getPopulation_City_Report(app.getConnection()));
         assertNotNull(new PopulationDistrictReport().getPopulation_District_Report(app.getConnection()));
+        assertNotNull(new PopulationWorldReport().getPopulation_World_Report(app.getConnection()));
         assertNotNull(new LanguagePopulationReport().getLanguagePopulationReport(app.getConnection()));
     }
 
