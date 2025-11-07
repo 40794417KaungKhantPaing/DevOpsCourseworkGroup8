@@ -362,61 +362,90 @@ public class AppIntegrationTest {
     }
 
     // =================================================
-    // Example combined SQL Exception Tests
+    // Combined SQL Exception Tests
     // =================================================
     @Test
     @Order(31)
     void testAllSQLExceptionCatchBlocks() {
+        // --- Step 1: Break the connection to trigger exception paths ---
         breakConnection();
 
-        // Country Reports
+        // Expecting empty results due to SQLException / NullPointerException
         assertTrue(new CountriesWorldReport().getCountries_World_Report(app.getConnection()).isEmpty());
         assertTrue(new CountriesContinentReport().getCountries_Continent_Report(app.getConnection(), "Asia").isEmpty());
         assertTrue(new CountriesRegionReport().getCountries_Region_Report(app.getConnection(), "Middle East").isEmpty());
 
-        // City Reports
         assertTrue(new CitiesWorldReport().getCitiesWorldReport(app.getConnection()).isEmpty());
         assertTrue(new CitiesContinentReport().getCitiesContinentReport(app.getConnection(), "Asia").isEmpty());
         assertTrue(new CitiesRegionReport().getCitiesRegionReport(app.getConnection(), "Eastern Asia").isEmpty());
         assertTrue(new CitiesCountryReport().getCitiesCountryReport(app.getConnection(), "Japan").isEmpty());
         assertTrue(new CitiesDistrictReport().getCitiesDistrictReport(app.getConnection(), "California").isEmpty());
 
-        // Capital City Reports
         assertTrue(new CapitalCitiesWorldReport().getAllCapitalCitiesInWorldByPopulation(app.getConnection()).isEmpty());
         assertTrue(new CapitalCitiesContinentReport().getAllCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia").isEmpty());
         assertTrue(new CapitalCitiesRegionReport().getAllCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East").isEmpty());
 
-
-        // Top N Country Reports
         assertTrue(new CountriesWorldReport().getTopNCountries_World_Report(app.getConnection(), 10).isEmpty());
         assertTrue(new CountriesContinentReport().getTopNCountries_Continent_Report(app.getConnection(), "Asia", 10).isEmpty());
         assertTrue(new CountriesRegionReport().getTopNCountries_Region_Report(app.getConnection(), "Middle East", 10).isEmpty());
 
-        // Top N City Reports
         assertTrue(new CitiesWorldReport().getTopNCitiesWorldReport(app.getConnection(), 10).isEmpty());
         assertTrue(new CitiesContinentReport().getTopNCitiesContinentReport(app.getConnection(), "Asia", 10).isEmpty());
         assertTrue(new CitiesRegionReport().getTopNCitiesRegionReport(app.getConnection(), "Eastern Asia", 10).isEmpty());
         assertTrue(new CitiesCountryReport().getTopNCitiesCountryReport(app.getConnection(), "Japan", 10).isEmpty());
         assertTrue(new CitiesDistrictReport().getTopNCitiesDistrictReport(app.getConnection(), "California", 10).isEmpty());
 
-        // Top N Capital City Reports
         assertTrue(new CapitalCitiesWorldReport().getTopNCapitalCitiesInWorldByPopulation(app.getConnection(), 10).isEmpty());
         assertTrue(new CapitalCitiesContinentReport().getTopNCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia", 10).isEmpty());
         assertTrue(new CapitalCitiesRegionReport().getTopNCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East", 10).isEmpty());
 
-        // Population Reports
         assertTrue(new PopulationContinentReport().getPopulation_Continent_Report(app.getConnection()).isEmpty());
         assertTrue(new PopulationRegionReport().getPopulation_Region_Report(app.getConnection()).isEmpty());
         assertTrue(new PopulationCountryReport().getPopulation_Country_Report(app.getConnection()).isEmpty());
         assertTrue(new PopulationCityReport().getPopulation_City_Report(app.getConnection()).isEmpty());
         assertTrue(new PopulationDistrictReport().getPopulation_District_Report(app.getConnection()).isEmpty());
-
-        // Language Reports
         assertTrue(new LanguagePopulationReport().getLanguagePopulationReport(app.getConnection()).isEmpty());
 
-        // finally reconnect
+        // --- Step 2: Reconnect to trigger successful 'try' branches ---
         reconnect();
+
+        // Now all methods should execute successfully with valid connection
+        assertNotNull(new CountriesWorldReport().getCountries_World_Report(app.getConnection()));
+        assertNotNull(new CountriesContinentReport().getCountries_Continent_Report(app.getConnection(), "Asia"));
+        assertNotNull(new CountriesRegionReport().getCountries_Region_Report(app.getConnection(), "Middle East"));
+
+        assertNotNull(new CitiesWorldReport().getCitiesWorldReport(app.getConnection()));
+        assertNotNull(new CitiesContinentReport().getCitiesContinentReport(app.getConnection(), "Asia"));
+        assertNotNull(new CitiesRegionReport().getCitiesRegionReport(app.getConnection(), "Eastern Asia"));
+        assertNotNull(new CitiesCountryReport().getCitiesCountryReport(app.getConnection(), "Japan"));
+        assertNotNull(new CitiesDistrictReport().getCitiesDistrictReport(app.getConnection(), "California"));
+
+        assertNotNull(new CapitalCitiesWorldReport().getAllCapitalCitiesInWorldByPopulation(app.getConnection()));
+        assertNotNull(new CapitalCitiesContinentReport().getAllCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia"));
+        assertNotNull(new CapitalCitiesRegionReport().getAllCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East"));
+
+        assertNotNull(new CountriesWorldReport().getTopNCountries_World_Report(app.getConnection(), 10));
+        assertNotNull(new CountriesContinentReport().getTopNCountries_Continent_Report(app.getConnection(), "Asia", 10));
+        assertNotNull(new CountriesRegionReport().getTopNCountries_Region_Report(app.getConnection(), "Middle East", 10));
+
+        assertNotNull(new CitiesWorldReport().getTopNCitiesWorldReport(app.getConnection(), 10));
+        assertNotNull(new CitiesContinentReport().getTopNCitiesContinentReport(app.getConnection(), "Asia", 10));
+        assertNotNull(new CitiesRegionReport().getTopNCitiesRegionReport(app.getConnection(), "Eastern Asia", 10));
+        assertNotNull(new CitiesCountryReport().getTopNCitiesCountryReport(app.getConnection(), "Japan", 10));
+        assertNotNull(new CitiesDistrictReport().getTopNCitiesDistrictReport(app.getConnection(), "California", 10));
+
+        assertNotNull(new CapitalCitiesWorldReport().getTopNCapitalCitiesInWorldByPopulation(app.getConnection(), 10));
+        assertNotNull(new CapitalCitiesContinentReport().getTopNCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia", 10));
+        assertNotNull(new CapitalCitiesRegionReport().getTopNCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East", 10));
+
+        assertNotNull(new PopulationContinentReport().getPopulation_Continent_Report(app.getConnection()));
+        assertNotNull(new PopulationRegionReport().getPopulation_Region_Report(app.getConnection()));
+        assertNotNull(new PopulationCountryReport().getPopulation_Country_Report(app.getConnection()));
+        assertNotNull(new PopulationCityReport().getPopulation_City_Report(app.getConnection()));
+        assertNotNull(new PopulationDistrictReport().getPopulation_District_Report(app.getConnection()));
+        assertNotNull(new LanguagePopulationReport().getLanguagePopulationReport(app.getConnection()));
     }
+
 
 
     // =========================
