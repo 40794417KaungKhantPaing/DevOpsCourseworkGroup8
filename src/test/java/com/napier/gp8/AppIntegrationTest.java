@@ -345,433 +345,77 @@ public class AppIntegrationTest {
     // =========================
 
 
-    //-------------------------
-    // Country Reports
-    // -------------------------
+    // =================================================
+    // Shared helper for SQL exception (broken connection)
+    // =================================================
+    private void breakConnection() {
+        try {
+            if (app.getConnection() != null && !app.getConnection().isClosed()) {
+                app.getConnection().close();
+            }
+        } catch (SQLException ignored) {
+        }
+    }
+
+    private void reconnect() {
+        app.connect("localhost:33060", 3000);
+    }
+
+    // =================================================
+    // Example combined SQL Exception Tests
+    // =================================================
     @Test
     @Order(31)
-    void testCountriesWorldSQLExceptionCatch() {
-        CountriesWorldReport report = new CountriesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> countries = report.getCountries_World_Report(app.getConnection());
-        assertNotNull(countries);
-        assertTrue(countries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+    void testAllSQLExceptionCatchBlocks() {
+        breakConnection();
 
-    @Test
-    @Order(32)
-    void testCountriesContinentSQLExceptionCatch() {
-        CountriesContinentReport report = new CountriesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> countries = report.getCountries_Continent_Report(app.getConnection(), "Asia");
-        assertNotNull(countries);
-        assertTrue(countries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Country Reports
+        assertTrue(new CountriesWorldReport().getCountries_World_Report(app.getConnection()).isEmpty());
+        assertTrue(new CountriesContinentReport().getCountries_Continent_Report(app.getConnection(), "Asia").isEmpty());
+        assertTrue(new CountriesRegionReport().getCountries_Region_Report(app.getConnection(), "Middle East").isEmpty());
 
-    @Test
-    @Order(33)
-    void testCountriesRegionSQLExceptionCatch() {
-        CountriesRegionReport report = new CountriesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> countries = report.getCountries_Region_Report(app.getConnection(), "Middle East");
-        assertNotNull(countries);
-        assertTrue(countries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // City Reports
+        assertTrue(new CitiesWorldReport().getCitiesWorldReport(app.getConnection()).isEmpty());
+        assertTrue(new CitiesContinentReport().getCitiesContinentReport(app.getConnection(), "Asia").isEmpty());
+        assertTrue(new CitiesRegionReport().getCitiesRegionReport(app.getConnection(), "Eastern Asia").isEmpty());
+        assertTrue(new CitiesCountryReport().getCitiesCountryReport(app.getConnection(), "Japan").isEmpty());
+        assertTrue(new CitiesDistrictReport().getCitiesDistrictReport(app.getConnection(), "California").isEmpty());
 
-    // -------------------------
-    // Top N Country Reports
-    // -------------------------
-    @Test
-    @Order(34)
-    void testTopNCountriesWorldSQLExceptionCatch() {
-        CountriesWorldReport report = new CountriesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> topNCountries = report.getTopNCountries_World_Report(app.getConnection(), 10);
-        assertNotNull(topNCountries);
-        assertTrue(topNCountries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Capital City Reports
+        assertTrue(new CapitalCitiesWorldReport().getAllCapitalCitiesInWorldByPopulation(app.getConnection()).isEmpty());
+        assertTrue(new CapitalCitiesContinentReport().getAllCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia").isEmpty());
+        assertTrue(new CapitalCitiesRegionReport().getAllCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East").isEmpty());
 
-    @Test
-    @Order(35)
-    void testTopNCountriesContinentSQLExceptionCatch() {
-        CountriesContinentReport report = new CountriesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> topNCountries = report.getTopNCountries_Continent_Report(app.getConnection(), "Asia", 10);
-        assertNotNull(topNCountries);
-        assertTrue(topNCountries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
 
-    @Test
-    @Order(36)
-    void testTopNCountriesRegionSQLExceptionCatch() {
-        CountriesRegionReport report = new CountriesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<Country> topNCountries = report.getTopNCountries_Region_Report(app.getConnection(), "Middle East", 10);
-        assertNotNull(topNCountries);
-        assertTrue(topNCountries.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Top N Country Reports
+        assertTrue(new CountriesWorldReport().getTopNCountries_World_Report(app.getConnection(), 10).isEmpty());
+        assertTrue(new CountriesContinentReport().getTopNCountries_Continent_Report(app.getConnection(), "Asia", 10).isEmpty());
+        assertTrue(new CountriesRegionReport().getTopNCountries_Region_Report(app.getConnection(), "Middle East", 10).isEmpty());
 
-    // -------------------------
-    // City Reports
-    // -------------------------
-    @Test
-    @Order(37)
-    void testCitiesWorldSQLExceptionCatch() {
-        CitiesWorldReport report = new CitiesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> cities = report.getCitiesWorldReport(app.getConnection());
-        assertNotNull(cities);
-        assertTrue(cities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Top N City Reports
+        assertTrue(new CitiesWorldReport().getTopNCitiesWorldReport(app.getConnection(), 10).isEmpty());
+        assertTrue(new CitiesContinentReport().getTopNCitiesContinentReport(app.getConnection(), "Asia", 10).isEmpty());
+        assertTrue(new CitiesRegionReport().getTopNCitiesRegionReport(app.getConnection(), "Eastern Asia", 10).isEmpty());
+        assertTrue(new CitiesCountryReport().getTopNCitiesCountryReport(app.getConnection(), "Japan", 10).isEmpty());
+        assertTrue(new CitiesDistrictReport().getTopNCitiesDistrictReport(app.getConnection(), "California", 10).isEmpty());
 
-    @Test
-    @Order(38)
-    void testCitiesContinentSQLExceptionCatch() {
-        CitiesContinentReport report = new CitiesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> cities = report.getCitiesContinentReport(app.getConnection(), "Asia");
-        assertNotNull(cities);
-        assertTrue(cities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Top N Capital City Reports
+        assertTrue(new CapitalCitiesWorldReport().getTopNCapitalCitiesInWorldByPopulation(app.getConnection(), 10).isEmpty());
+        assertTrue(new CapitalCitiesContinentReport().getTopNCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia", 10).isEmpty());
+        assertTrue(new CapitalCitiesRegionReport().getTopNCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East", 10).isEmpty());
 
-    @Test
-    @Order(39)
-    void testCitiesRegionSQLExceptionCatch() {
-        CitiesRegionReport report = new CitiesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> cities = report.getCitiesRegionReport(app.getConnection(), "Eastern Asia");
-        assertNotNull(cities);
-        assertTrue(cities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Population Reports
+        assertTrue(new PopulationContinentReport().getPopulation_Continent_Report(app.getConnection()).isEmpty());
+        assertTrue(new PopulationRegionReport().getPopulation_Region_Report(app.getConnection()).isEmpty());
+        assertTrue(new PopulationCountryReport().getPopulation_Country_Report(app.getConnection()).isEmpty());
+        assertTrue(new PopulationCityReport().getPopulation_City_Report(app.getConnection()).isEmpty());
+        assertTrue(new PopulationDistrictReport().getPopulation_District_Report(app.getConnection()).isEmpty());
 
-    @Test
-    @Order(40)
-    void testCitiesCountrySQLExceptionCatch() {
-        CitiesCountryReport report = new CitiesCountryReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> cities = report.getCitiesCountryReport(app.getConnection(), "Japan");
-        assertNotNull(cities);
-        assertTrue(cities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
+        // Language Reports
+        assertTrue(new LanguagePopulationReport().getLanguagePopulationReport(app.getConnection()).isEmpty());
 
-    @Test
-    @Order(41)
-    void testCitiesDistrictSQLExceptionCatch() {
-        CitiesDistrictReport report = new CitiesDistrictReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> cities = report.getCitiesDistrictReport(app.getConnection(), "California");
-        assertNotNull(cities);
-        assertTrue(cities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    // -------------------------
-    // Top N City Reports
-    // -------------------------
-    @Test
-    @Order(42)
-    void testTopNCitiesWorldSQLExceptionCatch() {
-        CitiesWorldReport report = new CitiesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCities = report.getTopNCitiesWorldReport(app.getConnection(), 10);
-        assertNotNull(topCities);
-        assertTrue(topCities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(43)
-    void testTopNCitiesContinentSQLExceptionCatch() {
-        CitiesContinentReport report = new CitiesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCities = report.getTopNCitiesContinentReport(app.getConnection(), "Asia", 10);
-        assertNotNull(topCities);
-        assertTrue(topCities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(44)
-    void testTopNCitiesRegionSQLExceptionCatch() {
-        CitiesRegionReport report = new CitiesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCities = report.getTopNCitiesRegionReport(app.getConnection(), "Eastern Asia", 10);
-        assertNotNull(topCities);
-        assertTrue(topCities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(45)
-    void testTopNCitiesCountrySQLExceptionCatch() {
-        CitiesCountryReport report = new CitiesCountryReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCities = report.getTopNCitiesCountryReport(app.getConnection(), "Japan", 10);
-        assertNotNull(topCities);
-        assertTrue(topCities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(46)
-    void testTopNCitiesDistrictSQLExceptionCatch() {
-        CitiesDistrictReport report = new CitiesDistrictReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCities = report.getTopNCitiesDistrictReport(app.getConnection(), "California", 10);
-        assertNotNull(topCities);
-        assertTrue(topCities.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    // -------------------------
-    // Capital City Reports
-    // -------------------------
-    @Test
-    @Order(47)
-    void testCapitalCitiesWorldSQLExceptionCatch() {
-        CapitalCitiesWorldReport report = new CapitalCitiesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> capitals = report.getAllCapitalCitiesInWorldByPopulation(app.getConnection());
-        assertNotNull(capitals);
-        assertTrue(capitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(48)
-    void testCapitalCitiesContinentSQLExceptionCatch() {
-        CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> capitals = report.getAllCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia");
-        assertNotNull(capitals);
-        assertTrue(capitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(49)
-    void testCapitalCitiesRegionSQLExceptionCatch() {
-        CapitalCitiesRegionReport report = new CapitalCitiesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> capitals = report.getAllCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East");
-        assertNotNull(capitals);
-        assertTrue(capitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    // -------------------------
-    // Top N Capital Cities
-    // -------------------------
-    @Test
-    @Order(50)
-    void testTopNCapitalsWorldSQLExceptionCatch() {
-        CapitalCitiesWorldReport report = new CapitalCitiesWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCapitals = report.getTopNCapitalCitiesInWorldByPopulation(app.getConnection(), 10);
-        assertNotNull(topCapitals);
-        assertTrue(topCapitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(51)
-    void testTopNCapitalsContinentSQLExceptionCatch() {
-        CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCapitals = report.getTopNCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia", 10);
-        assertNotNull(topCapitals);
-        assertTrue(topCapitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(52)
-    void testTopNCapitalsRegionSQLExceptionCatch() {
-        CapitalCitiesRegionReport report = new CapitalCitiesRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<City> topCapitals = report.getTopNCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East", 10);
-        assertNotNull(topCapitals);
-        assertTrue(topCapitals.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    // -------------------------
-    // Population Reports
-    // -------------------------
-    @Test
-    @Order(53)
-    void testPopulationWorldSQLExceptionCatch() {
-        PopulationWorldReport report = new PopulationWorldReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        PopulationWorldReport.PopulationData data = report.getPopulation_World_Report(app.getConnection());
-        assertNotNull(data);
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(54)
-    void testPopulationContinentSQLExceptionCatch() {
-        PopulationContinentReport report = new PopulationContinentReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        List<Country> list = report.getPopulation_Continent_Report(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(55)
-    void testPopulationRegionSQLExceptionCatch() {
-        PopulationRegionReport report = new PopulationRegionReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        List<Country> list = report.getPopulation_Region_Report(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(56)
-    void testPopulationCountrySQLExceptionCatch() {
-        PopulationCountryReport report = new PopulationCountryReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        List<Country> list = report.getPopulation_Country_Report(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(57)
-    void testPopulationCitySQLExceptionCatch() {
-        PopulationCityReport report = new PopulationCityReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        List<City> list = report.getPopulation_City_Report(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    @Test
-    @Order(58)
-    void testPopulationDistrictSQLExceptionCatch() {
-        PopulationDistrictReport report = new PopulationDistrictReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        List<Country> list = report.getPopulation_District_Report(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
-    }
-
-    // -------------------------
-    // Language Report
-    // -------------------------
-    @Test
-    @Order(59)
-    void testLanguagePopulationSQLExceptionCatch() {
-        LanguagePopulationReport report = new LanguagePopulationReport();
-        try {
-            app.getConnection().close();
-        } catch (SQLException ignored) {
-        }
-        ArrayList<CountryLanguage> list = report.getLanguagePopulationReport(app.getConnection());
-        assertNotNull(list);
-        assertTrue(list.isEmpty());
-        app.connect("localhost:33060", 3000);
+        // finally reconnect
+        reconnect();
     }
 
 
@@ -787,3 +431,4 @@ public class AppIntegrationTest {
         }
     }
 }
+
