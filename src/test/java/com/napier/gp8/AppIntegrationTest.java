@@ -23,15 +23,21 @@ public class AppIntegrationTest {
 
     private static App app;
 
+    /**
+     * Setup method executed once before all tests.
+     * Initializes App instance and establishes DB connection.
+     */
     @BeforeAll
     static void setUp() {
         app = new App();
         app.connect("localhost:33060", 5000);
+        // Verify app instance is created
         assertNotNull(app, "App instance should not be null");
+        // Verify database connection is established
         assertNotNull(app.getConnection(), "Database connection should be established");
     }
 
-    // Test 1: Connection Establishment
+    // Connection Establishment
     @Test
     @Order(1)
     void testDatabaseConnection() {
@@ -45,7 +51,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // Country Reports
+    // Country Reports Integration Tests
     // =========================
     @Test
     @Order(2)
@@ -61,8 +67,8 @@ public class AppIntegrationTest {
     void testCountriesContinentReportIntegration() {
         CountriesContinentReport report = new CountriesContinentReport();
         ArrayList<Country> countries = report.getCountries_Continent_Report(app.getConnection(), "Asia");
-        assertNotNull(countries);
-        assertFalse(countries.isEmpty());
+        assertNotNull(countries); // Check that result is not null
+        assertFalse(countries.isEmpty()); // Check that result contains data
     }
 
     @Test
@@ -75,7 +81,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // Top N Country Reports
+    // Top N Country Reports Integration Tests
     // =========================
     @Test
     @Order(5)
@@ -108,7 +114,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // City Reports
+    // City Reports Integration Tests
     // =========================
     @Test
     @Order(8)
@@ -156,7 +162,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // Top N City Reports
+    // Top N City Reports Integration Tests
     // =========================
     @Test
     @Order(13)
@@ -210,7 +216,7 @@ public class AppIntegrationTest {
 
 
     // =========================
-    // Capital City Reports
+    // Capital City Reports Integration Tests
     // =========================
     @Test
     @Order(18)
@@ -240,7 +246,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // Top N Capital Cities
+    // Top N Capital Cities Integration Tests
     // =========================
     @Test
     @Order(21)
@@ -273,7 +279,7 @@ public class AppIntegrationTest {
     }
 
     // =========================
-    // Population Reports
+    // Population Reports Integration Tests
     // =========================
     @Test
     @Order(24)
@@ -330,7 +336,7 @@ public class AppIntegrationTest {
 
 
     // =========================
-    // Language Reports
+    // Language Reports Integration Tests
     // =========================
     @Test
     @Order(30)
@@ -343,7 +349,6 @@ public class AppIntegrationTest {
     // =========================
     // Catch-Block / SQLException Tests
     // =========================
-
 
     // =================================================
     // Shared helper for SQL exception (broken connection)
@@ -408,7 +413,7 @@ public class AppIntegrationTest {
         PopulationWorldReport report = new PopulationWorldReport();
         PopulationWorldReport.PopulationData data = report.getPopulation_World_Report(app.getConnection());
 
-        // In your "catch block test style", treat zero total population as "empty result"
+        // Treat zero total population as "empty result"
         assertEquals(0, data.totalPopulation, "Total population should be 0 when SQLException occurs");
         assertEquals(0, data.cityPopulation, "City population should be 0 when SQLException occurs");
         assertEquals(0, data.nonCityPopulation, "Non-city population should be 0 when SQLException occurs");
