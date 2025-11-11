@@ -51,6 +51,8 @@ public class Country
 
     //Secondary country code
     private String code2;
+    // Capital city name
+    private String capitalName;
 
     //default constructor
     public Country() {
@@ -159,6 +161,14 @@ public class Country
      */
     public String getCode2() {
         return code2;
+    }
+
+    public String getCapitalName() {
+        return capitalName;
+    }
+
+    public void setCapitalName(String capitalName) {
+        this.capitalName = capitalName;
     }
 
     /** Sets the country code.
@@ -277,6 +287,7 @@ public class Country
                 ", countryName='" + countryName + '\'' +
                 ", continent='" + continent + '\'' +
                 ", region='" + region + '\'' +
+                ", capital='" + capital + '\'' +
                 ", surfaceArea=" + surfaceArea +
                 ", indepYear=" + indepYear +
                 ", population=" + population +

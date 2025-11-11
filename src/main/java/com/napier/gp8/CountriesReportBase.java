@@ -28,10 +28,12 @@ public class CountriesReportBase {
         try {
             while (rs.next()) {
                 Country country = new Country();
+                country.setCode(rs.getString("Code"));
                 country.setCountryName(rs.getString("CountryName"));
                 country.setContinent(rs.getString("Continent"));
                 country.setRegion(rs.getString("Region"));
                 country.setPopulation(rs.getInt("Population"));
+                country.setCapitalName(rs.getString("CapitalName"));
                 countries.add(country);
             }
         } catch (SQLException e) {
@@ -58,22 +60,25 @@ public class CountriesReportBase {
         }
 
         System.out.println("\n============= " + reportTitle + " =============");
-        System.out.println("-------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-35s %-25s %-25s %-15s%n",
-                "Country Name", "Continent", "Region", "Population");
-        System.out.println("-------------------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s %-35s %-20s %-25s %-15s %-25s%n",
+                "Code", "Country Name", "Continent", "Region", "Population", "Capital");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 
         for (Country country : countries) {
             if (country != null) {
-                System.out.printf("%-35s %-25s %-25s %,15d%n",
+                System.out.printf("%-10s %-35s %-20s %-25s %,15d %-25s%n",
+                        country.getCode(),
                         country.getCountryName(),
                         country.getContinent(),
                         country.getRegion(),
-                        country.getPopulation());
+                        country.getPopulation(),
+                        country.getCapitalName() != null ? country.getCapitalName() : "N/A");
             }
         }
 
-        System.out.println("-------------------------------------------------------------------------------------------------------");
-        System.out.println("=======================================================================================================\n");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("===========================================================================================================================\n");
     }
+
 }
