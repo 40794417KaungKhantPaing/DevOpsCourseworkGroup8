@@ -29,8 +29,11 @@ public class CountriesWorldReport extends CountriesReportBase {
         }
 
         // SQL query to retrieve all countries by population descending
-        String query = "SELECT Name AS CountryName, Continent, Region, Population " +
-                "FROM country ORDER BY Population DESC";
+        String query = "SELECT country.Code, country.Name AS CountryName, country.Continent, " +
+                "country.Region, country.Population, city.Name AS CapitalName " +
+                "FROM country " +
+                "LEFT JOIN city ON country.Capital = city.ID " +
+                "ORDER BY country.Population DESC";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -62,8 +65,11 @@ public class CountriesWorldReport extends CountriesReportBase {
             return countries;
         }
 
-        String query = "SELECT Name AS CountryName, Continent, Region, Population " +
-                "FROM country ORDER BY Population DESC LIMIT ?";
+        String query = "SELECT country.Code, country.Name AS CountryName, country.Continent, " +
+                "country.Region, country.Population, city.Name AS CapitalName " +
+                "FROM country " +
+                "LEFT JOIN city ON country.Capital = city.ID " +
+                "ORDER BY country.Population DESC LIMIT ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, topNCountries);
