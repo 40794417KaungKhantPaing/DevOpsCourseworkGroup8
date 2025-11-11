@@ -61,16 +61,65 @@ class ReportWriterUnitTest {
     }
 
     @Test
-    void testOutputCities_EmptyList_DoesNotThrow() {
-        assertDoesNotThrow(() ->
-                reportWriter.outputCities(new ArrayList<>(), "test_empty_cities.md", "Empty City Report"));
+    void testOutputCapitalCities_GeneratesCorrectMarkdown() throws IOException {
+        // Arrange
+        Country usa = new Country();
+        usa.setCountryName("United States");
+        City washington = new City();
+        washington.setCityName("Washington D.C.");
+        washington.setCountry(usa);
+        washington.setPopulation(700000);
+
+        ArrayList<City> capitals = new ArrayList<>();
+        capitals.add(washington);
+
+        String filename = "test_capitals.md";
+        String reportTitle = "Capital Cities Report";
+
+        // Act
+        reportWriter.outputCapitalCities(capitals, filename, reportTitle);
+
+        // Assert
+        Path filePath = reportDir.resolve(filename);
+        String content = Files.readString(filePath);
+
+        assertTrue(content.startsWith("# " + reportTitle), "Report should start with title");
+        assertTrue(content.contains("| Capital | Country | Population |"), "Header should exist");
+        assertTrue(content.contains("| Washington D.C. | United States | 700,000 |"),
+                "Table row should match city data");
     }
 
     @Test
-    void testOutputCapitalCities_NullList_DoesNotThrow() {
-        assertDoesNotThrow(() ->
-                reportWriter.outputCapitalCities(null, "test_null_capitals.md", "Null Capitals"));
+    void testOutputCities_GeneratesCorrectMarkdown() throws IOException {
+        // Arrange
+        Country japan = new Country();
+        japan.setCountryName("Japan");
+
+        City tokyo = new City();
+        tokyo.setCityName("Tokyo");
+        tokyo.setCountry(japan);
+        tokyo.setDistrict("Kanto");
+        tokyo.setPopulation(14000000);
+
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(tokyo);
+
+        String filename = "test_cities.md";
+        String reportTitle = "City Report";
+
+        // Act
+        reportWriter.outputCities(cities, filename, reportTitle);
+
+        // Assert
+        Path filePath = reportDir.resolve(filename);
+        String content = Files.readString(filePath);
+
+        assertTrue(content.startsWith("# " + reportTitle), "Report should start with title");
+        assertTrue(content.contains("| City | Country | District | Population |"), "Header should exist");
+        assertTrue(content.contains("| Tokyo | Japan | Kanto | 14,000,000 |"),
+                "Table row should match city data");
     }
+
 
     @Test
     void testOutputPopulationWorld_WritesExpectedData() throws IOException {
