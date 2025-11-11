@@ -33,10 +33,12 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         // 2. Prepare SQL query
         String query = """
-                SELECT Name AS CountryName, Continent, Region, Population
+                SELECT country.Code, country.Name AS CountryName, country.Continent, country.Region,
+                       country.Population, city.Name AS CapitalName
                 FROM country
-                WHERE Region = ?
-                ORDER BY Population DESC;
+                LEFT JOIN city ON country.Capital = city.ID
+                WHERE country.Region = ?
+                ORDER BY country.Population DESC;
                 """;
 
         // 3. Execute query using PreparedStatement
@@ -78,10 +80,12 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         // 2. Prepare SQL query with LIMIT
         String query = """
-                SELECT Name AS CountryName, Continent, Region, Population
+                SELECT country.Code, country.Name AS CountryName, country.Continent, country.Region,
+                       country.Population, city.Name AS CapitalName
                 FROM country
-                WHERE Region = ?
-                ORDER BY Population DESC
+                LEFT JOIN city ON country.Capital = city.ID
+                WHERE country.Region = ?
+                ORDER BY country.Population DESC
                 LIMIT ?;
                 """;
 

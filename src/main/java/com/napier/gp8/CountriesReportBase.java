@@ -73,7 +73,7 @@ public class CountriesReportBase {
                         country.getContinent(),
                         country.getRegion(),
                         country.getPopulation(),
-                        country.getCapitalName() != null ? country.getCapitalName() : "N/A");
+                        country.getCapitalName() != null ? country.getCapitalName() : "No Capital");
             }
         }
 
