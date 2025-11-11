@@ -80,7 +80,7 @@ public class ReportWriter {
                         .append(c.getRegion()).append(" | ")
                         .append(String.format("%,d", c.getPopulation())).append(" | ")
                         .append(c.getCapitalName() != null ? c.getCapitalName() : "No Capital").append(" |\n");
-                ;
+
             }
         }
         writeToFile(filename, sb);
