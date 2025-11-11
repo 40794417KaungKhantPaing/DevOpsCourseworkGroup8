@@ -36,6 +36,7 @@ jobs:
           mvn -Dtest=com.napier.gp8.PopulationRegionReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationWorldReportUnitTest test
           mvn -Dtest=com.napier.gp8.PopulationUtilsUnitTest test
+          mvn -Dtest=com.napier.gp8.ReportWriterUnitTest test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
