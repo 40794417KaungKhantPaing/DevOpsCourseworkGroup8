@@ -1,7 +1,10 @@
 name: Java CI with Docker
 
 on:
-  push
+  push:
+    branches:
+      - master
+      - develop
 
 jobs:
   UnitTests:
