@@ -69,19 +69,23 @@ public class ReportWriter {
 
         StringBuilder sb = new StringBuilder();
         sb.append("# ").append(reportTitle).append("\n\n");
-        sb.append("| Country | Continent | Region | Population |\n");
-        sb.append("| --- | --- | --- | ---: |\n");
+        sb.append("| Code | Country | Continent | Region | Population | Capital |\n");
+        sb.append("| --- | --- | --- | --- | ---: | --- |\n");
 
         for (Country c : countries) {
             if (c != null) {
-                sb.append("| ").append(c.getCountryName()).append(" | ")
+                sb.append("| ").append(c.getCode()).append(" | ")
+                        .append(c.getCountryName()).append(" | ")
                         .append(c.getContinent()).append(" | ")
                         .append(c.getRegion()).append(" | ")
-                        .append(String.format("%,d", c.getPopulation())).append(" |\n");
+                        .append(String.format("%,d", c.getPopulation())).append(" | ")
+                        .append(c.getCapitalName() != null ? c.getCapitalName() : "No Capital").append(" |\n");
+                ;
             }
         }
         writeToFile(filename, sb);
     }
+
 
     /**
      * Writes Language Population Report
