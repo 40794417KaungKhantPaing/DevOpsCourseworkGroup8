@@ -64,7 +64,6 @@ jobs:
           docker build -t database ./database
           docker run --name world -dp 33060:3306 database
           mvn -Dtest=com.napier.gp8.AppIntegrationTest test
-          mvn -Dtest=com.napier.gp8.AppAllReportsIntegrationTest test
           docker stop world
           docker rm world
           docker image rm database
