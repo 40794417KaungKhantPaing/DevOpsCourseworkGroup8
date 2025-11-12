@@ -3,6 +3,8 @@ package com.napier.gp8;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -460,6 +462,82 @@ public class AppIntegrationTest {
     }
 
 
+
+
+    // =================================================
+    // Test App Main Execution
+    // =================================================
+    @Test
+    @Order(32)
+    void testAppMainExecution() {
+        reconnect();
+
+        String dbHost = "localhost:33060";
+        String dbDelay = "100";
+
+        App.main(new String[]{dbHost, dbDelay});
+
+    }
+
+
+
+    // =================================================
+    // Test buildCapitalCities return empty data
+    // =================================================
+    @Test
+    @Order(34)
+    void testBuildCapitalCities_EmptyResultSet() {
+
+        CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
+
+        String nonexistentContinent = "Atlantis";
+
+        ArrayList<City> capitals = report.getAllCapitalCitiesInContinentByPopulation(
+                AppIntegrationTest.app.getConnection(),
+                nonexistentContinent
+        );
+
+        assertNotNull(capitals, "List should not be null");
+        assertTrue(capitals.isEmpty(), "List must be empty when querying a non-existent continent");
+
+    }
+
+
+    @Test
+    @Order(35) // Use an appropriate order number
+    void testBuildCountries_EmptyResultSet() {
+
+        CountriesRegionReport report = new CountriesRegionReport();
+
+        String nonexistentRegion = "Fictional Region";
+
+        ArrayList<Country> countries = report.getCountries_Region_Report(
+                AppIntegrationTest.app.getConnection(),
+                nonexistentRegion
+        );
+
+        // 3. Assert: Verify the list is empty
+        assertNotNull(countries, "List should not be null");
+        assertTrue(countries.isEmpty(), "List must be empty when querying a non-existent region");
+    }
+
+
+    @Test
+    @Order(36) // Use an appropriate order number
+    void testBuildCities_EmptyResultSet() {
+        CitiesDistrictReport report = new CitiesDistrictReport();
+
+        String nonexistentDistrict = "Fictional District X";
+
+        ArrayList<City> cities = report.getCitiesDistrictReport(
+                AppIntegrationTest.app.getConnection(),
+                nonexistentDistrict
+        );
+
+        assertNotNull(cities, "List should not be null");
+        assertTrue(cities.isEmpty(), "List must be empty when querying a non-existent district");
+
+    }
 
     // =========================
     // Tear Down
