@@ -89,6 +89,12 @@ To build and run the project locally, follow these steps:
 
 This will build the Docker image and start the application as defined in the `docker-compose.yml` file.
 
+6. **After packaging, run the application with:**:
+
+    ```bash
+    java -cp target/gp8CourseWork.jar com.napier.gp8.App
+    ```
+   After run local App.java will connect the database of Docker-Compose and  Markdown Report Files will be generated in the project root directory.
 ---
 
 ## Kanban Board
