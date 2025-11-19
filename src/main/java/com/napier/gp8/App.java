@@ -81,48 +81,48 @@ public class App {
         // REPORT 1. Country world report
         //============================================================
         CountriesWorldReport countriesWorld = new CountriesWorldReport();
-        ArrayList<Country> countriesWorldList = countriesWorld.getCountries_World_Report(app.conn);
-        countriesWorld.printCountries_World_Report(countriesWorldList);
+        ArrayList<Country> countriesWorldList = countriesWorld.getCountriesWorldReport(app.conn);
+        countriesWorld.printCountriesWorldReport(countriesWorldList);
         writer.outputCountries(countriesWorldList, "01_Countries_World_Report.md", "Report 1: Countries in the World");
 
         //============================================================
         // REPORT 2. Country Continent report
         //============================================================
-        String countries_Continent = "Asia";
+        String countriesContinent = "Asia";
         CountriesContinentReport countriesContinentReport = new CountriesContinentReport();
-        ArrayList<Country> countriesContinentList = countriesContinentReport.getCountries_Continent_Report(app.conn, countries_Continent);
-        countriesContinentReport.printCountries_Continent_Report(countries_Continent, countriesContinentList);
-        writer.outputCountries(countriesContinentList, "02_Countries_Continent_Report.md", "Report 2: Countries in " + countries_Continent);
+        ArrayList<Country> countriesContinentList = countriesContinentReport.getCountriesContinentReport(app.conn, countriesContinent);
+        countriesContinentReport.printCountriesContinentReport(countriesContinent, countriesContinentList);
+        writer.outputCountries(countriesContinentList, "02_Countries_Continent_Report.md", "Report 2: Countries in " + countriesContinent);
 
         //============================================================
         // REPORT 3. Country Region report
         //============================================================
-        String countries_Region = "Middle East";
+        String countriesRegion = "Middle East";
         CountriesRegionReport countriesRegionReport = new CountriesRegionReport();
-        ArrayList<Country> countriesRegionList = countriesRegionReport.getCountries_Region_Report(app.conn, countries_Region);
-        countriesRegionReport.printCountries_Region_Report(countries_Region, countriesRegionList);
-        writer.outputCountries(countriesRegionList, "03_Countries_Region_Report.md", "Report 3: Countries in " + countries_Region);
+        ArrayList<Country> countriesRegionList = countriesRegionReport.getCountriesRegionReport(app.conn, countriesRegion);
+        countriesRegionReport.printCountriesRegionReport(countriesRegion, countriesRegionList);
+        writer.outputCountries(countriesRegionList, "03_Countries_Region_Report.md", "Report 3: Countries in " + countriesRegion);
 
         //============================================================
         // REPORT 4: Top N Countries in the World
         //============================================================
-        ArrayList<Country> topNCountries = countriesWorld.getTopNCountries_World_Report(app.conn,10);
-        countriesWorld.printTopNCountries_World_Report(topNCountries,10);
+        ArrayList<Country> topNCountries = countriesWorld.getTopNCountriesWorldReport(app.conn,10);
+        countriesWorld.printTopNCountriesWorldReport(topNCountries,10);
         writer.outputCountries(topNCountries, "04_TopN_Countries_World_Report.md", "Report 4: Top 10 Countries in the World");
 
         //============================================================
         // REPORT 5: Top N Countries in the Continent
         //============================================================
-        ArrayList<Country> topNCountriesContinent = countriesContinentReport.getTopNCountries_Continent_Report(app.conn,countries_Continent,10);
-        countriesContinentReport.printTopNCountries_Continent_Report(countries_Continent,topNCountriesContinent,10);
-        writer.outputCountries(topNCountriesContinent, "05_TopN_Countries_Continent_Report.md", "Report 5: Top 10 Countries in " + countries_Continent);
+        ArrayList<Country> topNCountriesContinent = countriesContinentReport.getTopNCountriesContinentReport(app.conn,countriesContinent,10);
+        countriesContinentReport.printTopNCountriesContinentReport(countriesContinent,topNCountriesContinent,10);
+        writer.outputCountries(topNCountriesContinent, "05_TopN_Countries_Continent_Report.md", "Report 5: Top 10 Countries in " + countriesContinent);
 
         //============================================================
         // REPORT 6: Top N Countries in the Region
         //============================================================
-        ArrayList<Country> topNCountriesRegion = countriesRegionReport.getTopNCountries_Region_Report(app.conn,countries_Region,10);
-        countriesRegionReport.printTopNCountries_Region_Report(countries_Region,topNCountriesRegion,10);
-        writer.outputCountries(topNCountriesRegion, "06_TopN_Countries_Region_Report.md", "Report 6: Top 10 Countries in " + countries_Region);
+        ArrayList<Country> topNCountriesRegion = countriesRegionReport.getTopNCountriesRegionReport(app.conn,countriesRegion,10);
+        countriesRegionReport.printTopNCountriesRegionReport(countriesRegion,topNCountriesRegion,10);
+        writer.outputCountries(topNCountriesRegion, "06_TopN_Countries_Region_Report.md", "Report 6: Top 10 Countries in " + countriesRegion);
 
         // -------------------------------------------------------------------------
 
@@ -137,79 +137,79 @@ public class App {
         //============================================================
         // REPORT 8: All Cities in the continent
         //============================================================
-        String cities_Continent = "Asia";
+        String citiesContinent = "Asia";
         CitiesContinentReport citiesContinentReport = new CitiesContinentReport();
-        ArrayList<City> citiesContinentList = citiesContinentReport.getCitiesContinentReport(app.conn, cities_Continent);
-        citiesContinentReport.printCitiesContinentReport(citiesContinentList, cities_Continent);
-        writer.outputCities(citiesContinentList, "08_Cities_Continent_Report.md", "Report 8: Cities in " + cities_Continent);
+        ArrayList<City> citiesContinentList = citiesContinentReport.getCitiesContinentReport(app.conn, citiesContinent);
+        citiesContinentReport.printCitiesContinentReport(citiesContinentList, citiesContinent);
+        writer.outputCities(citiesContinentList, "08_Cities_Continent_Report.md", "Report 8: Cities in " + citiesContinent);
 
         //============================================================
         // REPORT 9: All Cities in the region
         //============================================================
-        String cities_Region = "Eastern Asia";
+        String citiesRegion = "Eastern Asia";
         CitiesRegionReport citiesRegionReport = new CitiesRegionReport();
-        ArrayList<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, cities_Region);
-        citiesRegionReport.printCitiesRegionReport(citiesRegionList, cities_Region);
-        writer.outputCities(citiesRegionList, "09_Cities_Region_Report.md", "Report 9: Cities in " + cities_Region);
+        ArrayList<City> citiesRegionList = citiesRegionReport.getCitiesRegionReport(app.conn, citiesRegion);
+        citiesRegionReport.printCitiesRegionReport(citiesRegionList, citiesRegion);
+        writer.outputCities(citiesRegionList, "09_Cities_Region_Report.md", "Report 9: Cities in " + citiesRegion);
 
         //============================================================
         // REPORT 10: All Cities in the country
         //============================================================
-        String cities_Country = "Myanmar";
+        String citiesCountry = "Myanmar";
         CitiesCountryReport citiesCountryReport = new CitiesCountryReport();
-        ArrayList<City> cityCountryList = citiesCountryReport.getCitiesCountryReport(app.conn, cities_Country);
-        citiesCountryReport.printCitiesCountryReport(cityCountryList, cities_Country);
-        writer.outputCities(cityCountryList, "10_Cities_Country_Report.md", "Report 10: Cities in " + cities_Country);
+        ArrayList<City> cityCountryList = citiesCountryReport.getCitiesCountryReport(app.conn, citiesCountry);
+        citiesCountryReport.printCitiesCountryReport(cityCountryList, citiesCountry);
+        writer.outputCities(cityCountryList, "10_Cities_Country_Report.md", "Report 10: Cities in " + citiesCountry);
 
 
         //============================================================
         // REPORT 11: All Cities in the district
         //============================================================
-        String cities_District = "Rio de Janeiro";
+        String citiesDistrict = "Rio de Janeiro";
         CitiesDistrictReport citiesDistrictReport = new CitiesDistrictReport();
-        ArrayList<City> cityDistrictList = citiesDistrictReport.getCitiesDistrictReport(app.conn, cities_District);
-        citiesDistrictReport.printCitiesDistrictReport(cityDistrictList, cities_District);
-        writer.outputCities(cityDistrictList, "11_Cities_District_Report.md", "Report 11: Cities in " + cities_District);
+        ArrayList<City> cityDistrictList = citiesDistrictReport.getCitiesDistrictReport(app.conn, citiesDistrict);
+        citiesDistrictReport.printCitiesDistrictReport(cityDistrictList, citiesDistrict);
+        writer.outputCities(cityDistrictList, "11_Cities_District_Report.md", "Report 11: Cities in " + citiesDistrict);
 
         //============================================================
         // REPORT 12: Top N Cities in the world
         //============================================================
-        int cities_World_N = 10;
-        ArrayList<City> topNCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, cities_World_N);
-        citiesWorldReport.printTopNCitiesWorldReport(topNCitiesWorldList, cities_World_N);
+        int citiesWorldN = 10;
+        ArrayList<City> topNCitiesWorldList = citiesWorldReport.getTopNCitiesWorldReport(app.conn, citiesWorldN);
+        citiesWorldReport.printTopNCitiesWorldReport(topNCitiesWorldList, citiesWorldN);
         writer.outputCities(topNCitiesWorldList, "12_TopN_Cities_World_Report.md", "Report 12: Top 10 Cities in the World");
 
         //============================================================
         // REPORT 13: Top N Cities in the continent
         //============================================================
-        int cities_Continent_N = 10;
-        ArrayList<City> topNCitiesContinentList = citiesContinentReport.getTopNCitiesContinentReport(app.conn, cities_Continent, cities_Continent_N);
-        citiesContinentReport.printTopNCitiesContinentReport(topNCitiesContinentList, cities_Continent, cities_Continent_N);
-        writer.outputCities(topNCitiesContinentList, "13_TopN_Cities_Continent_Report.md", "Report 13: Top 10 Cities in " + cities_Continent);
+        int citiesContinentN = 10;
+        ArrayList<City> topNCitiesContinentList = citiesContinentReport.getTopNCitiesContinentReport(app.conn, citiesContinent, citiesContinentN);
+        citiesContinentReport.printTopNCitiesContinentReport(topNCitiesContinentList, citiesContinent, citiesContinentN);
+        writer.outputCities(topNCitiesContinentList, "13_TopN_Cities_Continent_Report.md", "Report 13: Top 10 Cities in " + citiesContinent);
 
         //============================================================
         // REPORT 14: Top N Cities in the region
         //============================================================
-        int cities_Region_N = 10;
-        ArrayList<City> topNCitiesRegionList = citiesRegionReport.getTopNCitiesRegionReport(app.conn, cities_Region, cities_Region_N);
-        citiesRegionReport.printTopNCitiesRegionReport(topNCitiesRegionList, cities_Region, cities_Region_N);
-        writer.outputCities(topNCitiesRegionList, "14_TopN_Cities_Region_Report.md", "Report 14: Top 10 Cities in " + cities_Region);
+        int citiesRegionN = 10;
+        ArrayList<City> topNCitiesRegionList = citiesRegionReport.getTopNCitiesRegionReport(app.conn, citiesRegion, citiesRegionN);
+        citiesRegionReport.printTopNCitiesRegionReport(topNCitiesRegionList, citiesRegion, citiesRegionN);
+        writer.outputCities(topNCitiesRegionList, "14_TopN_Cities_Region_Report.md", "Report 14: Top 10 Cities in " + citiesRegion);
 
         //============================================================
         // REPORT 15: Top N Cities in the country
         //============================================================
-        int cities_Country_N = 10;  // Number of top cities to display
-        ArrayList<City> topNCitiesCountryList = citiesCountryReport.getTopNCitiesCountryReport(app.conn, cities_Country, cities_Country_N);
-        citiesCountryReport.printTopNCitiesCountryReport(topNCitiesCountryList, cities_Country, cities_Country_N);
-        writer.outputCities(topNCitiesCountryList, "15_TopN_Cities_Country_Report.md", "Report 15: Top 10 Cities in " + cities_Country);
+        int citiesCountryN = 10;  // Number of top cities to display
+        ArrayList<City> topNCitiesCountryList = citiesCountryReport.getTopNCitiesCountryReport(app.conn, citiesCountry, citiesCountryN);
+        citiesCountryReport.printTopNCitiesCountryReport(topNCitiesCountryList, citiesCountry, citiesCountryN);
+        writer.outputCities(topNCitiesCountryList, "15_TopN_Cities_Country_Report.md", "Report 15: Top 10 Cities in " + citiesCountry);
 
         //============================================================
         // REPORT 16: Top N Cities in the district
         //============================================================
-        int cities_District_N = 10;  // Number of top cities to display
-        ArrayList<City> topNCitiesDistrictList = citiesDistrictReport.getTopNCitiesDistrictReport(app.conn, cities_District, cities_District_N);
-        citiesDistrictReport.printTopNCitiesDistrictReport(topNCitiesDistrictList, cities_District, cities_District_N);
-        writer.outputCities(topNCitiesDistrictList, "16_TopN_Cities_District_Report.md", "Report 16: Top 10 Cities in " + cities_District);
+        int citiesDistrictN = 10;  // Number of top cities to display
+        ArrayList<City> topNCitiesDistrictList = citiesDistrictReport.getTopNCitiesDistrictReport(app.conn, citiesDistrict, citiesDistrictN);
+        citiesDistrictReport.printTopNCitiesDistrictReport(topNCitiesDistrictList, citiesDistrict, citiesDistrictN);
+        writer.outputCities(topNCitiesDistrictList, "16_TopN_Cities_District_Report.md", "Report 16: Top 10 Cities in " + citiesDistrict);
 
         //============================================================
         // REPORT 17: Capital Cities in the World
@@ -228,34 +228,34 @@ public class App {
         // REPORT 18: Capital Cities in a Continent
         //============================================================
         // Define the continent for which the report will be generated.
-        String capitalCities_Continent = "Asia";
+        String capitalCitiesContinent = "Asia";
 
         // Create instance to generate the continent level report
         CapitalCitiesContinentReport capitalCitiesContinentReport = new CapitalCitiesContinentReport();
 
         // Get all capital cities within the specified continent, ordered by population (Descending)
-        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getAllCapitalCitiesInContinentByPopulation(app.conn, capitalCities_Continent);
+        ArrayList<City> capitalsContinentList = capitalCitiesContinentReport.getAllCapitalCitiesInContinentByPopulation(app.conn, capitalCitiesContinent);
 
         // Print the capital cities in the specified continent report.
-        capitalCitiesContinentReport.printAllCapitalCitiesInContinentByPopulation(capitalsContinentList,capitalCities_Continent);
-        writer.outputCapitalCities(capitalsContinentList, "18_CapitalCities_Continent_Report.md", "Report 18: Capital Cities in " + capitalCities_Continent);
+        capitalCitiesContinentReport.printAllCapitalCitiesInContinentByPopulation(capitalsContinentList,capitalCitiesContinent);
+        writer.outputCapitalCities(capitalsContinentList, "18_CapitalCities_Continent_Report.md", "Report 18: Capital Cities in " + capitalCitiesContinent);
 
 
         //============================================================
         // REPORT 19: Capital Cities in a Region
         //============================================================
         // Define the region for which the report will be generated.
-        String capitalCities_Region = "Middle East";
+        String capitalCitiesRegion = "Middle East";
 
         // Create instance to generate the region-level report.
         CapitalCitiesRegionReport capitalCitiesRegionReport = new CapitalCitiesRegionReport();
 
         // Retrieve all capital cities with the specified region, ordered by population (Descending)
-        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getAllCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region);
+        ArrayList<City> capitalsRegionList = capitalCitiesRegionReport.getAllCapitalCitiesInRegionByPopulation(app.conn, capitalCitiesRegion);
 
         // Print the capital cities in the specified region report
-        capitalCitiesRegionReport.printAllCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCities_Region);
-        writer.outputCapitalCities(capitalsRegionList, "19_CapitalCities_Region_Report.md", "Report 19: Capital Cities in " + capitalCities_Region);
+        capitalCitiesRegionReport.printAllCapitalCitiesInRegionByPopulation(capitalsRegionList, capitalCitiesRegion);
+        writer.outputCapitalCities(capitalsRegionList, "19_CapitalCities_Region_Report.md", "Report 19: Capital Cities in " + capitalCitiesRegion);
 
         //============================================================
         // REPORT 20: Top N Capital Cities in the World
@@ -271,21 +271,21 @@ public class App {
         // REPORT 21: Top N Capital Cities in a Continent
         //============================================================
         //Get top n capital cities within the specified continent, ordered by population (Descending)
-        ArrayList<City> topNCapitalsContinentList = capitalCitiesContinentReport.getTopNCapitalCitiesInContinentByPopulation(app.conn,capitalCities_Continent,10);
+        ArrayList<City> topNCapitalsContinentList = capitalCitiesContinentReport.getTopNCapitalCitiesInContinentByPopulation(app.conn,capitalCitiesContinent,10);
 
         //Print top n capital cities in the specified continent report.
-        capitalCitiesContinentReport.printTopNCapitalCitiesInContinentByPopulation(topNCapitalsContinentList,capitalCities_Continent,10);
-        writer.outputCapitalCities(topNCapitalsContinentList, "21_TopN_CapitalCities_Continent_Report.md", "Report 21: Top 10 Capital Cities in " + capitalCities_Continent);
+        capitalCitiesContinentReport.printTopNCapitalCitiesInContinentByPopulation(topNCapitalsContinentList,capitalCitiesContinent,10);
+        writer.outputCapitalCities(topNCapitalsContinentList, "21_TopN_CapitalCities_Continent_Report.md", "Report 21: Top 10 Capital Cities in " + capitalCitiesContinent);
 
         //============================================================
         // REPORT 22: Top N Capital Cities in a Region
         //============================================================
         // Retrieve all capital cities with the specified region, ordered by population (Descending)
-        ArrayList<City> topNCapitalsRegionList = capitalCitiesRegionReport.getTopNCapitalCitiesInRegionByPopulation(app.conn, capitalCities_Region,10);
+        ArrayList<City> topNCapitalsRegionList = capitalCitiesRegionReport.getTopNCapitalCitiesInRegionByPopulation(app.conn, capitalCitiesRegion,10);
 
         // Print the capital cities in the specified region report
-        capitalCitiesRegionReport.printTopNCapitalCitiesInRegionByPopulation(topNCapitalsRegionList, capitalCities_Region,10);
-        writer.outputCapitalCities(topNCapitalsRegionList, "22_TopN_CapitalCities_Region_Report.md", "Report 22: Top 10 Capital Cities in " + capitalCities_Region);
+        capitalCitiesRegionReport.printTopNCapitalCitiesInRegionByPopulation(topNCapitalsRegionList, capitalCitiesRegion,10);
+        writer.outputCapitalCities(topNCapitalsRegionList, "22_TopN_CapitalCities_Region_Report.md", "Report 22: Top 10 Capital Cities in " + capitalCitiesRegion);
 
         //------------------------------------------
 
@@ -293,36 +293,36 @@ public class App {
         // REPORT 23: Population of a continent (live in/not live in city)
         //================================================================
         PopulationContinentReport continentReport = new PopulationContinentReport();
-        List<Country> populations = continentReport.getPopulation_City_vs_NonCity_ByContinent(app.conn);
+        List<Country> populations = continentReport.getPopulationCityVsNonCityByContinent(app.conn);
         // Print the report
-        continentReport.printPopulation_City_vs_NonCity_ByContinent(populations);
+        continentReport.printPopulationCityVsNonCityByContinent(populations);
         writer.outputContinentPopulation(populations, "23_Population_Continent_Report.md", "Report 23: Population by Continent");
 
         //================================================================
         // REPORT 24: Population of a region (live in/not live in city)
         //================================================================
         PopulationRegionReport regionReport = new PopulationRegionReport();
-        List<Country> regions = regionReport.getPopulation_Region_Details_Report(app.conn);
+        List<Country> regions = regionReport.getPopulationRegionDetailsReport(app.conn);
         // Print the report
-        regionReport.printPopulation_Region_Details_Report(regions);
+        regionReport.printPopulationRegionDetailsReport(regions);
         writer.outputPopulationByGroup(regions, "24_Population_Region_Report.md", "Report 24: Population by Region", "Region");
 
         //================================================================
         // REPORT 25: Population of a country (live in/not live in city)
         //================================================================
         PopulationCountryReport countryReport = new PopulationCountryReport();
-        List<Country> countryPopulations = countryReport.getPopulation_City_vs_NonCity_ByCountry(app.conn);
+        List<Country> countryPopulations = countryReport.getPopulationCityVsNonCityByCountry(app.conn);
         // Print the report
-        countryReport.printPopulation_City_vs_NonCity_ByCountry(countryPopulations);
+        countryReport.printPopulationCityVsNonCityByCountry(countryPopulations);
         writer.outputPopulationByGroup(countryPopulations, "25_Population_Country_Report.md", "Report 25: Population by Country", "Country");
 
         //========================================
         // REPORT 26: Population of the world
         //========================================
         PopulationWorldReport worldReport = new PopulationWorldReport();
-        PopulationWorldReport.PopulationData worldPop = worldReport.getPopulation_World_Report(app.conn);
+        PopulationWorldReport.PopulationData worldPop = worldReport.getPopulationWorldReport(app.conn);
         // Print the report
-        worldReport.printPopulation_World_Report(worldPop);
+        worldReport.printPopulationWorldReport(worldPop);
         writer.outputPopulationWorld(worldPop, "26_Population_World_Report.md");
 
         //========================================
@@ -330,13 +330,13 @@ public class App {
         //========================================
         String continentVariable = "Asia"; // Replace with any continent you want
         PopulationContinentReport populationContinentReport = new PopulationContinentReport();
-        List<Country> populationContinentList = populationContinentReport.getPopulation_Continent_Report(app.conn);
+        List<Country> populationContinentList = populationContinentReport.getPopulationContinentReport(app.conn);
         // Filter the list to only include the chosen continent
         List<Country> filteredList = populationContinentList.stream()
                 .filter(c -> c.getContinent().equalsIgnoreCase(continentVariable))
                 .toList(); // Java 16+, or use Collectors.toList() for older versions
         // Print the report for that continent
-        populationContinentReport.printPopulation_Continent_Report(filteredList);
+        populationContinentReport.printPopulationContinentReport(filteredList);
         // Write the filtered continent report (use outputContinentPopulation so "Continent" column shows correctly)
         writer.outputContinentPopulation(filteredList, "27_Population_Specific_Continent_Report.md", "Report 27: Population of Continent (" + continentVariable + ")");
 
@@ -345,9 +345,9 @@ public class App {
         //========================================
         String regionVariable = "Southern Europe"; // Replace with any region you want
         PopulationRegionReport populationRegionReport = new PopulationRegionReport();
-        List<Country> populationRegionList = populationRegionReport.getPopulation_Region_Report(app.conn);
+        List<Country> populationRegionList = populationRegionReport.getPopulationRegionReport(app.conn);
         // Print the report for the selected region only
-        populationRegionReport.printPopulation_Region_Report(populationRegionList, regionVariable);
+        populationRegionReport.printPopulationRegionReport(populationRegionList, regionVariable);
         List<Country> filteredRegionList = populationRegionList.stream()
                 .filter(c -> c.getRegion().equalsIgnoreCase(regionVariable))
                 .toList(); // For Java 16+, otherwise use Collectors.toList()
@@ -359,9 +359,9 @@ public class App {
         //========================================
         String countryVariable = "Japan"; // Replace with the country you want
         PopulationCountryReport populationCountryReport = new PopulationCountryReport();
-        List<Country> populationCountryList = populationCountryReport.getPopulation_Country_Report(app.conn);
+        List<Country> populationCountryList = populationCountryReport.getPopulationCountryReport(app.conn);
         // Print the report for the selected country only
-        populationCountryReport.printPopulation_Country_Report(populationCountryList, countryVariable);
+        populationCountryReport.printPopulationCountryReport(populationCountryList, countryVariable);
         List<Country> filteredCountryList = populationCountryList.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(countryVariable))
                 .toList();
@@ -372,9 +372,9 @@ public class App {
         //========================================
         String districtVariable = "California"; // Replace with your desired district
         PopulationDistrictReport populationDistrictReport = new PopulationDistrictReport();
-        List<Country> populationDistrictList = populationDistrictReport.getPopulation_District_Report(app.conn);
+        List<Country> populationDistrictList = populationDistrictReport.getPopulationDistrictReport(app.conn);
         // Print the report for the selected district including percentages
-        populationDistrictReport.printPopulation_District_Report(populationDistrictList, districtVariable);
+        populationDistrictReport.printPopulationDistrictReport(populationDistrictList, districtVariable);
         List<Country> filteredDistrictList = populationDistrictList.stream()
                 .filter(c -> c.getCountryName().equalsIgnoreCase(districtVariable))
                 .toList();
@@ -388,9 +388,9 @@ public class App {
         //========================================
         String cityVariable = "Tokyo";
         PopulationCityReport cityReport = new PopulationCityReport();
-        List<City> cityList = cityReport.getPopulation_City_Report(app.conn);
+        List<City> cityList = cityReport.getPopulationCityReport(app.conn);
         // Print a specific city
-        cityReport.printPopulation_City_Report(cityList,cityVariable);
+        cityReport.printPopulationCityReport(cityList,cityVariable);
         List<City> filteredCityList = cityList.stream()
                 .filter(c -> c.getCityName().equalsIgnoreCase(cityVariable))
                 .toList();

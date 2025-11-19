@@ -25,7 +25,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
      * The logger name is the fully qualified class name to identify the source
      * of log messages easily.
      */
-    private static final Logger logger = Logger.getLogger(CitiesDistrictReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesDistrictReport.class.getName());
     /**
      * Retrieves all cities in a specific district, ordered by population (descending).
      *
@@ -37,7 +37,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report for district: " + district);
+            LOGGER.warning("Database not connected. Cannot generate city report for district: " + district);
             return cities;
         }
 
@@ -64,7 +64,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle SQL exceptions gracefully
-            logger.log(Level.SEVERE, "Error retrieving all cities in district: " + district, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in district: " + district, e);
         }
 
         // Return the list of retrieved cities
@@ -83,7 +83,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate top " + n + " city report for district: " + district);
+            LOGGER.warning("Database not connected. Cannot generate top " + n + " city report for district: " + district);
             return cities;
         }
 
@@ -109,7 +109,7 @@ public class CitiesDistrictReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle SQL exceptions with detailed error message
-            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in district: " + district, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + n + " cities in district: " + district, e);
         }
 
         // Return the top N cities

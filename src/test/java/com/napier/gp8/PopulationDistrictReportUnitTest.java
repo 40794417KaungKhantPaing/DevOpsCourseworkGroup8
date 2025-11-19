@@ -29,7 +29,7 @@ public class PopulationDistrictReportUnitTest
     @Test
     void getPopulationDistrictReportTestNullConnection()
     {
-        List<Country> results = report.getPopulation_District_Report(null);
+        List<Country> results = report.getPopulationDistrictReport(null);
         assertNotNull(results);
         assertTrue(results.isEmpty());
     }
@@ -41,7 +41,7 @@ public class PopulationDistrictReportUnitTest
     void printPopulationDistrictReportTestNull()
     {
         List<Country> results = new ArrayList<>();
-        report.printPopulation_District_Report(results, "TestDistrict");
+        report.printPopulationDistrictReport(results, "TestDistrict");
     }
 
     // ---------------------------------------------------------------------
@@ -59,7 +59,7 @@ public class PopulationDistrictReportUnitTest
         c.setGnpOld(500_000.0);
         countries.add(c);
 
-        report.printPopulation_District_Report(countries, "Yangon");
+        report.printPopulationDistrictReport(countries, "Yangon");
     }
 
     // ---------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class PopulationDistrictReportUnitTest
         countries.add(c);
 
         // selectedDistrict does not match → nothing should print but no error
-        report.printPopulation_District_Report(countries, "Yangon");
+        report.printPopulationDistrictReport(countries, "Yangon");
     }
 
     // ---------------------------------------------------------------------
@@ -88,7 +88,7 @@ public class PopulationDistrictReportUnitTest
     void getPopulationDistrictReportFakeConnection()
     {
         Connection conn = null;
-        List<Country> results = report.getPopulation_District_Report(conn);
+        List<Country> results = report.getPopulationDistrictReport(conn);
         assertNotNull(results);
     }
 }

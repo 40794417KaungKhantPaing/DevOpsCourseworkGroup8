@@ -12,19 +12,19 @@ import java.util.logging.Logger;
 public class CountriesWorldReport extends CountriesReportBase {
 
     // Logger instance for logging errors, warnings, and info messages
-    private static final Logger logger = Logger.getLogger(CountriesWorldReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CountriesWorldReport.class.getName());
     /**
      * Retrieves all countries in the world ordered by population descending.
      *
      * @param conn Active database connection.
      * @return List of Country objects.
      */
-    public ArrayList<Country> getCountries_World_Report(Connection conn) {
+    public ArrayList<Country> getCountriesWorldReport(Connection conn) {
         ArrayList<Country> countries = new ArrayList<>();
 
         //Check if database is connected
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate countries world report.");
+            LOGGER.warning("Database not connected. Cannot generate countries world report.");
             return countries;
         }
 
@@ -41,7 +41,7 @@ public class CountriesWorldReport extends CountriesReportBase {
             countries = buildCountriesFromResultSet(resultSet);
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error retrieving countries world report from database", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving countries world report from database", e);
 
             return countries;
         }
@@ -56,12 +56,12 @@ public class CountriesWorldReport extends CountriesReportBase {
      * @param topNCountries Number of top countries to show
      * @return List of Country objects.
      */
-    public ArrayList<Country> getTopNCountries_World_Report(Connection conn, int topNCountries) {
+    public ArrayList<Country> getTopNCountriesWorldReport(Connection conn, int topNCountries) {
         ArrayList<Country> countries = new ArrayList<>();
 
         //Check if database is connected
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate top countries world report.");
+            LOGGER.warning("Database not connected. Cannot generate top countries world report.");
             return countries;
         }
 
@@ -77,7 +77,7 @@ public class CountriesWorldReport extends CountriesReportBase {
                 countries = buildCountriesFromResultSet(rs);
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error retrieving top countries world report from database", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top countries world report from database", e);
             return countries;
         }
 
@@ -89,7 +89,7 @@ public class CountriesWorldReport extends CountriesReportBase {
      *
      * @param countries List of countries
      */
-    public void printCountries_World_Report(ArrayList<Country> countries) {
+    public void printCountriesWorldReport(ArrayList<Country> countries) {
         printCountries(countries, "ReportID 1. All Countries in the World Report");
     }
 
@@ -98,7 +98,7 @@ public class CountriesWorldReport extends CountriesReportBase {
      * @param countries List of countries to print.
      * @param topNCountries Number of top countries
      */
-    public void printTopNCountries_World_Report(ArrayList<Country> countries, int topNCountries) {
+    public void printTopNCountriesWorldReport(ArrayList<Country> countries, int topNCountries) {
         printCountries(countries, "ReportID 4. Top " + topNCountries + " Countries in the World Report");
     }
 }

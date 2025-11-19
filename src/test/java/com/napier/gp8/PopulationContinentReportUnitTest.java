@@ -27,7 +27,7 @@ public class PopulationContinentReportUnitTest
     @Test
     void getPopulationContinentReportTestNullConnection()
     {
-        List<Country> result = report.getPopulation_Continent_Report(null);
+        List<Country> result = report.getPopulationContinentReport(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -38,7 +38,7 @@ public class PopulationContinentReportUnitTest
     @Test
     void printPopulationContinentReportTestNull()
     {
-        report.printPopulation_Continent_Report(null);
+        report.printPopulationContinentReport(null);
     }
 
     // ---------------------------------------------------------------------
@@ -48,7 +48,7 @@ public class PopulationContinentReportUnitTest
     void printPopulationContinentReportTestEmpty()
     {
         List<Country> list = new ArrayList<>();
-        report.printPopulation_Continent_Report(list);
+        report.printPopulationContinentReport(list);
     }
 
     // ---------------------------------------------------------------------
@@ -65,7 +65,7 @@ public class PopulationContinentReportUnitTest
         asia.setGnpOld(2500000000.0);
         list.add(asia);
 
-        report.printPopulation_Continent_Report(list);
+        report.printPopulationContinentReport(list);
     }
 
     // ---------------------------------------------------------------------
@@ -82,7 +82,7 @@ public class PopulationContinentReportUnitTest
         europe.setGnpOld(400000000.0);
         list.add(europe);
 
-        report.printPopulation_City_vs_NonCity_ByContinent(list);
+        report.printPopulationCityVsNonCityByContinent(list);
     }
 
     // ---------------------------------------------------------------------
@@ -91,7 +91,7 @@ public class PopulationContinentReportUnitTest
     @Test
     void getPopulationCityVsNonCityByContinentTestNullConnection()
     {
-        List<Country> result = report.getPopulation_City_vs_NonCity_ByContinent(null);
+        List<Country> result = report.getPopulationCityVsNonCityByContinent(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }

@@ -26,7 +26,7 @@ public class CitiesContinentReport extends CitiesReportBase {
      * The logger name is the fully qualified class name to make it easier
      * to identify the source of log messages.
      */
-    private static final Logger logger = Logger.getLogger(CitiesContinentReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesContinentReport.class.getName());
     /**
      * Retrieves all cities within a specified continent, ordered by population (descending).
      * This method queries the database to return cities belonging to countries
@@ -44,7 +44,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report for continent: " + continent);
+            LOGGER.warning("Database not connected. Cannot generate city report for continent: " + continent);
             return cities;
         }
 
@@ -73,7 +73,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle database errors and print details for debugging
-            logger.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
         }
 
         // Return the populated list (or an empty one if an error occurred)
@@ -96,7 +96,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report.");
+            LOGGER.warning("Database not connected. Cannot generate city report.");
             return cities;
         }
 
@@ -126,7 +126,7 @@ public class CitiesContinentReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle database errors and output detailed information
-            logger.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in continent: " + continent, e);
         }
 
         // Return the list of top N cities (or empty if no results)

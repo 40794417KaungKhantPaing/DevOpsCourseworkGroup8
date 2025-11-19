@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class CountriesReportBase {
 
     // Logger instance for logging errors, warnings, and info messages
-    private static final Logger logger = Logger.getLogger(CountriesReportBase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CountriesReportBase.class.getName());
 
     /**
      * Builds a list of Country objects from a ResultSet.
@@ -37,11 +37,11 @@ public class CountriesReportBase {
                 countries.add(country);
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error reading countries from ResultSet", e);
+            LOGGER.log(Level.SEVERE, "Error reading countries from ResultSet", e);
         }
 
         if (countries.isEmpty()) {
-            logger.info("No country data found. Report will be empty.");
+            LOGGER.info("No country data found. Report will be empty.");
         }
 
         return countries;
@@ -55,7 +55,7 @@ public class CountriesReportBase {
      */
     public void printCountries(ArrayList<Country> countries, String reportTitle) {
         if (countries == null || countries.isEmpty()) {
-            logger.info("No data to display for report: " + reportTitle);
+            LOGGER.info("No data to display for report: " + reportTitle);
             return;
         }
 

@@ -20,7 +20,7 @@ public class PopulationWorldReport {
      * @return PopulationData containing total, city, and non-city data
      */
 
-    public PopulationData getPopulation_World_Report(Connection conn) {
+    public PopulationData getPopulationWorldReport(Connection conn) {
 
         PopulationData data = new PopulationData("World");
 
@@ -65,7 +65,7 @@ public class PopulationWorldReport {
      *
      * @param data PopulationData object containing all population info
      */
-    protected void printPopulation_World_Report(PopulationData data) {
+    protected void printPopulationWorldReport(PopulationData data) {
         System.out.println("\n==================== ReportID 26. Population of the World Report ====================");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-25s %-20s %-20s %-20s %-10s %-12s%n",

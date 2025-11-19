@@ -68,11 +68,11 @@ public class PopulationContinentReport {
     // ---------------------------------------------------------------------
     // Public methods to fetch reports (original names)
     // ---------------------------------------------------------------------
-    public List<Country> getPopulation_Continent_Report(Connection conn) {
+    public List<Country> getPopulationContinentReport(Connection conn) {
         return fetchContinentPopulationReport(conn);
     }
 
-    public List<Country> getPopulation_City_vs_NonCity_ByContinent(Connection conn) {
+    public List<Country> getPopulationCityVsNonCityByContinent(Connection conn) {
         return fetchContinentPopulationReport(conn);
     }
 
@@ -108,11 +108,11 @@ public class PopulationContinentReport {
     // ---------------------------------------------------------------------
     // Public methods to print reports (original names)
     // ---------------------------------------------------------------------
-    public void printPopulation_Continent_Report(List<Country> results) {
+    public void printPopulationContinentReport(List<Country> results) {
         printContinentPopulation(results, "ReportID 27. Population by Continent Report");
     }
 
-    public void printPopulation_City_vs_NonCity_ByContinent(List<Country> results) {
+    public void printPopulationCityVsNonCityByContinent(List<Country> results) {
         printContinentPopulation(results, "ReportID 23. Population in Cities vs Not in Cities by Continent");
     }
 }

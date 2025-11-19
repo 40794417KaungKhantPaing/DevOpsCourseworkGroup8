@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 public class CapitalCitiesReportBase {
 
     // Logger instance
-    private static final Logger logger = Logger.getLogger(CapitalCitiesReportBase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CapitalCitiesReportBase.class.getName());
     /**
      * Build a list of City objects from a ResultSet.
      */
     public ArrayList<City> buildCapitalCitiesFromResultSet(ResultSet rs) {
         ArrayList<City> capitals = new ArrayList<>();
         if (rs == null) {
-            logger.warning("ResultSet is null. Returning empty list of capital cities.");
+            LOGGER.warning("ResultSet is null. Returning empty list of capital cities.");
             return capitals;
         }
 
@@ -45,12 +45,12 @@ public class CapitalCitiesReportBase {
                 capitals.add(city);
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error reading capital cities from ResultSet", e);
+            LOGGER.log(Level.SEVERE, "Error reading capital cities from ResultSet", e);
         }
 
         //Check if no data was found
         if (capitals.isEmpty()) {
-            logger.info("No capital city data found. Report will be empty.");
+            LOGGER.info("No capital city data found. Report will be empty.");
         }
 
         return capitals;
@@ -65,7 +65,7 @@ public class CapitalCitiesReportBase {
 
         // Validate list if null or empty
         if (capitals == null || capitals.isEmpty()) {
-            logger.info("No data to display for report: " + reportTitle);
+            LOGGER.info("No data to display for report: " + reportTitle);
             return;
         }
 

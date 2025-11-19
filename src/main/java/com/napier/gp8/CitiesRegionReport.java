@@ -25,7 +25,7 @@ public class CitiesRegionReport extends CitiesReportBase {
      * - final: cannot be reassigned
      * The logger name is the fully qualified class name to easily identify log messages.
      */
-    private static final Logger logger = Logger.getLogger(CitiesRegionReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesRegionReport.class.getName());
     /**
      * Retrieves all cities located within a specified region, ordered by population
      * from highest to lowest.
@@ -43,7 +43,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report for region: " + region);
+            LOGGER.warning("Database not connected. Cannot generate city report for region: " + region);
             return cities;
         }
 
@@ -71,7 +71,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Print detailed error message if SQL execution fails
-            logger.log(Level.SEVERE, "Error retrieving all cities in region: " + region, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in region: " + region, e);
         }
 
         // Return the populated list (or empty list if query failed or had no data)
@@ -94,7 +94,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate top " + n + " city report for region: " + region);
+            LOGGER.warning("Database not connected. Cannot generate top " + n + " city report for region: " + region);
             return cities;
         }
 
@@ -124,7 +124,7 @@ public class CitiesRegionReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Log an informative error message for debugging
-            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in region: " + region, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + n + " cities in region: " + region, e);
         }
 
         // Return the resulting list of cities (or empty list on error)

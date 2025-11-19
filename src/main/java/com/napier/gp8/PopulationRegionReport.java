@@ -10,11 +10,11 @@ public class PopulationRegionReport {
 
     private static final Logger LOGGER = Logger.getLogger(PopulationRegionReport.class.getName());
 
-    public List<Country> getPopulation_Region_Report(Connection conn) {
+    public List<Country> getPopulationRegionReport(Connection conn) {
         return fetchRegionPopulation(conn);
     }
 
-    public List<Country> getPopulation_Region_Details_Report(Connection conn) {
+    public List<Country> getPopulationRegionDetailsReport(Connection conn) {
         return fetchRegionPopulation(conn);
     }
 
@@ -64,12 +64,12 @@ public class PopulationRegionReport {
         return results;
     }
 
-    public void printPopulation_Region_Report(List<Country> results, String selectedRegion) {
+    public void printPopulationRegionReport(List<Country> results, String selectedRegion) {
         String groupbyColumn = "Region";
         printPopulation(results, "ReportID 28. Population by Region Report",groupbyColumn,selectedRegion);
     }
 
-    public void printPopulation_Region_Details_Report(List<Country> results) {
+    public void printPopulationRegionDetailsReport(List<Country> results) {
         printPopulation(results, "Report ID 24. Population by Region (Urban vs Non-Urban)", "Region", null);
     }
 

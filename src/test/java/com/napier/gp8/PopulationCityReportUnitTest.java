@@ -29,7 +29,7 @@ public class PopulationCityReportUnitTest
     @Test
     void getPopulationCityReportTestNullConnection()
     {
-        List<City> cities = report.getPopulation_City_Report(null);
+        List<City> cities = report.getPopulationCityReport(null);
         assertNotNull(cities);
         assertTrue(cities.isEmpty());
     }
@@ -41,7 +41,7 @@ public class PopulationCityReportUnitTest
     void printPopulationCityReportTestEmptyList()
     {
         List<City> cities = new ArrayList<>();
-        report.printPopulation_City_Report(cities);
+        report.printPopulationCityReport(cities);
     }
 
     // ---------------------------------------------------------------------
@@ -60,7 +60,7 @@ public class PopulationCityReportUnitTest
         city.setPopulation(7_360_703);
         cities.add(city);
 
-        report.printPopulation_City_Report(cities);
+        report.printPopulationCityReport(cities);
     }
 
     // ---------------------------------------------------------------------
@@ -88,7 +88,7 @@ public class PopulationCityReportUnitTest
         cities.add(city2);
 
         // Should only print Yangon
-        report.printPopulation_City_Report(cities, "Yangon");
+        report.printPopulationCityReport(cities, "Yangon");
     }
 
     // ---------------------------------------------------------------------
@@ -108,7 +108,7 @@ public class PopulationCityReportUnitTest
         cities.add(city);
 
         // Selected city doesn't exist → should print nothing but no crash
-        report.printPopulation_City_Report(cities, "Yangon");
+        report.printPopulationCityReport(cities, "Yangon");
     }
 
     // ---------------------------------------------------------------------
@@ -118,7 +118,7 @@ public class PopulationCityReportUnitTest
     void getPopulationCityReportFakeConnection()
     {
         Connection conn = null;
-        List<City> results = report.getPopulation_City_Report(conn);
+        List<City> results = report.getPopulationCityReport(conn);
         assertNotNull(results);
     }
 }

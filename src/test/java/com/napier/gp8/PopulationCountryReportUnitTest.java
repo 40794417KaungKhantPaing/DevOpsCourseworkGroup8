@@ -29,7 +29,7 @@ public class PopulationCountryReportUnitTest
     @Test
     void getPopulationCountryReportTestNullConnection()
     {
-        List<Country> result = report.getPopulation_Country_Report(null);
+        List<Country> result = report.getPopulationCountryReport(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -40,7 +40,7 @@ public class PopulationCountryReportUnitTest
     @Test
     void getPopulationCityVsNonCityByCountryTestNullConnection()
     {
-        List<Country> result = report.getPopulation_City_vs_NonCity_ByCountry(null);
+        List<Country> result = report.getPopulationCityVsNonCityByCountry(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -51,7 +51,7 @@ public class PopulationCountryReportUnitTest
     @Test
     void printPopulationCountryReportTestNull()
     {
-        report.printPopulation_Country_Report(null, null);
+        report.printPopulationCountryReport(null, null);
     }
 
     // ---------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class PopulationCountryReportUnitTest
     void printPopulationCountryReportTestEmpty()
     {
         List<Country> list = new ArrayList<>();
-        report.printPopulation_Country_Report(list, null);
+        report.printPopulationCountryReport(list, null);
     }
 
     // ---------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class PopulationCountryReportUnitTest
         japan.setGnpOld(36000000.0);
         list.add(japan);
 
-        report.printPopulation_Country_Report(list, null);
+        report.printPopulationCountryReport(list, null);
     }
 
     // ---------------------------------------------------------------------
@@ -104,7 +104,7 @@ public class PopulationCountryReportUnitTest
         list.add(canada);
 
         // Should print only United States
-        report.printPopulation_Country_Report(list, "United States");
+        report.printPopulationCountryReport(list, "United States");
     }
 
     // ---------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class PopulationCountryReportUnitTest
         france.setGnpOld(22000000.0);
         list.add(france);
 
-        report.printPopulation_City_vs_NonCity_ByCountry(list);
+        report.printPopulationCityVsNonCityByCountry(list);
     }
 
     // ---------------------------------------------------------------------
@@ -131,7 +131,7 @@ public class PopulationCountryReportUnitTest
     @Test
     void printPopulationCityVsNonCityByCountryTestNull()
     {
-        report.printPopulation_City_vs_NonCity_ByCountry(null);
+        report.printPopulationCityVsNonCityByCountry(null);
     }
 
     // ---------------------------------------------------------------------
@@ -141,6 +141,6 @@ public class PopulationCountryReportUnitTest
     void printPopulationCityVsNonCityByCountryTestEmpty()
     {
         List<Country> list = new ArrayList<>();
-        report.printPopulation_City_vs_NonCity_ByCountry(list);
+        report.printPopulationCityVsNonCityByCountry(list);
     }
 }

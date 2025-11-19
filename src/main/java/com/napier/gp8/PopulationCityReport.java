@@ -21,7 +21,7 @@ public class PopulationCityReport {
      * @param conn Active database connection
      * @return List of City objects containing city name, district, country code, and population
      */
-    public List<City> getPopulation_City_Report(Connection conn) {
+    public List<City> getPopulationCityReport(Connection conn) {
 
         List<City> cities = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class PopulationCityReport {
      *
      * @param cities List of City objects
      */
-    protected void printPopulation_City_Report(List<City> cities) {
+    protected void printPopulationCityReport(List<City> cities) {
         System.out.println("\n==================== Report ID 31. Population by City Report ====================");
         System.out.println("----------------------------------------------------------------------------------");
         System.out.printf("%-30s %-20s %-15s %-20s%n", "City Name", "District", "Country Code", "Population");
@@ -95,11 +95,11 @@ public class PopulationCityReport {
      * @param cities List of City objects
      * @param selectedCity Name of the city to print
      */
-    protected void printPopulation_City_Report(List<City> cities, String selectedCity) {
+    protected void printPopulationCityReport(List<City> cities, String selectedCity) {
         List<City> filteredCities = cities.stream()
                 .filter(c -> c.getCityName().equalsIgnoreCase(selectedCity))
                 .toList(); // Use Collectors.toList() if Java version < 16
 
-        printPopulation_City_Report(filteredCities);
+        printPopulationCityReport(filteredCities);
     }
 }

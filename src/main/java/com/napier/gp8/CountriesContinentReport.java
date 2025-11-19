@@ -14,7 +14,7 @@ public class CountriesContinentReport extends CountriesReportBase {
      * This logger is used to log warnings, errors, and informational messages related to
      * generating continent-based country reports.
      **/
-    private static final Logger logger = Logger.getLogger(CountriesContinentReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CountriesContinentReport.class.getName());
 
     /**
      * Retrieves a list of all countries within a specified continent,
@@ -25,13 +25,13 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param continent Continent name (e.g., "Asia", "Europe")
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public ArrayList<Country> getCountries_Continent_Report(Connection conn, String continent) {
+    public ArrayList<Country> getCountriesContinentReport(Connection conn, String continent) {
 
         ArrayList<Country> countries = new ArrayList<>();
 
         // 1. Validate connection and parameter
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate continent report.");
+            LOGGER.warning("Database not connected. Cannot generate continent report.");
             return countries;
         }
 
@@ -53,7 +53,7 @@ public class CountriesContinentReport extends CountriesReportBase {
             }
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            logger.log(Level.SEVERE, "Error retrieving continent country report for '" + continent + "'.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving continent country report for '" + continent + "'.", e);
             return countries;
         }
 
@@ -69,13 +69,13 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param numberOfCountries  Number of top countries to limit
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public ArrayList<Country> getTopNCountries_Continent_Report(Connection connection, String continent, int numberOfCountries) {
+    public ArrayList<Country> getTopNCountriesContinentReport(Connection connection, String continent, int numberOfCountries) {
 
         ArrayList<Country> countries = new ArrayList<>();
 
         // 1. Validate connection
         if (connection == null) {
-            logger.warning("Database not connected. Cannot generate top continent report.");
+            LOGGER.warning("Database not connected. Cannot generate top continent report.");
             return countries;
         }
 
@@ -99,7 +99,7 @@ public class CountriesContinentReport extends CountriesReportBase {
             }
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            logger.log(Level.SEVERE, "Error retrieving top " + numberOfCountries + " countries in continent '" + continent + "'.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + numberOfCountries + " countries in continent '" + continent + "'.", e);
             return countries;
         }
 
@@ -113,7 +113,7 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param continent Continent name
      * @param countries List of Country objects
      */
-    public void printCountries_Continent_Report(String continent, ArrayList<Country> countries) {
+    public void printCountriesContinentReport(String continent, ArrayList<Country> countries) {
         printCountries(countries, "ReportID 2. All Countries in Continent '" + continent + "' Report");
     }
 
@@ -124,7 +124,7 @@ public class CountriesContinentReport extends CountriesReportBase {
      * @param countries         List of Country objects
      * @param numberOfCountries Number of top countries displayed
      */
-    public void printTopNCountries_Continent_Report(String continent, ArrayList<Country> countries, int numberOfCountries) {
+    public void printTopNCountriesContinentReport(String continent, ArrayList<Country> countries, int numberOfCountries) {
         printCountries(countries, "ReportID 5. Top " + numberOfCountries + " Countries in Continent '" + continent + "' Report");
     }
 }

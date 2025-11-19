@@ -168,3 +168,106 @@ Please ensure:
 | 30 | The population of a district.                                                                                                            | Met  | ![Report Screenshot](./img/rp30.jpg) |
 | 31 | The population of a city.                                                                                                                | Met  | ![Report Screenshot](./img/rp31.jpg) |
 | 32 | Number of people who speak (from greatest to smallest) and percentage of world population for: Chinese, English, Hindi, Spanish, Arabic. | Met  | ![Report Screenshot](./img/rp32.jpg) |
+
+---
+
+# 📋 PMD Code Style Fix Report
+
+## Rule: LocalVariableNamingConventions
+### 🔍 Description
+
+PMD enforces that **local variable names** follow standard Java naming conventions:
+
+* Must begin with a **lowercase letter**
+* Should use **camelCase**
+* Underscores (`_`) are **discouraged** 
+* Should be descriptive and readable
+
+---
+
+### ❌ Before
+Underscores used in local variable naming:
+
+```java 
+        String countries_Continent = "Asia";
+```
+PMD Result Screenshot: Before
+![Report Screenshot](./img/error1.jpg)
+
+### ✅ After
+CamelCase used instead:
+```java
+        String countriesContinent = "Asia";
+   ```
+PMD Result Screenshot: After
+![Report Screenshot](./img/resolve1.jpg)
+
+### 🛠 Explanation
+The variable like `countries_Continent` violates PMD’s `LocalVariableNamingConventions` rule because:
+
+
+* It contains an underscore
+* It mixes lowercase and uppercase in an inconsistent format
+* It does not follow Java camelCase style
+
+Renaming it to countriesContinent resolves the PMD violation and aligns with Java standard naming practices.
+
+## Rule: ConstantNamingConventions
+### 🔍 Description
+PMD requires static final fields (constants) to be named using uppercase letters with underscores (SNAKE_CASE).
+
+#### ❌ Before
+```Java
+    private static final Logger logger = Logger.getLogger(MyClass.class.getName());
+   ```
+PMD Result Screenshot: Before
+![Report Screenshot](./img/error2.jpg)
+
+#### ✅ After
+```Java
+   private static final Logger LOGGER = Logger.getLogger(MyClass.class.getName());
+   ```
+PMD Result Screenshot: After
+![Report Screenshot](./img/resolve2.jpg)
+
+### 🛠 Explanation
+PMD flagged logger for breaking constant naming rules.
+Renaming it to LOGGER ensures it follows the uppercase constant naming convention for static final fields.
+
+## Rule: MethodNamingConventions
+### 🔍 Description
+
+PMD enforces that method names must follow standard Java naming conventions:
+
+* Method names must be written in lowerCamelCase 
+* Should NOT contain underscores (_)
+* Should start with a verb describing the action (e.g., get, set, compute, build)
+* Must be descriptive, readable, and consistently formatted
+
+#### ❌ Before
+Underscores used in method name:
+```Java
+   public ArrayList<Country> getCountries_World_Report(Connection conn);
+```
+PMD Result Screenshot: Before
+![Report Screenshot](./img/error3.jpg)
+
+#### ✅ After
+CamelCase method name following Java convention:
+``` Java
+    public ArrayList<Country> getCountriesWorldReport(Connection conn);
+```
+PMD Result Screenshot: After
+![Report Screenshot](./img/resolve3.jpg)
+
+### 🛠 Explanation
+The original method name getCountries_World_Report violates PMD’s MethodNamingConventions rule because:
+
+* It contains multiple underscores 
+* It is not in Java's standard lowerCamelCase format 
+* PMD flags underscores in method names unless they are test methods (e.g., JUnit naming pattern)
+
+Renaming the method to getCountriesWorldReport ensures:
+* Compliance with PMD rules
+* Proper Java naming convention
+* Improved readability and consistency across the codebase

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
     // Logger instance
-    private static final Logger logger = Logger.getLogger(CapitalCitiesRegionReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CapitalCitiesRegionReport.class.getName());
 
     /**
      * Get all capital cities in a specific region, ordered by population descending
@@ -30,7 +30,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
         //Validate Connection
         if (conn == null) {
-            logger.warning("Database not connected. Cannot display All Capital Cities in the Region Report");
+            LOGGER.warning("Database not connected. Cannot display All Capital Cities in the Region Report");
             return capitals;
         }
 
@@ -52,7 +52,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
             }
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            logger.log(Level.SEVERE, "Error retrieving all capital cities in region: " + region, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all capital cities in region: " + region, e);
             return capitals; //return safely with an empty list.
         }
 
@@ -72,7 +72,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
 
         //Validate Connection
         if (conn == null) {
-            logger.warning("Database not connected. Cannot display Top N Capital Cities in the Region Report");
+            LOGGER.warning("Database not connected. Cannot display Top N Capital Cities in the Region Report");
             return capitals;
         }
 
@@ -90,7 +90,7 @@ public class CapitalCitiesRegionReport extends CapitalCitiesReportBase {
             }
         } catch (SQLException e) {
             //Catch SQL exceptions, print detailed error, and return the (empty) list
-            logger.log(Level.SEVERE, "Error retrieving top " + numberOfCapitalCities + " capital cities in region: " + region, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + numberOfCapitalCities + " capital cities in region: " + region, e);
             return capitals; //return safely with an empty list.
         }
 

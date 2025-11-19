@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class CountriesRegionReport extends CountriesReportBase {
 
     // Logger instance for logging errors, warnings, and info messages
-    private static final Logger logger = Logger.getLogger(CountriesRegionReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CountriesRegionReport.class.getName());
     /**
      * Retrieves a list of all countries within a specified region,
      * ordered by population (largest to smallest).
@@ -21,13 +21,13 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param region Region name (e.g., "Southern and Central Asia", "Western Europe")
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public ArrayList<Country> getCountries_Region_Report(Connection conn, String region) {
+    public ArrayList<Country> getCountriesRegionReport(Connection conn, String region) {
 
         ArrayList<Country> countries = new ArrayList<>();
 
         // 1. Validate connection and region parameter
         if (conn == null) {
-            logger.severe("Database not connected. Cannot generate region report.");
+            LOGGER.severe("Database not connected. Cannot generate region report.");
             return countries;
         }
 
@@ -52,7 +52,7 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            logger.log(Level.SEVERE, "Error retrieving region country report", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving region country report", e);
             return countries;
         }
 
@@ -68,13 +68,13 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param numberOfCountries  Number of top countries to limit
      * @return List of Country objects, or an empty list if an error occurs or no data is found.
      */
-    public ArrayList<Country> getTopNCountries_Region_Report(Connection connection, String regionName, int numberOfCountries) {
+    public ArrayList<Country> getTopNCountriesRegionReport(Connection connection, String regionName, int numberOfCountries) {
 
         ArrayList<Country> countries = new ArrayList<>();
 
         // 1. Validate connection and parameters
         if (connection == null) {
-            logger.severe("Database not connected. Cannot generate top N countries in region report.");
+            LOGGER.severe("Database not connected. Cannot generate top N countries in region report.");
             return countries;
         }
 
@@ -101,7 +101,7 @@ public class CountriesRegionReport extends CountriesReportBase {
 
         } catch (SQLException e) {
             // 4. Handle SQL exceptions with detailed messages
-            logger.log(Level.SEVERE, "Error retrieving top countries region report", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top countries region report", e);
             return countries;
         }
 
@@ -115,7 +115,7 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param regionName    Region name
      * @param countries List of Country objects
      */
-    public void printCountries_Region_Report(String regionName, ArrayList<Country> countries) {
+    public void printCountriesRegionReport(String regionName, ArrayList<Country> countries) {
         printCountries(countries, "ReportID 3. All Countries in Region '" + regionName + "' Report");
     }
 
@@ -126,7 +126,7 @@ public class CountriesRegionReport extends CountriesReportBase {
      * @param countries          List of Country objects
      * @param topNCountries  Number of top countries displayed
      */
-    public void printTopNCountries_Region_Report(String regionName, ArrayList<Country> countries, int topNCountries) {
+    public void printTopNCountriesRegionReport(String regionName, ArrayList<Country> countries, int topNCountries) {
         printCountries(countries, "ReportID 6. Top " + topNCountries + " Countries in the Region '" + regionName + "' Report");
     }
 }

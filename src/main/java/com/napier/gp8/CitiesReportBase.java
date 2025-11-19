@@ -21,7 +21,7 @@ public class CitiesReportBase {
      * - final: cannot be reassigned
      * Logger name is fully qualified class name for easy identification.
      */
-    private static final Logger logger = Logger.getLogger(CitiesReportBase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesReportBase.class.getName());
 
     /**
      * Builds a list of City objects from a given SQL ResultSet.
@@ -37,7 +37,7 @@ public class CitiesReportBase {
 
         // If the ResultSet is null, return the empty list
         if (rs == null) {
-            logger.warning("ResultSet is null. Returning empty city list.");
+            LOGGER.warning("ResultSet is null. Returning empty city list.");
             return cities;
         }
 
@@ -62,12 +62,12 @@ public class CitiesReportBase {
             }
         } catch (SQLException e) {
             // Log SQL exceptions with SEVERE level and include the stack trace
-            logger.log(Level.SEVERE, "Error reading cities from ResultSet.", e);
+            LOGGER.log(Level.SEVERE, "Error reading cities from ResultSet.", e);
         }
 
         // If no city data was found, display a message
         if (cities.isEmpty()) {
-            logger.info("No city data found in ResultSet. Report will be empty.");
+            LOGGER.info("No city data found in ResultSet. Report will be empty.");
         }
 
         // Return the list of cities
@@ -84,7 +84,7 @@ public class CitiesReportBase {
     public void printCities(ArrayList<City> cities, String reportTitle) {
         // Check if there are any cities to print
         if (cities == null || cities.isEmpty()) {
-            logger.info("No data to display for report: " + reportTitle);
+            LOGGER.info("No data to display for report: " + reportTitle);
             return;
         }
 

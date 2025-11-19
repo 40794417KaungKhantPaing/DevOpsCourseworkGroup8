@@ -143,7 +143,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getCountries_World_Report_NullConnection() {
-        ArrayList<Country> countries = worldReport.getCountries_World_Report(null);
+        ArrayList<Country> countries = worldReport.getCountriesWorldReport(null);
         assertNotNull(countries);
         assertEquals(0, countries.size());
     }
@@ -153,7 +153,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getTopNCountries_World_Report_NullConnection() {
-        ArrayList<Country> countries = worldReport.getTopNCountries_World_Report(null, 2);
+        ArrayList<Country> countries = worldReport.getTopNCountriesWorldReport(null, 2);
         assertNotNull(countries);
         assertEquals(0, countries.size());
     }
@@ -163,7 +163,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printCountries_World_Report_WithSampleData() {
-        worldReport.printCountries_World_Report(sampleWorld);
+        worldReport.printCountriesWorldReport(sampleWorld);
         assertEquals(3, sampleWorld.size());
         assertEquals("Germany", sampleWorld.getFirst().getCountryName());
         assertTrue(sampleWorld.getFirst().getPopulation() > 0);
@@ -174,7 +174,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printTopNCountries_World_Report_EmptyList() {
-        worldReport.printTopNCountries_World_Report(emptyList, 5);
+        worldReport.printTopNCountriesWorldReport(emptyList, 5);
         assertEquals(0, emptyList.size());
     }
 
@@ -185,7 +185,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getCountries_Continent_Report_NullConnection() {
-        ArrayList<Country> result = continentReport.getCountries_Continent_Report(null, "Europe");
+        ArrayList<Country> result = continentReport.getCountriesContinentReport(null, "Europe");
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -195,7 +195,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getTopNCountries_Continent_Report_NullConnection() {
-        ArrayList<Country> result = continentReport.getTopNCountries_Continent_Report(null, "Europe", 2);
+        ArrayList<Country> result = continentReport.getTopNCountriesContinentReport(null, "Europe", 2);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -205,7 +205,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printCountries_Continent_Report_Europe() {
-        continentReport.printCountries_Continent_Report("Europe", continentSample);
+        continentReport.printCountriesContinentReport("Europe", continentSample);
         assertEquals(3, continentSample.size());
         assertEquals("Germany", continentSample.get(0).getCountryName());
         assertEquals("France", continentSample.get(1).getCountryName());
@@ -217,7 +217,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printTopNCountries_Continent_Report_EmptyList() {
-        continentReport.printTopNCountries_Continent_Report("Europe", emptyList, 2);
+        continentReport.printTopNCountriesContinentReport("Europe", emptyList, 2);
         assertEquals(0, emptyList.size());
     }
 
@@ -228,7 +228,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getCountries_Region_Report_NullConnection() {
-        ArrayList<Country> result = regionReport.getCountries_Region_Report(null, "Western Europe");
+        ArrayList<Country> result = regionReport.getCountriesRegionReport(null, "Western Europe");
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -238,7 +238,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void getTopNCountries_Region_Report_NullConnection() {
-        ArrayList<Country> result = regionReport.getTopNCountries_Region_Report(null, "Southern Europe", 2);
+        ArrayList<Country> result = regionReport.getTopNCountriesRegionReport(null, "Southern Europe", 2);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -255,7 +255,7 @@ class CountriesReportsUnitTest {
             }
         }
 
-        regionReport.printCountries_Region_Report("Western Europe", westernEurope);
+        regionReport.printCountriesRegionReport("Western Europe", westernEurope);
 
         assertEquals(2, westernEurope.size());
         assertEquals("Germany", westernEurope.get(0).getCountryName());
@@ -275,7 +275,7 @@ class CountriesReportsUnitTest {
             }
         }
 
-        regionReport.printCountries_Region_Report("Southern Europe", southernEurope);
+        regionReport.printCountriesRegionReport("Southern Europe", southernEurope);
 
         assertEquals(1, southernEurope.size());
         assertEquals("Italy", southernEurope.getFirst().getCountryName());
@@ -287,7 +287,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printTopNCountries_Region_Report_EmptyList() {
-        regionReport.printTopNCountries_Region_Report("Western Europe", emptyList, 5);
+        regionReport.printTopNCountriesRegionReport("Western Europe", emptyList, 5);
         assertEquals(0, emptyList.size());
     }
 
@@ -296,7 +296,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printCountries_Region_Report_NullList() {
-        regionReport.printCountries_Region_Report("Western Europe", null);
+        regionReport.printCountriesRegionReport("Western Europe", null);
         assertTrue(true);
     }
 
@@ -305,7 +305,7 @@ class CountriesReportsUnitTest {
      */
     @Test
     void printTopNCountries_Region_Report_NullList() {
-        regionReport.printTopNCountries_Region_Report("Western Europe", null, 3);
+        regionReport.printTopNCountriesRegionReport("Western Europe", null, 3);
         assertTrue(true);
     }
 }

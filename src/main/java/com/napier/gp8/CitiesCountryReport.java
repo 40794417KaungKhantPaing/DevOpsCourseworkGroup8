@@ -27,7 +27,7 @@ public class CitiesCountryReport extends CitiesReportBase {
      * The logger name is the fully qualified class name, which helps
      * identify the source of logged messages.
      */
-    private static final Logger logger = Logger.getLogger(CitiesCountryReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesCountryReport.class.getName());
     /**
      * Retrieves all cities in a given country, ordered by population in descending order.
      *
@@ -40,7 +40,7 @@ public class CitiesCountryReport extends CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report for country: " + countryName);
+            LOGGER.warning("Database not connected. Cannot generate city report for country: " + countryName);
             return cities;
         }
 
@@ -67,7 +67,7 @@ public class CitiesCountryReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Handle database-related errors gracefully
-            logger.log(Level.SEVERE, "Error retrieving all cities in country: " + countryName, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in country: " + countryName, e);
         }
 
         // Return the list of all cities found
@@ -87,7 +87,7 @@ public class CitiesCountryReport extends CitiesReportBase {
         ArrayList<City> cities = new ArrayList<>();
 
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate city report for country: " + countryName);
+            LOGGER.warning("Database not connected. Cannot generate city report for country: " + countryName);
             return cities;
         }
 
@@ -114,7 +114,7 @@ public class CitiesCountryReport extends CitiesReportBase {
             }
         } catch (SQLException e) {
             // Log SQL exceptions with specific context for debugging
-            logger.log(Level.SEVERE, "Error retrieving top " + n + " cities in country: " + countryName, e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + n + " cities in country: " + countryName, e);
         }
 
         // Return the list of top N cities

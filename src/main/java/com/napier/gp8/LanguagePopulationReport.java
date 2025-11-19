@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class LanguagePopulationReport {
 
     // Logger instance
-    private static final Logger logger = Logger.getLogger(LanguagePopulationReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LanguagePopulationReport.class.getName());
 
     /**
      * Retrieves the population and world percentage of speakers for major languages.
@@ -25,7 +25,7 @@ public class LanguagePopulationReport {
         ArrayList<CountryLanguage> reportList = new ArrayList<>();
 
         if (conn == null) {
-            logger.warning("Database connection is null. Cannot generate language population report.");
+            LOGGER.warning("Database connection is null. Cannot generate language population report.");
             return reportList;
         }
 
@@ -56,12 +56,12 @@ public class LanguagePopulationReport {
             }
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "SQL error retrieving language population report", e);
+            LOGGER.log(Level.SEVERE, "SQL error retrieving language population report", e);
             reportList.clear();
         }
 
         if (reportList.isEmpty()) {
-            logger.warning("No language population data found.");
+            LOGGER.warning("No language population data found.");
         }
 
         return reportList;
@@ -74,7 +74,7 @@ public class LanguagePopulationReport {
      */
     public void printLanguagePopulationReport(ArrayList<CountryLanguage> reportList) {
         if (reportList == null || reportList.isEmpty()) {
-            logger.info("No data available for language population report.");
+            LOGGER.info("No data available for language population report.");
             return;
         }
 

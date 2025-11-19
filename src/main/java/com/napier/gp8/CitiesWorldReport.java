@@ -17,7 +17,7 @@ public class CitiesWorldReport extends CitiesReportBase {
     /**
      * Logger instance for CitiesWorldReport class.
      */
-    private static final Logger logger = Logger.getLogger(CitiesWorldReport.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CitiesWorldReport.class.getName());
     /**
      * Retrieves all cities in the world, ordered by population (from highest to lowest).
      *
@@ -31,7 +31,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate world city report.");
+            LOGGER.warning("Database not connected. Cannot generate world city report.");
             return cities;
         }
 
@@ -54,7 +54,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle any SQL-related errors
-            logger.log(Level.SEVERE, "Error retrieving all cities in the world.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving all cities in the world.", e);
         }
 
         // Return the list of cities (possibly empty)
@@ -75,7 +75,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         // Check for null connection or invalid input
         if (conn == null) {
-            logger.warning("Database not connected. Cannot generate top " + topN + " world city report.");
+            LOGGER.warning("Database not connected. Cannot generate top " + topN + " world city report.");
             return cities;
         }
 
@@ -103,7 +103,7 @@ public class CitiesWorldReport extends CitiesReportBase {
 
         } catch (SQLException e) {
             // Handle SQL errors and display which report failed
-            logger.log(Level.SEVERE, "Error retrieving top " + topN + " cities in the world.", e);
+            LOGGER.log(Level.SEVERE, "Error retrieving top " + topN + " cities in the world.", e);
         }
 
         // Return the resulting city list (possibly empty)

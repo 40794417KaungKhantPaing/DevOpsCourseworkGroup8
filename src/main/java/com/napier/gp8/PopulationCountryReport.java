@@ -10,11 +10,11 @@ public class PopulationCountryReport {
 
     private static final Logger LOGGER = Logger.getLogger(PopulationCountryReport.class.getName());
 
-    public List<Country> getPopulation_Country_Report(Connection conn) {
+    public List<Country> getPopulationCountryReport(Connection conn) {
         return fetchCountryPopulation(conn);
     }
 
-    public List<Country> getPopulation_City_vs_NonCity_ByCountry(Connection conn) {
+    public List<Country> getPopulationCityVsNonCityByCountry(Connection conn) {
         return fetchCountryPopulation(conn);
     }
 
@@ -60,12 +60,12 @@ public class PopulationCountryReport {
         return results;
     }
 
-    public void printPopulation_Country_Report(List<Country> results, String selectedCountry) {
+    public void printPopulationCountryReport(List<Country> results, String selectedCountry) {
         String groupByColumn = "Country";
         printPopulation(results, "ReportID 29. Population by Country Report",groupByColumn,selectedCountry);
     }
 
-    public void printPopulation_City_vs_NonCity_ByCountry(List<Country> results) {
+    public void printPopulationCityVsNonCityByCountry(List<Country> results) {
         printPopulation(results, "ReportID 25. Population by Country (City vs Non-City)", "Country", null);
     }
 

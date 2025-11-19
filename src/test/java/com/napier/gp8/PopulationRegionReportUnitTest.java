@@ -29,7 +29,7 @@ public class PopulationRegionReportUnitTest
     @Test
     void getPopulationRegionReportTestNullConnection()
     {
-        List<Country> result = report.getPopulation_Region_Report(null);
+        List<Country> result = report.getPopulationRegionReport(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -40,7 +40,7 @@ public class PopulationRegionReportUnitTest
     @Test
     void getPopulationRegionDetailsReportTestNullConnection()
     {
-        List<Country> result = report.getPopulation_Region_Details_Report(null);
+        List<Country> result = report.getPopulationRegionDetailsReport(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -51,7 +51,7 @@ public class PopulationRegionReportUnitTest
     @Test
     void printPopulationRegionReportTestNull()
     {
-        report.printPopulation_Region_Report(null, null);
+        report.printPopulationRegionReport(null, null);
     }
 
     // ---------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class PopulationRegionReportUnitTest
     void printPopulationRegionReportTestEmpty()
     {
         List<Country> list = new ArrayList<>();
-        report.printPopulation_Region_Report(list, null);
+        report.printPopulationRegionReport(list, null);
     }
 
     // ---------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class PopulationRegionReportUnitTest
         southEastAsia.setGnpOld(400000000.0);
         list.add(southEastAsia);
 
-        report.printPopulation_Region_Report(list, null);
+        report.printPopulationRegionReport(list, null);
     }
 
     // ---------------------------------------------------------------------
@@ -104,7 +104,7 @@ public class PopulationRegionReportUnitTest
         list.add(europe);
 
         // Only print Asia
-        report.printPopulation_Region_Report(list, "Asia");
+        report.printPopulationRegionReport(list, "Asia");
     }
 
     // ---------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class PopulationRegionReportUnitTest
         africa.setGnpOld(800000000.0);
         list.add(africa);
 
-        report.printPopulation_Region_Details_Report(list);
+        report.printPopulationRegionDetailsReport(list);
     }
 
     // ---------------------------------------------------------------------
@@ -131,7 +131,7 @@ public class PopulationRegionReportUnitTest
     @Test
     void printPopulationRegionDetailsReportTestNull()
     {
-        report.printPopulation_Region_Details_Report(null);
+        report.printPopulationRegionDetailsReport(null);
     }
 
     // ---------------------------------------------------------------------
@@ -141,6 +141,6 @@ public class PopulationRegionReportUnitTest
     void printPopulationRegionDetailsReportTestEmpty()
     {
         List<Country> list = new ArrayList<>();
-        report.printPopulation_Region_Details_Report(list);
+        report.printPopulationRegionDetailsReport(list);
     }
 }

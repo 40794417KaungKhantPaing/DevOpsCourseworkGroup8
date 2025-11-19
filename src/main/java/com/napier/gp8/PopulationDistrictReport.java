@@ -19,7 +19,7 @@ public class PopulationDistrictReport {
      * @param conn Active database connection
      * @return List of Country objects containing district and population data
      */
-    public List<Country> getPopulation_District_Report(Connection conn) {
+    public List<Country> getPopulationDistrictReport(Connection conn) {
         List<Country> countries = new ArrayList<>();
 
         if (conn == null) {
@@ -70,7 +70,7 @@ public class PopulationDistrictReport {
      *
      * @param countries List of Country objects
      */
-    protected void printPopulation_District_Report(List<Country> countries, String selectedDistrict) {
+    protected void printPopulationDistrictReport(List<Country> countries, String selectedDistrict) {
         System.out.println("\n==================== ReportID 30. Population by District Report ====================");
         System.out.println("--------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-30s %20s %20s %20s %10s %10s%n",

@@ -27,7 +27,7 @@ public class PopulationWorldReportUnitTest
     @Test
     void getPopulationWorldReportTestNullConnection()
     {
-        PopulationWorldReport.PopulationData data = report.getPopulation_World_Report(null);
+        PopulationWorldReport.PopulationData data = report.getPopulationWorldReport(null);
         assertNotNull(data);
         assertEquals("World", data.name);
         assertEquals(0, data.totalPopulation);
@@ -43,7 +43,7 @@ public class PopulationWorldReportUnitTest
     @Test
     void printPopulationWorldReportTestNull()
     {
-        report.printPopulation_World_Report(new PopulationWorldReport.PopulationData("World"));
+        report.printPopulationWorldReport(new PopulationWorldReport.PopulationData("World"));
     }
 
     // ---------------------------------------------------------------------
@@ -59,7 +59,7 @@ public class PopulationWorldReportUnitTest
         data.cityPercentage = 55.0;
         data.nonCityPercentage = 45.0;
 
-        report.printPopulation_World_Report(data);
+        report.printPopulationWorldReport(data);
     }
 
     // ---------------------------------------------------------------------
@@ -70,7 +70,7 @@ public class PopulationWorldReportUnitTest
     {
         // This test just ensures no exceptions with a fake (null-like) connection
         Connection conn = null;
-        PopulationWorldReport.PopulationData data = report.getPopulation_World_Report(conn);
+        PopulationWorldReport.PopulationData data = report.getPopulationWorldReport(conn);
         assertNotNull(data);
     }
 
@@ -88,7 +88,7 @@ public class PopulationWorldReportUnitTest
     @Test
     void printPopulationWorldReportTest_NullDataBranch() {
         // This explicitly passes null to trigger the "if (data == null)" condition
-        report.printPopulation_World_Report(null);
+        report.printPopulationWorldReport(null);
     }
 
 }
