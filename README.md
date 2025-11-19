@@ -8,12 +8,12 @@ It serves as a collaborative platform where all team members contribute to the *
 ## Contribution SpreadSheet
 | Matriculation Number | Code Review 1 | Code Review 2 |
 |----------------------|---------------|---------------|
-| 40794417             | 20            | -             |
-| 40794419             | 20            | -             |
-| 40794538             | 20            | -             |
-| 40794505             | 20            | -             |
-| 40794416             | 20            | -             |
-| **Total**            | **100**       | **-**         |
+| 40794417             | 20            | 20            |
+| 40794419             | 20            | 20            |
+| 40794538             | 20            | 20            |
+| 40794505             | 20            | 20            |
+| 40794416             | 20            | 20            |
+| **Total**            | **100**       | **100**       |
 
 ---
 ## Status Badges
