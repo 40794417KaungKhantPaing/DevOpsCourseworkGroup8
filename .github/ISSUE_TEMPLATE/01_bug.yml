@@ -86,6 +86,7 @@ body:
       label: System Version
       description: Which version or branch of the Java system are you using?
       options:
+        - version 0.1
         - version 0.2
         - latest
         - Custom Branch
