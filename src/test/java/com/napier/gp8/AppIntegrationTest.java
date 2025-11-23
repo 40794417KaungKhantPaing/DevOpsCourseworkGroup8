@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Full integration test suite for App and all report modules,
- * including Top N reports.
+ * including Country, City, Capital, Population, and Language reports.
+ * Also tests Top N reports, edge cases, and SQL exception handling.
  * REQUIREMENTS:
  * - MySQL container or local DB running with 'world' schema.
  * - User: root, Password: root
@@ -56,6 +57,7 @@ public class AppIntegrationTest {
     @Test
     @Order(2)
     void testCountriesWorldReportIntegration() {
+        // Verify that the world countries report returns a non-null, non-empty list
         CountriesWorldReport report = new CountriesWorldReport();
         ArrayList<Country> countries = report.getCountriesWorldReport(app.getConnection());
         assertNotNull(countries);
@@ -65,6 +67,7 @@ public class AppIntegrationTest {
     @Test
     @Order(3)
     void testCountriesContinentReportIntegration() {
+        // Verify continent-specific report returns valid data
         CountriesContinentReport report = new CountriesContinentReport();
         ArrayList<Country> countries = report.getCountriesContinentReport(app.getConnection(), "Asia");
         assertNotNull(countries); // Check that result is not null
@@ -74,6 +77,7 @@ public class AppIntegrationTest {
     @Test
     @Order(4)
     void testCountriesRegionReportIntegration() {
+        // Verify region-specific report returns valid data
         CountriesRegionReport report = new CountriesRegionReport();
         ArrayList<Country> countries = report.getCountriesRegionReport(app.getConnection(), "Middle East");
         assertNotNull(countries);
@@ -86,6 +90,7 @@ public class AppIntegrationTest {
     @Test
     @Order(5)
     void testTopNCountriesWorldIntegration() {
+        // Verify Top N world countries report returns at most N results
         CountriesWorldReport report = new CountriesWorldReport();
         ArrayList<Country> topNCountries = report.getTopNCountriesWorldReport(app.getConnection(), 10);
         assertNotNull(topNCountries);
@@ -96,6 +101,7 @@ public class AppIntegrationTest {
     @Test
     @Order(6)
     void testTopNCountriesContinentIntegration() {
+        // Verify Top N countries in a continent
         CountriesContinentReport report = new CountriesContinentReport();
         ArrayList<Country> topNCountries = report.getTopNCountriesContinentReport(app.getConnection(), "Asia", 10);
         assertNotNull(topNCountries);
@@ -106,6 +112,7 @@ public class AppIntegrationTest {
     @Test
     @Order(7)
     void testTopNCountriesRegionIntegration() {
+        // Verify Top N countries in a region
         CountriesRegionReport report = new CountriesRegionReport();
         ArrayList<Country> topNCountries = report.getTopNCountriesRegionReport(app.getConnection(), "Middle East", 10);
         assertNotNull(topNCountries);
@@ -119,6 +126,7 @@ public class AppIntegrationTest {
     @Test
     @Order(8)
     void testCitiesWorldReportIntegration() {
+        // Verify world cities report returns valid data
         CitiesWorldReport report = new CitiesWorldReport();
         ArrayList<City> cities = report.getCitiesWorldReport(app.getConnection());
         assertNotNull(cities);
@@ -128,6 +136,7 @@ public class AppIntegrationTest {
     @Test
     @Order(9)
     void testCitiesContinentReportIntegration() {
+        // Verify continent-specific city report
         CitiesContinentReport report = new CitiesContinentReport();
         ArrayList<City> cities = report.getCitiesContinentReport(app.getConnection(), "Asia");
         assertNotNull(cities);
@@ -137,6 +146,7 @@ public class AppIntegrationTest {
     @Test
     @Order(10)
     void testCitiesRegionReportIntegration() {
+        // Verify region-specific city report
         CitiesRegionReport report = new CitiesRegionReport();
         ArrayList<City> cities = report.getCitiesRegionReport(app.getConnection(), "Eastern Asia");
         assertNotNull(cities);
@@ -146,6 +156,7 @@ public class AppIntegrationTest {
     @Test
     @Order(11)
     void testCitiesCountryReportIntegration() {
+        // Verify country-specific city report
         CitiesCountryReport report = new CitiesCountryReport();
         ArrayList<City> cities = report.getCitiesCountryReport(app.getConnection(), "Myanmar");
         assertNotNull(cities);
@@ -155,6 +166,7 @@ public class AppIntegrationTest {
     @Test
     @Order(12)
     void testCitiesDistrictReportIntegration() {
+        // Verify district-specific city report
         CitiesDistrictReport report = new CitiesDistrictReport();
         ArrayList<City> cities = report.getCitiesDistrictReport(app.getConnection(), "California");
         assertNotNull(cities);
@@ -167,6 +179,7 @@ public class AppIntegrationTest {
     @Test
     @Order(13)
     void testTopNCitiesWorldIntegration() {
+        // Verify Top N cities globally
         CitiesWorldReport report = new CitiesWorldReport();
         ArrayList<City> topCities = report.getTopNCitiesWorldReport(app.getConnection(), 10);
         assertNotNull(topCities);
@@ -177,6 +190,7 @@ public class AppIntegrationTest {
     @Test
     @Order(14)
     void testTopNCitiesContinentIntegration() {
+        // Verify Top N cities in a continent
         CitiesContinentReport report = new CitiesContinentReport();
         ArrayList<City> topCities = report.getTopNCitiesContinentReport(app.getConnection(), "Asia", 10);
         assertNotNull(topCities);
@@ -187,6 +201,7 @@ public class AppIntegrationTest {
     @Test
     @Order(15)
     void testTopNCitiesRegionIntegration() {
+        // Verify Top N cities in a region
         CitiesRegionReport report = new CitiesRegionReport();
         ArrayList<City> topCities = report.getTopNCitiesRegionReport(app.getConnection(), "Eastern Asia", 10);
         assertNotNull(topCities);
@@ -197,6 +212,7 @@ public class AppIntegrationTest {
     @Test
     @Order(16)
     void testTopNCitiesCountryIntegration() {
+        // Verify Top N cities in a country
         CitiesCountryReport report = new CitiesCountryReport();
         ArrayList<City> topCities = report.getTopNCitiesCountryReport(app.getConnection(), "Japan", 10);
         assertNotNull(topCities, "Top N Cities Country list should not be null");
@@ -207,6 +223,7 @@ public class AppIntegrationTest {
     @Test
     @Order(17)
     void testTopNCitiesDistrictIntegration() {
+        // Verify Top N cities in a district
         CitiesDistrictReport report = new CitiesDistrictReport();
         ArrayList<City> topCities = report.getTopNCitiesDistrictReport(app.getConnection(), "California", 10);
         assertNotNull(topCities, "Top N Cities District list should not be null");
@@ -221,6 +238,7 @@ public class AppIntegrationTest {
     @Test
     @Order(18)
     void testCapitalCitiesWorldIntegration() {
+        // Verify world capital cities report
         CapitalCitiesWorldReport report = new CapitalCitiesWorldReport();
         ArrayList<City> capitals = report.getAllCapitalCitiesInWorldByPopulation(app.getConnection());
         assertNotNull(capitals);
@@ -230,6 +248,7 @@ public class AppIntegrationTest {
     @Test
     @Order(19)
     void testCapitalCitiesContinentIntegration() {
+        // Verify continent-specific capital cities
         CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
         ArrayList<City> capitals = report.getAllCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia");
         assertNotNull(capitals);
@@ -239,6 +258,7 @@ public class AppIntegrationTest {
     @Test
     @Order(20)
     void testCapitalCitiesRegionIntegration() {
+        // Verify region-specific capital cities
         CapitalCitiesRegionReport report = new CapitalCitiesRegionReport();
         ArrayList<City> capitals = report.getAllCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East");
         assertNotNull(capitals);
@@ -251,6 +271,7 @@ public class AppIntegrationTest {
     @Test
     @Order(21)
     void testTopNCapitalsWorldIntegration() {
+        // Verify Top N capitals globally
         CapitalCitiesWorldReport report = new CapitalCitiesWorldReport();
         ArrayList<City> topCapitals = report.getTopNCapitalCitiesInWorldByPopulation(app.getConnection(), 10);
         assertNotNull(topCapitals);
@@ -261,6 +282,7 @@ public class AppIntegrationTest {
     @Test
     @Order(22)
     void testTopNCapitalsContinentIntegration() {
+        // Verify Top N capitals in a continent
         CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
         ArrayList<City> topCapitals = report.getTopNCapitalCitiesInContinentByPopulation(app.getConnection(), "Asia", 10);
         assertNotNull(topCapitals);
@@ -271,6 +293,7 @@ public class AppIntegrationTest {
     @Test
     @Order(23)
     void testTopNCapitalsRegionIntegration() {
+        // Verify Top N capitals in a region
         CapitalCitiesRegionReport report = new CapitalCitiesRegionReport();
         ArrayList<City> topCapitals = report.getTopNCapitalCitiesInRegionByPopulation(app.getConnection(), "Middle East", 10);
         assertNotNull(topCapitals);
@@ -284,6 +307,7 @@ public class AppIntegrationTest {
     @Test
     @Order(24)
     void testPopulationWorldReportIntegration() {
+        // Verify total population report for the world
         PopulationWorldReport report = new PopulationWorldReport();
         PopulationWorldReport.PopulationData data = report.getPopulationWorldReport(app.getConnection());
         assertNotNull(data);
@@ -292,6 +316,7 @@ public class AppIntegrationTest {
     @Test
     @Order(25)
     void testPopulationContinentReportIntegration() {
+        // Verify population report for all continents
         PopulationContinentReport report = new PopulationContinentReport();
         List<Country> list = report.getPopulationContinentReport(app.getConnection());
         assertNotNull(list);
@@ -301,6 +326,7 @@ public class AppIntegrationTest {
     @Test
     @Order(26)
     void testPopulationRegionReportIntegration() {
+        // Verify population report for all regions
         PopulationRegionReport report = new PopulationRegionReport();
         List<Country> list = report.getPopulationRegionReport(app.getConnection());
         assertNotNull(list);
@@ -310,6 +336,7 @@ public class AppIntegrationTest {
     @Test
     @Order(27)
     void testPopulationCountryReportIntegration() {
+        // Verify population report per country
         PopulationCountryReport report = new PopulationCountryReport();
         List<Country> list = report.getPopulationCountryReport(app.getConnection());
         assertNotNull(list);
@@ -319,6 +346,7 @@ public class AppIntegrationTest {
     @Test
     @Order(28)
     void testPopulationCityReportIntegration() {
+        // Verify population report per city
         PopulationCityReport report = new PopulationCityReport();
         List<City> list = report.getPopulationCityReport(app.getConnection());
         assertNotNull(list);
@@ -328,6 +356,7 @@ public class AppIntegrationTest {
     @Test
     @Order(29)
     void testPopulationDistrictReportIntegration() {
+        // Verify population report per district
         PopulationDistrictReport report = new PopulationDistrictReport();
         List<Country> list = report.getPopulationDistrictReport(app.getConnection());
         assertNotNull(list, "Population by district list should not be null");
@@ -341,18 +370,15 @@ public class AppIntegrationTest {
     @Test
     @Order(30)
     void testLanguagePopulationReportIntegration() {
+        // Verify population by language report
         LanguagePopulationReport report = new LanguagePopulationReport();
         ArrayList<CountryLanguage> list = report.getLanguagePopulationReport(app.getConnection());
         assertNotNull(list);
         assertFalse(list.isEmpty());
     }
     // =========================
-    // Catch-Block / SQLException Tests
+    // SQL Exception / Broken Connection Tests
     // =========================
-
-    // =================================================
-    // Shared helper for SQL exception (broken connection)
-    // =================================================
     private void breakConnection() {
         try {
             if (app.getConnection() != null && !app.getConnection().isClosed()) {
@@ -372,10 +398,10 @@ public class AppIntegrationTest {
     @Test
     @Order(31)
     void testAllSQLExceptionCatchBlocks() {
-        // --- Step 1: Break the connection to trigger exception paths ---
+        // Step 1: Break connection to trigger exception paths
         breakConnection();
 
-        // Expecting empty results due to SQLException / NullPointerException
+        // Verify all report methods handle SQLException gracefully
         assertTrue(new CountriesWorldReport().getCountriesWorldReport(app.getConnection()).isEmpty());
         assertTrue(new CountriesContinentReport().getCountriesContinentReport(app.getConnection(), "Asia").isEmpty());
         assertTrue(new CountriesRegionReport().getCountriesRegionReport(app.getConnection(), "Middle East").isEmpty());
@@ -413,15 +439,14 @@ public class AppIntegrationTest {
         PopulationWorldReport report = new PopulationWorldReport();
         PopulationWorldReport.PopulationData data = report.getPopulationWorldReport(app.getConnection());
 
-        // Treat zero total population as "empty result"
+        // Verify zero population returned as empty result
         assertEquals(0, data.totalPopulation, "Total population should be 0 when SQLException occurs");
         assertEquals(0, data.cityPopulation, "City population should be 0 when SQLException occurs");
         assertEquals(0, data.nonCityPopulation, "Non-city population should be 0 when SQLException occurs");
 
-        // --- Step 2: Reconnect to trigger successful 'try' branches ---
+        // Step 2: Reconnect to verify successful execution
         reconnect();
 
-        // Now all methods should execute successfully with valid connection
         assertNotNull(new CountriesWorldReport().getCountriesWorldReport(app.getConnection()));
         assertNotNull(new CountriesContinentReport().getCountriesContinentReport(app.getConnection(), "Asia"));
         assertNotNull(new CountriesRegionReport().getCountriesRegionReport(app.getConnection(), "Middle East"));
@@ -468,6 +493,7 @@ public class AppIntegrationTest {
     @Test
     @Order(32)
     void testAppMainExecution() {
+        // Verify App.main executes without exceptions
         reconnect();
 
         String dbHost = "localhost:33060";
@@ -479,13 +505,13 @@ public class AppIntegrationTest {
 
 
 
-    // =================================================
-    // Test buildCapitalCities return empty data
-    // =================================================
+    // =========================
+    // Empty Result Set Edge Case Tests
+    // =========================
     @Test
-    @Order(34)
+    @Order(33)
     void testBuildCapitalCities_EmptyResultSet() {
-
+        // Verify capital cities report handles non-existent continent
         CapitalCitiesContinentReport report = new CapitalCitiesContinentReport();
 
         String nonexistentContinent = "Atlantis";
@@ -502,9 +528,9 @@ public class AppIntegrationTest {
 
 
     @Test
-    @Order(35) // Use an appropriate order number
+    @Order(34) // Use an appropriate order number
     void testBuildCountries_EmptyResultSet() {
-
+        // Verify country report handles non-existent region
         CountriesRegionReport report = new CountriesRegionReport();
 
         String nonexistentRegion = "Fictional Region";
@@ -514,15 +540,16 @@ public class AppIntegrationTest {
                 nonexistentRegion
         );
 
-        // 3. Assert: Verify the list is empty
+        // Assert: Verify the list is empty
         assertNotNull(countries, "List should not be null");
         assertTrue(countries.isEmpty(), "List must be empty when querying a non-existent region");
     }
 
 
     @Test
-    @Order(36) // Use an appropriate order number
+    @Order(35)
     void testBuildCities_EmptyResultSet() {
+        // Verify city report handles non-existent district
         CitiesDistrictReport report = new CitiesDistrictReport();
 
         String nonexistentDistrict = "Fictional District X";
@@ -542,6 +569,7 @@ public class AppIntegrationTest {
     // =========================
     @AfterAll
     static void tearDown() {
+        // Disconnect from database
         app.disconnect();
         try {
             assertTrue(app.getConnection() == null || app.getConnection().isClosed());

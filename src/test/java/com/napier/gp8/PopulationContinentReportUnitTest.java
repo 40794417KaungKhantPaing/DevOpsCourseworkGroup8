@@ -9,15 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Simple JUnit 5 test class for PopulationContinentReport.
- * Matches the same structure and style as AppTest.
  */
 public class PopulationContinentReportUnitTest
 {
+    // A single shared instance of the report class
     static PopulationContinentReport report;
 
     @BeforeAll
     static void init()
     {
+        // Initialize the report object before running all tests
         report = new PopulationContinentReport();
     }
 

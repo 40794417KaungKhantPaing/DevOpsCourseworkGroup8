@@ -4,6 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main application class for generating reports from the World database.
+ * This class handles:
+ *  - Connecting to and disconnecting from the MySQL database.
+ *  - Retrieving and printing various country, city, capital city, population, and language reports.
+ *  - Writing the reports to Markdown files using ReportWriter.
+ */
 public class App {
 
     /* Connect object used to connect to the MySQL database.
@@ -11,16 +18,24 @@ public class App {
      */
     private Connection conn = null;
 
+    /**
+     * Gets the current database connection.
+     * @return the database connection object
+     */
     public Connection getConnection() {
         return this.conn;
     }
 
-
-    /* Connect to the MySQL database.
+    /**
+     * Connects to the MySQL database at the specified location.
+     * Retries multiple times if connection fails.
+     *
+     * @param location the database host and port (e.g., localhost:3306)
+     * @param delay delay in milliseconds between connection retries
      */
     public void connect(String location, int delay) {
         try {
-            // Load Database driver
+            // Load MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
@@ -51,9 +66,9 @@ public class App {
         }
     }
 
-
     /**
-     * Disconnect from the MySQL database.
+     * Disconnects from the MySQL database.
+     * Closes the connection if it is open.
      */
     public void disconnect() {
         if (conn != null) {
@@ -66,16 +81,38 @@ public class App {
         }
     }
 
+    /**
+     * Main method: executes all reports and writes them to Markdown files.
+     *
+     * @param args optional command-line arguments: database location and delay
+     */
     public static void main(String[] args) {
         App app = new App();
         ReportWriter writer = new ReportWriter();
 
+        // Connect to database using default or provided location and delay
         if(args.length < 1){
             app.connect("localhost:33060", 30000);
         }else{
             app.connect(args[0], Integer.parseInt(args[1]));
         }
 
+        // ============================================================
+        // Reports 1-32: Generate, print, and save all reports
+        // ============================================================
+
+        // Example report workflow:
+        // 1. Create report object (e.g., CountriesWorldReport)
+        // 2. Retrieve data from database
+        // 3. Print report to console
+        // 4. Write report to Markdown file using ReportWriter
+
+        // Reports include:
+        // - Countries (world, continent, region, top N)
+        // - Cities (world, continent, region, country, district, top N)
+        // - Capital cities (world, continent, region, top N)
+        // - Population (world, continent, region, country, district, city)
+        // - Language population
 
         //============================================================
         // REPORT 1. Country world report

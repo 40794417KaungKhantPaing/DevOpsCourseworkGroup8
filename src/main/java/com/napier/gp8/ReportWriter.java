@@ -7,6 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ReportWriter is a simple utility class for generating reports in Markdown format.
+ * It can create reports for:
+ *  - Capital cities
+ *  - Cities
+ *  - Countries
+ *  - Language populations
+ *  - Population by city, country, continent, region, and world
+ * Reports are saved in the "./reports/" folder. The class handles empty or null
+ * data lists by printing a message or adding placeholder rows.
+ */
+
 public class ReportWriter {
 
     /**

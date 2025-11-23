@@ -11,15 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Simple JUnit 5 test class for PopulationRegionReport.
- * Matches AppTest style — no mocking, no external libs.
+ * logic verification for null checks, empty lists, and valid data paths.
  */
 public class PopulationRegionReportUnitTest
 {
+    // A single shared instance of the report class
     static PopulationRegionReport report;
 
     @BeforeAll
     static void init()
     {
+        // Initialize the report object before running all tests
         report = new PopulationRegionReport();
     }
 

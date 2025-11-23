@@ -6,18 +6,41 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * PopulationRegionReport generates population reports grouped by region.
+ * It can calculate total, city, and non-city populations for each region
+ * and display the results in a formatted table.
+ */
 public class PopulationRegionReport {
 
     private static final Logger LOGGER = Logger.getLogger(PopulationRegionReport.class.getName());
 
+    /**
+     * Get population report grouped by region.
+     * @param conn Database connection
+     * @return List of Country objects containing region population data
+     */
     public List<Country> getPopulationRegionReport(Connection conn) {
+
         return fetchRegionPopulation(conn);
     }
 
+    /**
+     * Get detailed population report grouped by region (urban vs non-urban).
+     * @param conn Database connection
+     * @return List of Country objects with population details
+     */
     public List<Country> getPopulationRegionDetailsReport(Connection conn) {
+
         return fetchRegionPopulation(conn);
     }
 
+    /**
+     * Helper method to query database for population data by region.
+     * Calculates total population, city population, and non-city population.
+     * @param conn Database connection
+     * @return List of Country objects with population info
+     */
     private List<Country> fetchRegionPopulation(Connection conn) {
         List<Country> results = new ArrayList<>();
         if (conn == null) {
@@ -64,15 +87,31 @@ public class PopulationRegionReport {
         return results;
     }
 
+    /**
+     * Print population report for a specific region.
+     * @param results List of Country objects
+     * @param selectedRegion Region to display
+     */
     public void printPopulationRegionReport(List<Country> results, String selectedRegion) {
         String groupbyColumn = "Region";
         printPopulation(results, "ReportID 28. Population by Region Report",groupbyColumn,selectedRegion);
     }
 
+    /**
+     * Print detailed population report (urban vs non-urban) for all regions.
+     * @param results List of Country objects
+     */
     public void printPopulationRegionDetailsReport(List<Country> results) {
         printPopulation(results, "Report ID 24. Population by Region (Urban vs Non-Urban)", "Region", null);
     }
 
+    /**
+     * Helper method to print population reports in a formatted table.
+     * @param results List of Country objects
+     * @param title Report title
+     * @param groupByColumn Column name for grouping (Region)
+     * @param selectedValue Optional filter to display a specific region
+     */
     private void printPopulation(List<Country> results, String title, String groupByColumn, String selectedValue) {
         System.out.println("\n==================== " + title + " ====================");
         System.out.println("-------------------------------------------------------------------------------------------------------------------------");

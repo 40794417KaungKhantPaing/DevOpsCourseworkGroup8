@@ -1,5 +1,13 @@
 package com.napier.gp8;
 
+/**
+ * Represents a language spoken in a country.
+ * The class stores information about the country code, language name,
+ * whether the language is official, the percentage of speakers,
+ * and the associated Country object.
+ * It includes private variables for encapsulation, getter and setter methods,
+ * and a toString method for displaying object details.
+ */
 public class CountryLanguage
 {
     // Country code (foreign key to Country)

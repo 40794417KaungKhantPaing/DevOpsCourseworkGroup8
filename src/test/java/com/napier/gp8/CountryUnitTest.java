@@ -3,12 +3,21 @@ package com.napier.gp8;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the Country model class.
+ * Ensures getters, setters, toString, and default values work correctly.
+ */
 class CountryUnitTest {
 
+    // ---------------------------------------------------------------------
+    // Test: Verify all getters and setters store and return correct values
+    // ---------------------------------------------------------------------
     @Test
     void testGettersAndSetters() {
+        // Create new Country object
         Country country = new Country();
 
+        // Set fields with sample data
         country.setCode("JPN");
         country.setCountryName("Japan");
         country.setContinent("Asia");
@@ -25,6 +34,7 @@ class CountryUnitTest {
         country.setCapital(1532);
         country.setCode2("JP");
 
+        // Validate each field using getters
         assertEquals("JPN", country.getCode());
         assertEquals("Japan", country.getCountryName());
         assertEquals("Asia", country.getContinent());
@@ -42,8 +52,12 @@ class CountryUnitTest {
         assertEquals("JP", country.getCode2());
     }
 
+    // ---------------------------------------------------------------------
+    // Test: Ensure toString() returns meaningful and correctly formatted output
+    // ---------------------------------------------------------------------
     @Test
     void testToString() {
+        // Prepare sample country
         Country country = new Country();
         country.setCode("FRA");
         country.setCountryName("France");
@@ -61,29 +75,42 @@ class CountryUnitTest {
         country.setCapital(2974);
         country.setCode2("FR");
 
+        // Call toString(
         String result = country.toString();
 
+        // Verify important fields appear in the output
         assertTrue(result.contains("France"));
         assertTrue(result.contains("Europe"));
         assertTrue(result.contains("Republic"));
+
+        // Check general structure
         assertTrue(result.startsWith("Country{"));
         assertTrue(result.endsWith("}"));
     }
 
+    // ---------------------------------------------------------------------
+    // Test: Ensure default constructor assigns default/null values correctly
+    // ---------------------------------------------------------------------
     @Test
     void testDefaultValues() {
+        // Default object (no values set)
         Country country = new Country();
 
+        // All string fields should be null
         assertNull(country.getCode());
         assertNull(country.getCountryName());
         assertNull(country.getContinent());
         assertNull(country.getRegion());
+
+        // Numeric fields that default to primitive types
         assertEquals(0.0, country.getSurfaceArea());
-        assertNull(country.getIndepYear());
-        assertEquals(0L, country.getPopulation());
+        assertNull(country.getIndepYear()); // Wrapper Integer → defaults to null
+        assertEquals(0L, country.getPopulation()); // long defaults to 0
         assertNull(country.getLifeExpectancy());
         assertNull(country.getGnp());
         assertNull(country.getGnpOld());
+
+        // More string fields should also be null
         assertNull(country.getLocalName());
         assertNull(country.getGovernmentForm());
         assertNull(country.getHeadOfState());

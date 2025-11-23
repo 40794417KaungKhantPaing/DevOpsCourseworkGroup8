@@ -15,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PopulationCityReportUnitTest
 {
+    // A single shared instance of the report class
     static PopulationCityReport report;
 
     @BeforeAll
     static void init()
     {
+        // Initialize the report object before running all tests
         report = new PopulationCityReport();
     }
 

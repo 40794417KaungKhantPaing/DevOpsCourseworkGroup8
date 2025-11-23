@@ -8,10 +8,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Combined unit tests for all city report classes in one file.
+ * Unit tests covering all city report classes.
+ * Ensures every report type (continent, country, district, region, world)
+ * handles null connections, empty lists, and sample data correctly.
  */
 public class CitiesReportsUnitTest {
 
+    // ---------------------------------------------------------------------
+    // Instances of all report classes used for testing
+    // ---------------------------------------------------------------------
     static CitiesContinentReport continentReport;
     static CitiesCountryReport countryReport;
     static CitiesDistrictReport districtReport;
@@ -19,6 +24,10 @@ public class CitiesReportsUnitTest {
     static CitiesWorldReport worldReport;
     static CitiesReportBase baseReport;
 
+    /**
+     * Initializes all report objects once before running any tests.
+     * This avoids creating new instances for each test case.
+     */
     @BeforeAll
     static void init() {
         continentReport = new CitiesContinentReport();
@@ -32,6 +41,11 @@ public class CitiesReportsUnitTest {
     // ---------------------------------------------------------------------
     // Continent report tests
     // ---------------------------------------------------------------------
+
+    /**
+     * Test getting cities by continent when DB connection is null.
+     * Should return an empty list, not null.
+     */
     @Test
     void getCitiesContinentReportTestNullConnection() {
         List<City> cities = continentReport.getCitiesContinentReport(null, "Asia");
@@ -39,6 +53,9 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test getting top N cities by continent when DB connection is null.
+     */
     @Test
     void getTopNCitiesContinentReportTestNullConnection() {
         List<City> cities = continentReport.getTopNCitiesContinentReport(null, "Europe", 5);
@@ -46,16 +63,26 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test printing continent report with an empty city list.
+     * Should not throw exceptions.
+     */
     @Test
     void printCitiesContinentReportTestEmptyList() {
         continentReport.printCitiesContinentReport(new ArrayList<>(), "Asia");
     }
 
+    /**
+     * Test printing top N continent cities with an empty list.
+     */
     @Test
     void printTopNCitiesContinentReportTestEmptyList() {
         continentReport.printTopNCitiesContinentReport(new ArrayList<>(), "Europe", 5);
     }
 
+    /**
+     * Test printing a continent report with sample city data.
+     */
     @Test
     void printCitiesContinentReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -72,6 +99,9 @@ public class CitiesReportsUnitTest {
         continentReport.printCitiesContinentReport(cities, "Asia");
     }
 
+    /**
+     * Test printing top N cities for a continent with sample data.
+     */
     @Test
     void printTopNCitiesContinentReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -88,12 +118,18 @@ public class CitiesReportsUnitTest {
         continentReport.printTopNCitiesContinentReport(cities, "Asia", 1);
     }
 
+    /**
+     * Test getCitiesContinentReport with a fake/invalid connection.
+     */
     @Test
     void getCitiesContinentReportFakeConnection() {
         List<City> results = continentReport.getCitiesContinentReport(null, "Africa");
         assertNotNull(results);
     }
 
+    /**
+     * Test getTopNCitiesContinentReport with a fake/invalid connection.
+     */
     @Test
     void getTopNCitiesContinentReportFakeConnection() {
         List<City> results = continentReport.getTopNCitiesContinentReport(null, "North America", 10);
@@ -103,6 +139,9 @@ public class CitiesReportsUnitTest {
     // ---------------------------------------------------------------------
     // Country report tests
     // ---------------------------------------------------------------------
+    /**
+     * Test getting cities by country when DB connection is null.
+     */
     @Test
     void getCitiesCountryReportTestNullConnection() {
         List<City> cities = countryReport.getCitiesCountryReport(null, "Japan");
@@ -110,6 +149,9 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test getting top N cities by country with null connection.
+     */
     @Test
     void getTopNCitiesCountryReportTestNullConnection() {
         List<City> cities = countryReport.getTopNCitiesCountryReport(null, "China", 5);
@@ -117,16 +159,25 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test printing country report with empty city list.
+     */
     @Test
     void printCitiesCountryReportTestEmptyList() {
         countryReport.printCitiesCountryReport(new ArrayList<>(), "Japan");
     }
 
+    /**
+     * Test printing top N cities in a country with empty list.
+     */
     @Test
     void printTopNCitiesCountryReportTestEmptyList() {
         countryReport.printTopNCitiesCountryReport(new ArrayList<>(), "China", 5);
     }
 
+    /**
+     * Test printing a country report with sample data.
+     */
     @Test
     void printCitiesCountryReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -143,6 +194,9 @@ public class CitiesReportsUnitTest {
         countryReport.printCitiesCountryReport(cities, "Japan");
     }
 
+    /**
+     * Test printing top N cities of a country with sample data.
+     */
     @Test
     void printTopNCitiesCountryReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -172,12 +226,18 @@ public class CitiesReportsUnitTest {
         countryReport.printTopNCitiesCountryReport(cities, "China", 2);
     }
 
+    /**
+     * Test getCitiesCountryReport with a fake/invalid connection.
+     */
     @Test
     void getCitiesCountryReportFakeConnection() {
         List<City> results = countryReport.getCitiesCountryReport(null, "India");
         assertNotNull(results);
     }
 
+    /**
+     * Test getTopNCitiesCountryReport with a fake/invalid connection.
+     */
     @Test
     void getTopNCitiesCountryReportFakeConnection() {
         List<City> results = countryReport.getTopNCitiesCountryReport(null, "Australia", 10);
@@ -187,6 +247,10 @@ public class CitiesReportsUnitTest {
     // ---------------------------------------------------------------------
     // District report tests
     // ---------------------------------------------------------------------
+
+    /**
+     * Test getting cities by district with null connection.
+     */
     @Test
     void getCitiesDistrictReportTestNullConnection() {
         List<City> cities = districtReport.getCitiesDistrictReport(null, "Central");
@@ -194,6 +258,9 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test getting top N cities by district with null connection.
+     */
     @Test
     void getTopNCitiesDistrictReportTestNullConnection() {
         List<City> cities = districtReport.getTopNCitiesDistrictReport(null, "Central", 5);
@@ -201,16 +268,25 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test printing district report with empty city list.
+     */
     @Test
     void printCitiesDistrictReportTestEmptyList() {
         districtReport.printCitiesDistrictReport(new ArrayList<>(), "Central");
     }
 
+    /**
+     * Test printing top N cities of a district with empty list.
+     */
     @Test
     void printTopNCitiesDistrictReportTestEmptyList() {
         districtReport.printTopNCitiesDistrictReport(new ArrayList<>(), "Central", 5);
     }
 
+    /**
+     * Test printing a district report with sample data.
+     */
     @Test
     void printCitiesDistrictReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -227,6 +303,9 @@ public class CitiesReportsUnitTest {
         districtReport.printCitiesDistrictReport(cities, "Illinois");
     }
 
+    /**
+     * Test printing top N cities of a district with sample data.
+     */
     @Test
     void printTopNCitiesDistrictReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -255,12 +334,18 @@ public class CitiesReportsUnitTest {
         districtReport.printTopNCitiesDistrictReport(cities, "Texas", 2);
     }
 
+    /**
+     * Test getCitiesDistrictReport with fake/invalid connection.
+     */
     @Test
     void getCitiesDistrictReportFakeConnection() {
         List<City> results = districtReport.getCitiesDistrictReport(null, "California");
         assertNotNull(results);
     }
 
+    /**
+     * Test getTopNCitiesDistrictReport with fake/invalid connection.
+     */
     @Test
     void getTopNCitiesDistrictReportFakeConnection() {
         List<City> results = districtReport.getTopNCitiesDistrictReport(null, "Florida", 10);
@@ -270,6 +355,9 @@ public class CitiesReportsUnitTest {
     // ---------------------------------------------------------------------
     // Region report tests
     // ---------------------------------------------------------------------
+    /**
+     * Test getting cities by region with null connection.
+     */
     @Test
     void getCitiesRegionReportTestNullConnection() {
         List<City> cities = regionReport.getCitiesRegionReport(null, "Southern Europe");
@@ -277,6 +365,9 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test getting top N cities by region with null connection.
+     */
     @Test
     void getTopNCitiesRegionReportTestNullConnection() {
         List<City> cities = regionReport.getTopNCitiesRegionReport(null, "Eastern Asia", 5);
@@ -284,16 +375,25 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test printing region report with empty city list.
+     */
     @Test
     void printCitiesRegionReportTestEmptyList() {
         regionReport.printCitiesRegionReport(new ArrayList<>(), "Southern Europe");
     }
 
+    /**
+     * Test printing top N cities by region with empty list.
+     */
     @Test
     void printTopNCitiesRegionReportTestEmptyList() {
         regionReport.printTopNCitiesRegionReport(new ArrayList<>(), "Eastern Asia", 5);
     }
 
+    /**
+     * Test printing region report with sample data.
+     */
     @Test
     void printCitiesRegionReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -310,6 +410,9 @@ public class CitiesReportsUnitTest {
         regionReport.printCitiesRegionReport(cities, "Southern Europe");
     }
 
+    /**
+     * Test printing top N cities by region with sample data.
+     */
     @Test
     void printTopNCitiesRegionReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -338,12 +441,18 @@ public class CitiesReportsUnitTest {
         regionReport.printTopNCitiesRegionReport(cities, "Eastern Asia", 2);
     }
 
+    /**
+     * Test getCitiesRegionReport with fake/invalid connection.
+     */
     @Test
     void getCitiesRegionReportFakeConnection() {
         List<City> results = regionReport.getCitiesRegionReport(null, "Northern Europe");
         assertNotNull(results);
     }
 
+    /**
+     * Test getTopNCitiesRegionReport with fake/invalid connection.
+     */
     @Test
     void getTopNCitiesRegionReportFakeConnection() {
         List<City> results = regionReport.getTopNCitiesRegionReport(null, "Western Europe", 10);
@@ -353,6 +462,10 @@ public class CitiesReportsUnitTest {
     // ---------------------------------------------------------------------
     // World report tests
     // ---------------------------------------------------------------------
+
+    /**
+     * Test getting all cities in the world with null connection.
+     */
     @Test
     void getCitiesWorldReportTestNullConnection() {
         List<City> cities = worldReport.getCitiesWorldReport(null);
@@ -360,6 +473,9 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test getting top N cities in the world with null connection.
+     */
     @Test
     void getTopNCitiesWorldReportTestNullConnection() {
         List<City> cities = worldReport.getTopNCitiesWorldReport(null, 5);
@@ -367,16 +483,27 @@ public class CitiesReportsUnitTest {
         assertTrue(cities.isEmpty());
     }
 
+    /**
+     * Test printing world report with empty city list.
+     */
     @Test
     void printCitiesWorldReportTestEmptyList() {
+
         worldReport.printCitiesWorldReport(new ArrayList<>());
     }
 
+    /**
+     * Test printing top N cities in the world with empty list.
+     */
     @Test
     void printTopNCitiesWorldReportTestEmptyList() {
+
         worldReport.printTopNCitiesWorldReport(new ArrayList<>(), 5);
     }
 
+    /**
+     * Test printing world report with sample data.
+     */
     @Test
     void printCitiesWorldReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -393,6 +520,9 @@ public class CitiesReportsUnitTest {
         worldReport.printCitiesWorldReport(cities);
     }
 
+    /**
+     * Test printing top N cities in the world with sample data.
+     */
     @Test
     void printTopNCitiesWorldReportTestData() {
         ArrayList<City> cities = new ArrayList<>();
@@ -421,19 +551,31 @@ public class CitiesReportsUnitTest {
         worldReport.printTopNCitiesWorldReport(cities, 2);
     }
 
+    /**
+     * Test getCitiesWorldReport with fake/invalid connection.
+     */
     @Test
     void getCitiesWorldReportFakeConnection() {
         List<City> results = worldReport.getCitiesWorldReport(null);
         assertNotNull(results);
     }
 
+    /**
+     * Test getTopNCitiesWorldReport with fake/invalid connection.
+     */
     @Test
     void getTopNCitiesWorldReportFakeConnection() {
         List<City> results = worldReport.getTopNCitiesWorldReport(null, 10);
         assertNotNull(results);
     }
 
-    // Test: buildCitiesFromResultSet with null ResultSet
+    // ---------------------------------------------------------------------
+    // Base report tests
+    // ---------------------------------------------------------------------
+    /**
+     * Test buildCitiesFromResultSet with null ResultSet.
+     * Should return empty list without throwing exceptions.
+     */
     @Test
     void buildCitiesFromResultSetTest_NullResultSet() {
         ArrayList<City> result = baseReport.buildCitiesFromResultSet(null);
@@ -441,13 +583,17 @@ public class CitiesReportsUnitTest {
         assertTrue(result.isEmpty());
     }
 
-    // Test: printCities with empty list
+    /**
+     * Test printCities with empty list.
+     */
     @Test
     void printCitiesTest_EmptyList() {
         baseReport.printCities(new ArrayList<>(), "Empty Report");
     }
 
-    // Test: printCities with sample data
+    /**
+     * Test printCities with sample data.
+     */
     @Test
     void printCitiesTest_SampleData() {
         ArrayList<City> cities = new ArrayList<>();

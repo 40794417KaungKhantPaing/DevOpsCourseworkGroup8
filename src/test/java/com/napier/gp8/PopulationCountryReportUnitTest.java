@@ -11,15 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for PopulationCountryReport.
- * Matches the same simple style as AppTest and other Population report tests.
  */
 public class PopulationCountryReportUnitTest
 {
+    // A single shared instance of the report class
     static PopulationCountryReport report;
 
     @BeforeAll
     static void init()
     {
+        // Initialize the report object before running all tests
         report = new PopulationCountryReport();
     }
 
