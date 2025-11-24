@@ -15,8 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ReportWriterUnitTest {
 
-    private ReportWriter reportWriter;
-    private Path reportDir;
+    private ReportWriter reportWriter; // Instance of the class under test
+    private Path reportDir; // Directory where test reports will be written
+
 
     @BeforeEach
     void setUp() throws IOException {
@@ -86,10 +87,10 @@ class ReportWriterUnitTest {
         String filename = "test_capitals.md";
         String reportTitle = "Capital Cities Report";
 
-        // Act
+        // Act: Generate capital cities report
         reportWriter.outputCapitalCities(capitals, filename, reportTitle);
 
-        // Assert
+        // Assert: Check file content for correct Markdown structure
         Path filePath = reportDir.resolve(filename);
         String content = Files.readString(filePath);
 
@@ -101,7 +102,7 @@ class ReportWriterUnitTest {
 
     @Test
     void testOutputCities_GeneratesCorrectMarkdown() throws IOException {
-        // Arrange
+        // Arrange test city data
         Country japan = new Country();
         japan.setCountryName("Japan");
 
@@ -117,10 +118,10 @@ class ReportWriterUnitTest {
         String filename = "test_cities.md";
         String reportTitle = "City Report";
 
-        // Act
+        // Act: Generate city report
         reportWriter.outputCities(cities, filename, reportTitle);
 
-        // Assert
+        // Assert: Verify file content
         Path filePath = reportDir.resolve(filename);
         String content = Files.readString(filePath);
 
@@ -141,11 +142,11 @@ class ReportWriterUnitTest {
         data.cityPercentage = 50.0;
         data.nonCityPercentage = 50.0;
 
-        // Act
         String filename = "test_world_pop.md";
+        // Act: Generate world population report
         reportWriter.outputPopulationWorld(data, filename);
 
-        // Assert
+        // Assert: File created and content correct
         Path filePath = reportDir.resolve(filename);
         assertTrue(Files.exists(filePath), "World report file should exist");
 
@@ -156,7 +157,7 @@ class ReportWriterUnitTest {
 
     @Test
     void testOutputLanguagePopulationReport_WritesData() throws IOException {
-        // Arrange
+        // Arrange test language population data
         CountryLanguage lang = new CountryLanguage();
         lang.setLanguage("English");
         lang.setCountryCode("1,500,000,000");
@@ -167,10 +168,10 @@ class ReportWriterUnitTest {
 
         String filename = "test_language_report.md";
 
-        // Act
+        // Act: Generate language population report
         reportWriter.outputLanguagePopulationReport(list, filename);
 
-        // Assert
+        // Assert: Verify file created and content contains expected data
         Path filePath = reportDir.resolve(filename);
         assertTrue(Files.exists(filePath));
 
@@ -182,13 +183,13 @@ class ReportWriterUnitTest {
 
     @Test
     void testOutputLanguagePopulationReport_NullList() {
-        // Expect no exceptions when passing null
+        // Assert that passing null does not throw an exception
         assertDoesNotThrow(() -> reportWriter.outputLanguagePopulationReport(null, "test_null_lang.md"));
     }
 
     @Test
     void testOutputPopulationCityReport_WithData() throws IOException {
-        // Arrange
+        // Arrange city population data
         City city = new City();
         city.setCityName("Yangon");
         city.setDistrict("Yangon Region");
@@ -198,10 +199,10 @@ class ReportWriterUnitTest {
         List<City> cities = Collections.singletonList(city);
         String filename = "test_city_report.md";
 
-        // Act
+        // Act: Generate city population report
         reportWriter.outputPopulationCityReport(cities, filename);
 
-        // Assert
+        // Assert: File exists and contains city name
         Path path = reportDir.resolve(filename);
         assertTrue(Files.exists(path));
 
@@ -213,12 +214,12 @@ class ReportWriterUnitTest {
     void testOutputPopulationCityReport_NoData() throws IOException {
         String filename = "test_city_empty.md";
 
-        // Act with empty list
+        // Act: Generate report with empty city list
         reportWriter.outputPopulationCityReport(Collections.emptyList(), filename);
         Path filePath = reportDir.resolve(filename);
         assertTrue(Files.exists(filePath));
 
-        // Assert that "No data available" appears
+        // Assert: File exists and contains "No data available"
         String content = Files.readString(filePath);
         assertTrue(content.contains("No data available"));
     }
@@ -233,7 +234,7 @@ class ReportWriterUnitTest {
         List<Country> list = Collections.singletonList(country);
 
         // Mock PopulationUtils.calculatePopulationValues()
-        // Act
+        // Act: Generate continent population report
         reportWriter.outputContinentPopulation(list, "test_continent_pop.md", "Continent Pop");
         // Assert file created
         Path filePath = reportDir.resolve("test_continent_pop.md");
@@ -242,7 +243,10 @@ class ReportWriterUnitTest {
 
     @Test
     void testOutputContinentPopulation_EmptyList() throws IOException {
+        // Act: Generate report with empty continent list
         reportWriter.outputContinentPopulation(Collections.emptyList(), "test_continent_empty.md", "Empty Continent");
+
+        // Assert: File exists and contains "No data available"
         Path filePath = reportDir.resolve("test_continent_empty.md");
         assertTrue(Files.exists(filePath));
         String content = Files.readString(filePath);
@@ -251,7 +255,7 @@ class ReportWriterUnitTest {
 
     @Test
     void testOutputPopulationByGroup_WithData() throws IOException {
-        // Arrange
+        // Arrange country population data
         Country country = new Country();
         country.setCountryName("Japan");
         country.setRegion("Eastern Asia");
@@ -259,19 +263,22 @@ class ReportWriterUnitTest {
 
         List<Country> list = Collections.singletonList(country);
 
-        //Act
+        // Act: Generate population by group report
         reportWriter.outputPopulationByGroup(list, "test_pop_by_group.md", "Population by Country", "Country");
+
+        // Assert: File exists and contains country name
         Path path = reportDir.resolve("test_pop_by_group.md");
         assertTrue(Files.exists(path));
-        //Assert
         String content = Files.readString(path);
         assertTrue(content.contains("Japan"));
     }
 
     @Test
     void testOutputPopulationByGroup_EmptyList() throws IOException {
-        // Act with empty list
+        // Act: Generate report with empty list
         reportWriter.outputPopulationByGroup(Collections.emptyList(), "test_pop_by_group_empty.md", "Empty Pop Group", "Country");
+
+        // Assert: File exists and contains "No data available"
         Path path = reportDir.resolve("test_pop_by_group_empty.md");
         assertTrue(Files.exists(path));
         String content = Files.readString(path);
@@ -293,13 +300,14 @@ class ReportWriterUnitTest {
             }
         };
 
-        // Act + Assert: should not throw exception
+        // Arrange dummy country data
         ArrayList<Country> countries = new ArrayList<>();
         Country c = new Country();
         c.setCountryName("Nowhere");
         countries.add(c);
 
-        assertDoesNotThrow(() -> badWriter.outputCountries(countries, "fail_test.md", "Test Fail"));
+        // Act & Assert: Ensure no exception propagates
+        assertDoesNotThrow(() -> badWriter.outputCountries(countries, "test_fail.md", "Test Fail"));
     }
 
 
