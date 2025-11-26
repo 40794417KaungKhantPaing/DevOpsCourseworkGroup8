@@ -93,6 +93,20 @@
                 </executions>
             </plugin>
 
+            <!-- Maven Jar plugin to disable default jar creation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>  <!-- This disables the default JAR goal -->
+                    </execution>
+                </executions>
+            </plugin>
+
+
             <!-- Surefire plugin for running JUnit 5 tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
